@@ -7,7 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MMeals.h"
+
+@class OptionsViewController;
+
+@protocol OptionsViewControllerDelegate <NSObject>
+@optional
+-(void)optionsViewControllerWillDismiss:(OptionsViewController *)controller;
+@end
 
 @interface OptionsViewController : UIViewController
+
+@property MMDiningHall *selectedDiningHall;
+@property MMMealType mealType;
+@property NSDate *selectedDate;
+
+@property id<OptionsViewControllerDelegate> delegate;
 
 @end

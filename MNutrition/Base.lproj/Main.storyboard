@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
-        <!--Dining Menu View Controller - Bursley Dining Hall-->
+        <!--Dining Menu View Controller - MNutrition-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="DiningMenuViewController" sceneMemberID="viewController">
@@ -13,9 +13,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="JmL-0Z-1Sa">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="64"/>
+                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="64"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" id="ucT-0N-bEg">
                                     <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -39,7 +41,7 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="H9e-zs-xXj"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" id="TcD-wm-O9n">
+                            <view opaque="NO" contentMode="scaleToFill" id="TcD-wm-O9n">
                                 <rect key="frame" x="0.0" y="504" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -100,15 +102,15 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Bursley Dining Hall" id="8pO-Ti-PXR">
+                    <navigationItem key="navigationItem" title="MNutrition" id="8pO-Ti-PXR">
                         <barButtonItem key="leftBarButtonItem" systemItem="organize" id="xuB-hh-0gN">
                             <connections>
-                                <segue destination="o4h-qv-7iD" kind="modal" id="ho2-Yi-mdw"/>
+                                <segue destination="o4h-qv-7iD" kind="modal" identifier="showOptions" id="ho2-Yi-mdw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

@@ -14,7 +14,6 @@
 
 @property NSArray *allDiningHalls;
 
-@property (weak) MMDiningHall *selectedDiningHall;
 @property IBOutlet UISegmentedControl *mealTypeSegmentedControl;
 @property IBOutlet UIDatePicker *datePicker;
 
@@ -26,6 +25,19 @@
 {
     [super viewDidLoad];
     self.allDiningHalls = [MMDiningHall allDiningHalls];
+    
+    if (!self.selectedDiningHall)
+        self.navigationItem.leftBarButtonItem.enabled = NO;
+    
+    if (self.selectedDate)
+        self.datePicker.date = self.selectedDate;
+    
+    if (self.mealType == MMMealTypeBreakfast)
+        self.mealTypeSegmentedControl.selectedSegmentIndex = 0;
+    else if (self.mealType == MMMealTypeLunch)
+        self.mealTypeSegmentedControl.selectedSegmentIndex = 1;
+    else if (self.mealType == MMMealTypeDinner)
+        self.mealTypeSegmentedControl.selectedSegmentIndex = 2;
 }
 
 -(void)downloadMenu:(void (^)())completion
@@ -34,6 +46,9 @@
     
     MMMealType mealType = mealTypes[self.mealTypeSegmentedControl.selectedSegmentIndex];
     NSDate *date = self.datePicker.date;
+    
+    self.selectedDate = date;
+    self.mealType = mealType;
     
     [self.selectedDiningHall fetchMenuInformationForDate:date completion:^{
         MMMenu *menu = [self.selectedDiningHall menuInformationForDate:date];
@@ -50,6 +65,10 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [self downloadMenu:^{
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
+        if ([self.delegate respondsToSelector:@selector(optionsViewControllerWillDismiss:)])
+            [self.delegate optionsViewControllerWillDismiss:self];
+        
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
 }
@@ -81,6 +100,8 @@
     self.selectedDiningHall = [self.allDiningHalls objectAtIndex:indexPath.row];
     
     [tableView reloadRowsAtIndexPaths:[tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
+    
+    self.navigationItem.leftBarButtonItem.enabled = YES;
 }
 
 @end

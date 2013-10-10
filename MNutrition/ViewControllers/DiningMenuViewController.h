@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MMeals.h"
 
 @interface DiningMenuViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+
+@property MMDiningHall *selectedDiningHall;
+@property MMMealType mealType;
+@property NSDate *selectedDate;
 
 @end

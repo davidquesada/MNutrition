@@ -7,10 +7,11 @@
 //
 
 #import "DiningMenuViewController.h"
+#import "OptionsViewController.h"
 #import "AppDelegate.h"
 #import "MMeals.h"
 
-@interface DiningMenuViewController ()
+@interface DiningMenuViewController ()<OptionsViewControllerDelegate>
 
 @property NSArray *courses;
 @property (weak) IBOutlet UITableView *tableView;
@@ -31,6 +32,25 @@
     [super viewWillAppear:animated];
     self.courses = [AppDelegate mainInstance].coursesForActiveMeal;
     [self.tableView reloadData];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (self.selectedDiningHall == nil)
+        [self performSegueWithIdentifier:@"showOptions" sender:nil];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"showOptions"])
+    {
+        OptionsViewController *controller = [segue.destinationViewController viewControllers][0];
+        controller.delegate = self;
+        controller.selectedDate = self.selectedDate;
+        controller.selectedDiningHall = self.selectedDiningHall;
+        controller.mealType = self.mealType;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -62,6 +82,19 @@
     cell.textLabel.text = item.name;
     cell.detailTextLabel.text = @"Baka";
     return cell;
+}
+
+#pragma mark - OptionsViewControllerDelegate Methods
+
+-(void)optionsViewControllerWillDismiss:(OptionsViewController *)controller
+{
+    self.selectedDiningHall = controller.selectedDiningHall;
+    self.selectedDate = controller.selectedDate;
+    self.mealType = controller.mealType;
+    
+    self.navigationItem.title = self.selectedDiningHall.name;
+    self.courses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
+    [self.tableView reloadData];
 }
 
 @end
