@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		632AD4881807172F005D01A3 /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632AD4871807172F005D01A3 /* OptionsViewController.m */; };
+		63671C7D18071EB700C274A1 /* libMMeals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63671C7A18071EA800C274A1 /* libMMeals.a */; };
 		639E15121805E5E600835819 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15111805E5E600835819 /* Foundation.framework */; };
 		639E15141805E5E600835819 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15131805E5E600835819 /* CoreGraphics.framework */; };
 		639E15161805E5E600835819 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15151805E5E600835819 /* UIKit.framework */; };
@@ -25,6 +26,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		63671C7918071EA800C274A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63671C7418071EA800C274A1 /* MMeals.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 635FA88218024F9C00AF4226;
+			remoteInfo = MMeals;
+		};
+		63671C7B18071EA800C274A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63671C7418071EA800C274A1 /* MMeals.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 635FA89218024F9D00AF4226;
+			remoteInfo = MMealsTests;
+		};
 		639E15341805E5E600835819 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 639E15061805E5E600835819 /* Project object */;
@@ -37,6 +52,7 @@
 /* Begin PBXFileReference section */
 		632AD4861807172F005D01A3 /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsViewController.h; path = ViewControllers/OptionsViewController.h; sourceTree = "<group>"; };
 		632AD4871807172F005D01A3 /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsViewController.m; path = ViewControllers/OptionsViewController.m; sourceTree = "<group>"; };
+		63671C7418071EA800C274A1 /* MMeals.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMeals.xcodeproj; path = MMeals/MMeals.xcodeproj; sourceTree = "<group>"; };
 		639E150E1805E5E600835819 /* MNutrition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MNutrition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		639E15111805E5E600835819 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		639E15131805E5E600835819 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -63,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63671C7D18071EB700C274A1 /* libMMeals.a in Frameworks */,
 				639E15141805E5E600835819 /* CoreGraphics.framework in Frameworks */,
 				639E15161805E5E600835819 /* UIKit.framework in Frameworks */,
 				639E15121805E5E600835819 /* Foundation.framework in Frameworks */,
@@ -82,9 +99,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		63671C7518071EA800C274A1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63671C7A18071EA800C274A1 /* libMMeals.a */,
+				63671C7C18071EA800C274A1 /* MMealsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		639E15051805E5E600835819 = {
 			isa = PBXGroup;
 			children = (
+				63671C7418071EA800C274A1 /* MMeals.xcodeproj */,
 				639E15171805E5E600835819 /* MNutrition */,
 				639E15361805E5E600835819 /* MNutritionTests */,
 				639E15101805E5E600835819 /* Frameworks */,
@@ -231,6 +258,12 @@
 			mainGroup = 639E15051805E5E600835819;
 			productRefGroup = 639E150F1805E5E600835819 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 63671C7518071EA800C274A1 /* Products */;
+					ProjectRef = 63671C7418071EA800C274A1 /* MMeals.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				639E150D1805E5E600835819 /* MNutrition */,
@@ -238,6 +271,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		63671C7A18071EA800C274A1 /* libMMeals.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMMeals.a;
+			remoteRef = 63671C7918071EA800C274A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63671C7C18071EA800C274A1 /* MMealsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MMealsTests.xctest;
+			remoteRef = 63671C7B18071EA800C274A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		639E150C1805E5E600835819 /* Resources */ = {
@@ -402,6 +452,7 @@
 				INFOPLIST_FILE = "MNutrition/MNutrition-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/MMeals/MMeals";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -418,6 +469,7 @@
 				INFOPLIST_FILE = "MNutrition/MNutrition-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/MMeals/MMeals";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
