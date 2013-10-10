@@ -7,21 +7,17 @@
 //
 
 #import "DiningMenuViewController.h"
+#import "AppDelegate.h"
+#import "MMeals.h"
 
 @interface DiningMenuViewController ()
+
+@property NSArray *courses;
+@property (weak) IBOutlet UITableView *tableView;
 
 @end
 
 @implementation DiningMenuViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -30,32 +26,28 @@
     self.edgesForExtendedLayout = UIRectEdgeAll;
 }
 
-- (void)didReceiveMemoryWarning
+-(void)viewWillAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super viewWillAppear:animated];
+    self.courses = [AppDelegate mainInstance].coursesForActiveMeal;
+    [self.tableView reloadData];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    MMCourse *course = [self.courses objectAtIndex:section];
+    return course.items.count;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    id titles = @[
-                  @"Soups",
-                  @"Main Courses",
-                  @"Grill",
-                  @"Salad Bar",
-                  @"Desserts",
-                  ];
-    return titles[section];
+    MMCourse *course = [self.courses objectAtIndex:section];
+    return course.name;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return self.courses.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -63,9 +55,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"menuItemCell"];
     
     if (!cell)
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"nacho"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"menuItemCell"];
     
-    cell.textLabel.text = @"Some TableView Cell";
+    MMMenuItem *item = [self.courses[indexPath.section] items][indexPath.row];
+    
+    cell.textLabel.text = item.name;
     cell.detailTextLabel.text = @"Baka";
     return cell;
 }

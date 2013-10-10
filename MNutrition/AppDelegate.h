@@ -12,4 +12,19 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
++(instancetype)mainInstance;
+
+@end
+
+// Global app-wide variables
+
+//@class MMDiningHall;
+@class MMMenu;
+
+@interface AppDelegate ()
+
+//@property MMMenu *activeMenu;
+
+@property NSArray *coursesForActiveMeal;
+
 @end

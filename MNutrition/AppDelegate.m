@@ -8,11 +8,19 @@
 
 #import "AppDelegate.h"
 
+AppDelegate *mainInstance;
+
 @implementation AppDelegate
+
++(instancetype)mainInstance
+{
+    return mainInstance;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    mainInstance = self;
     return YES;
 }
 							
