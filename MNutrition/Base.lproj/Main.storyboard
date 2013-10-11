@@ -42,6 +42,8 @@
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="aQx-69-PvU"/>
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="H9e-zs-xXj"/>
+                                    <outletCollection property="gestureRecognizers" destination="DpO-CW-ZuB" appends="YES" id="Mup-f3-83o"/>
+                                    <outletCollection property="gestureRecognizers" destination="LeT-2z-zrr" appends="YES" id="6Ps-Fv-pwb"/>
                                 </connections>
                             </tableView>
                             <view opaque="NO" contentMode="scaleToFill" id="TcD-wm-O9n">
@@ -148,6 +150,16 @@
                         <outlet property="searchResultsDelegate" destination="vXZ-lx-hvc" id="UxL-2q-4BG"/>
                     </connections>
                 </searchDisplayController>
+                <swipeGestureRecognizer direction="right" id="DpO-CW-ZuB">
+                    <connections>
+                        <action selector="moveToPreviousMeal:" destination="vXZ-lx-hvc" id="Trc-yi-jeQ"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="LeT-2z-zrr">
+                    <connections>
+                        <action selector="moveToNextMeal:" destination="vXZ-lx-hvc" id="c5c-t3-GKS"/>
+                    </connections>
+                </swipeGestureRecognizer>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="RkC-jl-VES">
                     <connections>
                         <action selector="pan:" destination="vXZ-lx-hvc" id="zdu-7r-25j"/>

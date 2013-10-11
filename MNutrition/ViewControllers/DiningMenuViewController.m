@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "MMeals.h"
 #import "DQNavigationBarLabel.h"
+#import "NSDate+Increment.h"
 
 @interface DiningMenuViewController ()<OptionsViewControllerDelegate>
 
@@ -51,13 +52,9 @@
     // If we were able to restore a dining hall, date, and meal from the user defaults,
     // then let's try to fetch that from the server again.
     if (self.selectedDiningHall)
-    {
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        [self.selectedDiningHall fetchMenuInformationForDate:self.selectedDate completion:^{
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        [self fetchMenuInformation:^{
             [self reloadMenu];
         }];
-    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -216,15 +213,101 @@
     }];
 }
 
+-(void)addPanGestureToView:(UIView *)view
+{
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+    view.gestureRecognizers = @[ pan ];
+}
+
+-(void)cloneTransitionToLeft:(BOOL)toLeft
+{
+    UIView *temp = [self.tableView snapshotViewAfterScreenUpdates:NO];
+    [self.view insertSubview:temp aboveSubview:self.tableView];
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        
+        CGRect rect = temp.frame;
+        rect.origin.x = (toLeft ? -1.0f : 1.0f) * rect.size.width;
+        temp.frame = rect;
+        
+    } completion:^(BOOL finished) {
+        [temp removeFromSuperview];
+    }];
+}
+
 -(IBAction)showMealNutrition:(id)sender
 {
     [self setNutritionVisible:YES];
 }
 
--(void)addPanGestureToView:(UIView *)view
+-(void)fetchMenuInformation:(void (^)())completion
 {
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    view.gestureRecognizers = @[ pan ];
+    id data = [self.selectedDiningHall menuInformationForDate:self.selectedDate];
+    
+    if (data)
+    {
+        completion();
+        return;
+    }
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    [self.selectedDiningHall fetchMenuInformationForDate:self.selectedDate completion:^{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        completion();
+    }];
+}
+
+-(IBAction)moveToNextMeal:(id)sender
+{
+    if (self.mealType == MMMealTypeDinner)
+        self.selectedDate = [self.selectedDate nextDay];
+    
+    switch (self.mealType)
+    {
+        case MMMealTypeBreakfast:
+            self.mealType = MMMealTypeLunch;
+            break;
+        case MMMealTypeLunch:
+            self.mealType = MMMealTypeDinner;
+            break;
+        case MMMealTypeDinner:
+            self.mealType = MMMealTypeBreakfast;
+            break;
+        default:
+            break;
+    }
+    
+    [self fetchMenuInformation:^{
+        [self cloneTransitionToLeft:YES];
+        [self reloadMenu];
+    }];
+}
+
+-(IBAction)moveToPreviousMeal:(id)sender
+{
+    if (self.mealType == MMMealTypeBreakfast)
+        self.selectedDate = [self.selectedDate previousDay];
+
+    switch (self.mealType)
+    {
+        case MMMealTypeBreakfast:
+            self.mealType = MMMealTypeDinner;
+            break;
+        case MMMealTypeLunch:
+            self.mealType = MMMealTypeBreakfast;
+            break;
+        case MMMealTypeDinner:
+            self.mealType = MMMealTypeLunch;
+            break;
+        default:
+            break;
+    }
+    
+    [self fetchMenuInformation:^{
+        [self cloneTransitionToLeft:NO];
+        [self reloadMenu];
+    }];
 }
 
 #pragma mark - User Defaults functionality

@@ -24,6 +24,7 @@
 		639E153D1805E5E600835819 /* MNutritionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 639E153C1805E5E600835819 /* MNutritionTests.m */; };
 		639E15491805E95D00835819 /* DiningMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 639E15481805E95D00835819 /* DiningMenuViewController.m */; };
 		63A23272180888E500353A6C /* DQNavigationBarLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A23271180888E500353A6C /* DQNavigationBarLabel.m */; };
+		63A2327D18089DC800353A6C /* NSDate+Increment.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2327C18089DC800353A6C /* NSDate+Increment.m */; };
 		63E842F81807BAB300EE8F32 /* MenuItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */; };
 		63E842FE1807C4AF00EE8F32 /* DQNutritionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */; };
 		63E84301180860CA00EE8F32 /* MealNutritionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E84300180860CA00EE8F32 /* MealNutritionViewController.m */; };
@@ -78,6 +79,8 @@
 		639E15481805E95D00835819 /* DiningMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DiningMenuViewController.m; path = ViewControllers/DiningMenuViewController.m; sourceTree = "<group>"; };
 		63A23270180888E500353A6C /* DQNavigationBarLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DQNavigationBarLabel.h; path = Views/DQNavigationBarLabel.h; sourceTree = "<group>"; };
 		63A23271180888E500353A6C /* DQNavigationBarLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DQNavigationBarLabel.m; path = Views/DQNavigationBarLabel.m; sourceTree = "<group>"; };
+		63A2327B18089DC800353A6C /* NSDate+Increment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Increment.h"; path = "Categories/NSDate+Increment.h"; sourceTree = "<group>"; };
+		63A2327C18089DC800353A6C /* NSDate+Increment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Increment.m"; path = "Categories/NSDate+Increment.m"; sourceTree = "<group>"; };
 		63E842F61807BAB300EE8F32 /* MenuItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuItemDetailViewController.h; path = ViewControllers/MenuItemDetailViewController.h; sourceTree = "<group>"; };
 		63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuItemDetailViewController.m; path = ViewControllers/MenuItemDetailViewController.m; sourceTree = "<group>"; };
 		63E842FC1807C4AF00EE8F32 /* DQNutritionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DQNutritionView.h; path = Views/DQNutritionView.h; sourceTree = "<group>"; };
@@ -154,6 +157,7 @@
 		639E15171805E5E600835819 /* MNutrition */ = {
 			isa = PBXGroup;
 			children = (
+				63A2327818089D9C00353A6C /* Categories */,
 				63E842FB1807C49500EE8F32 /* Views */,
 				639E15461805E7D700835819 /* ViewControllers */,
 				639E15201805E5E600835819 /* AppDelegate.h */,
@@ -207,6 +211,15 @@
 				63E84300180860CA00EE8F32 /* MealNutritionViewController.m */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		63A2327818089D9C00353A6C /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				63A2327B18089DC800353A6C /* NSDate+Increment.h */,
+				63A2327C18089DC800353A6C /* NSDate+Increment.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		63E842FB1807C49500EE8F32 /* Views */ = {
@@ -344,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				639E15221805E5E600835819 /* AppDelegate.m in Sources */,
+				63A2327D18089DC800353A6C /* NSDate+Increment.m in Sources */,
 				63E842F81807BAB300EE8F32 /* MenuItemDetailViewController.m in Sources */,
 				63E84301180860CA00EE8F32 /* MealNutritionViewController.m in Sources */,
 				63A23272180888E500353A6C /* DQNavigationBarLabel.m in Sources */,
