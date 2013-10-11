@@ -1,0 +1,3 @@
+[submodule "MMeals"]
+	path = MMeals
+	url = https://github.com/davidquesada/MMeals.git

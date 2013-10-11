@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		632AD4881807172F005D01A3 /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632AD4871807172F005D01A3 /* OptionsViewController.m */; };
-		63671C7D18071EB700C274A1 /* libMMeals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63671C7A18071EA800C274A1 /* libMMeals.a */; };
 		639E15121805E5E600835819 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15111805E5E600835819 /* Foundation.framework */; };
 		639E15141805E5E600835819 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15131805E5E600835819 /* CoreGraphics.framework */; };
 		639E15161805E5E600835819 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15151805E5E600835819 /* UIKit.framework */; };
@@ -31,20 +30,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		63671C7918071EA800C274A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63671C7418071EA800C274A1 /* MMeals.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 635FA88218024F9C00AF4226;
-			remoteInfo = MMeals;
-		};
-		63671C7B18071EA800C274A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 63671C7418071EA800C274A1 /* MMeals.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 635FA89218024F9D00AF4226;
-			remoteInfo = MMealsTests;
-		};
 		639E15341805E5E600835819 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 639E15061805E5E600835819 /* Project object */;
@@ -52,12 +37,25 @@
 			remoteGlobalIDString = 639E150D1805E5E600835819;
 			remoteInfo = MNutrition;
 		};
+		63A232841808AF4C00353A6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63A2327F1808AF4C00353A6C /* MMeals.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 635FA88218024F9C00AF4226;
+			remoteInfo = MMeals;
+		};
+		63A232861808AF4C00353A6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63A2327F1808AF4C00353A6C /* MMeals.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 635FA89218024F9D00AF4226;
+			remoteInfo = MMealsTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		632AD4861807172F005D01A3 /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsViewController.h; path = ViewControllers/OptionsViewController.h; sourceTree = "<group>"; };
 		632AD4871807172F005D01A3 /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsViewController.m; path = ViewControllers/OptionsViewController.m; sourceTree = "<group>"; };
-		63671C7418071EA800C274A1 /* MMeals.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMeals.xcodeproj; path = MMeals/MMeals.xcodeproj; sourceTree = "<group>"; };
 		639E150E1805E5E600835819 /* MNutrition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MNutrition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		639E15111805E5E600835819 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		639E15131805E5E600835819 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -81,6 +79,7 @@
 		63A23271180888E500353A6C /* DQNavigationBarLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DQNavigationBarLabel.m; path = Views/DQNavigationBarLabel.m; sourceTree = "<group>"; };
 		63A2327B18089DC800353A6C /* NSDate+Increment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Increment.h"; path = "Categories/NSDate+Increment.h"; sourceTree = "<group>"; };
 		63A2327C18089DC800353A6C /* NSDate+Increment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Increment.m"; path = "Categories/NSDate+Increment.m"; sourceTree = "<group>"; };
+		63A2327F1808AF4C00353A6C /* MMeals.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMeals.xcodeproj; path = MMeals/MMeals.xcodeproj; sourceTree = "<group>"; };
 		63E842F61807BAB300EE8F32 /* MenuItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuItemDetailViewController.h; path = ViewControllers/MenuItemDetailViewController.h; sourceTree = "<group>"; };
 		63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuItemDetailViewController.m; path = ViewControllers/MenuItemDetailViewController.m; sourceTree = "<group>"; };
 		63E842FC1807C4AF00EE8F32 /* DQNutritionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DQNutritionView.h; path = Views/DQNutritionView.h; sourceTree = "<group>"; };
@@ -94,7 +93,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63671C7D18071EB700C274A1 /* libMMeals.a in Frameworks */,
 				639E15141805E5E600835819 /* CoreGraphics.framework in Frameworks */,
 				639E15161805E5E600835819 /* UIKit.framework in Frameworks */,
 				639E15121805E5E600835819 /* Foundation.framework in Frameworks */,
@@ -114,19 +112,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		63671C7518071EA800C274A1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				63671C7A18071EA800C274A1 /* libMMeals.a */,
-				63671C7C18071EA800C274A1 /* MMealsTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		639E15051805E5E600835819 = {
 			isa = PBXGroup;
 			children = (
-				63671C7418071EA800C274A1 /* MMeals.xcodeproj */,
+				63A2327F1808AF4C00353A6C /* MMeals.xcodeproj */,
 				639E15171805E5E600835819 /* MNutrition */,
 				639E15361805E5E600835819 /* MNutritionTests */,
 				639E15101805E5E600835819 /* Frameworks */,
@@ -222,6 +211,15 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
+		63A232801808AF4C00353A6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63A232851808AF4C00353A6C /* libMMeals.a */,
+				63A232871808AF4C00353A6C /* MMealsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		63E842FB1807C49500EE8F32 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,8 +299,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 63671C7518071EA800C274A1 /* Products */;
-					ProjectRef = 63671C7418071EA800C274A1 /* MMeals.xcodeproj */;
+					ProductGroup = 63A232801808AF4C00353A6C /* Products */;
+					ProjectRef = 63A2327F1808AF4C00353A6C /* MMeals.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -314,18 +312,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		63671C7A18071EA800C274A1 /* libMMeals.a */ = {
+		63A232851808AF4C00353A6C /* libMMeals.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libMMeals.a;
-			remoteRef = 63671C7918071EA800C274A1 /* PBXContainerItemProxy */;
+			remoteRef = 63A232841808AF4C00353A6C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		63671C7C18071EA800C274A1 /* MMealsTests.xctest */ = {
+		63A232871808AF4C00353A6C /* MMealsTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = MMealsTests.xctest;
-			remoteRef = 63671C7B18071EA800C274A1 /* PBXContainerItemProxy */;
+			remoteRef = 63A232861808AF4C00353A6C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
