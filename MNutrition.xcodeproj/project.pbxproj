@@ -23,6 +23,9 @@
 		639E153B1805E5E600835819 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 639E15391805E5E600835819 /* InfoPlist.strings */; };
 		639E153D1805E5E600835819 /* MNutritionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 639E153C1805E5E600835819 /* MNutritionTests.m */; };
 		639E15491805E95D00835819 /* DiningMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 639E15481805E95D00835819 /* DiningMenuViewController.m */; };
+		63E842F81807BAB300EE8F32 /* MenuItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */; };
+		63E842FE1807C4AF00EE8F32 /* DQNutritionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */; };
+		63E84301180860CA00EE8F32 /* MealNutritionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E84300180860CA00EE8F32 /* MealNutritionViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,12 @@
 		639E153C1805E5E600835819 /* MNutritionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MNutritionTests.m; sourceTree = "<group>"; };
 		639E15471805E95D00835819 /* DiningMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiningMenuViewController.h; path = ViewControllers/DiningMenuViewController.h; sourceTree = "<group>"; };
 		639E15481805E95D00835819 /* DiningMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DiningMenuViewController.m; path = ViewControllers/DiningMenuViewController.m; sourceTree = "<group>"; };
+		63E842F61807BAB300EE8F32 /* MenuItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuItemDetailViewController.h; path = ViewControllers/MenuItemDetailViewController.h; sourceTree = "<group>"; };
+		63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuItemDetailViewController.m; path = ViewControllers/MenuItemDetailViewController.m; sourceTree = "<group>"; };
+		63E842FC1807C4AF00EE8F32 /* DQNutritionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DQNutritionView.h; path = Views/DQNutritionView.h; sourceTree = "<group>"; };
+		63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DQNutritionView.m; path = Views/DQNutritionView.m; sourceTree = "<group>"; };
+		63E842FF180860CA00EE8F32 /* MealNutritionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MealNutritionViewController.h; path = ViewControllers/MealNutritionViewController.h; sourceTree = "<group>"; };
+		63E84300180860CA00EE8F32 /* MealNutritionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MealNutritionViewController.m; path = ViewControllers/MealNutritionViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +151,7 @@
 		639E15171805E5E600835819 /* MNutrition */ = {
 			isa = PBXGroup;
 			children = (
+				63E842FB1807C49500EE8F32 /* Views */,
 				639E15461805E7D700835819 /* ViewControllers */,
 				639E15201805E5E600835819 /* AppDelegate.h */,
 				639E15211805E5E600835819 /* AppDelegate.m */,
@@ -188,8 +198,21 @@
 				639E15481805E95D00835819 /* DiningMenuViewController.m */,
 				632AD4861807172F005D01A3 /* OptionsViewController.h */,
 				632AD4871807172F005D01A3 /* OptionsViewController.m */,
+				63E842F61807BAB300EE8F32 /* MenuItemDetailViewController.h */,
+				63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */,
+				63E842FF180860CA00EE8F32 /* MealNutritionViewController.h */,
+				63E84300180860CA00EE8F32 /* MealNutritionViewController.m */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		63E842FB1807C49500EE8F32 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				63E842FC1807C4AF00EE8F32 /* DQNutritionView.h */,
+				63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,6 +339,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				639E15221805E5E600835819 /* AppDelegate.m in Sources */,
+				63E842F81807BAB300EE8F32 /* MenuItemDetailViewController.m in Sources */,
+				63E84301180860CA00EE8F32 /* MealNutritionViewController.m in Sources */,
+				63E842FE1807C4AF00EE8F32 /* DQNutritionView.m in Sources */,
 				632AD4881807172F005D01A3 /* OptionsViewController.m in Sources */,
 				639E15491805E95D00835819 /* DiningMenuViewController.m in Sources */,
 				639E151E1805E5E600835819 /* main.m in Sources */,
@@ -450,8 +476,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MNutrition/MNutrition-Prefix.pch";
 				INFOPLIST_FILE = "MNutrition/MNutrition-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/MMeals/MMeals";
 				WRAPPER_EXTENSION = app;
 			};
@@ -467,8 +495,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MNutrition/MNutrition-Prefix.pch";
 				INFOPLIST_FILE = "MNutrition/MNutrition-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/MMeals/MMeals";
 				WRAPPER_EXTENSION = app;
 			};

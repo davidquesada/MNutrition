@@ -15,4 +15,7 @@
 @property MMMealType mealType;
 @property NSDate *selectedDate;
 
+-(void)setNutritionVisible:(BOOL)visible;
+-(void)addPanGestureToView:(UIView *)view;
+
 @end

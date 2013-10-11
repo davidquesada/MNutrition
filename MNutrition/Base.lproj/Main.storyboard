@@ -18,12 +18,12 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="64"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="64"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="ucT-0N-bEg">
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="hzg-mM-6M1">
                                     <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     <textInputTraits key="textInputTraits"/>
                                     <connections>
-                                        <outlet property="delegate" destination="vXZ-lx-hvc" id="z4Q-6n-5Gv"/>
+                                        <outlet property="delegate" destination="vXZ-lx-hvc" id="3Pf-gp-QQo"/>
                                     </connections>
                                 </searchBar>
                                 <prototypes>
@@ -34,6 +34,9 @@
                                             <rect key="frame" x="0.0" y="0.0" width="273" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="tm3-uv-7sF" kind="push" identifier="showMenuItem" trigger="accessoryAction" id="hSk-bF-mim"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -45,64 +48,77 @@
                                 <rect key="frame" x="0.0" y="504" width="320" height="64"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calories" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k22-ab-FVz">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="30"/>
+                                    <view opaque="NO" contentMode="scaleToFill" id="HSh-j6-sP0">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="14"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="700" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Yw-vg-5HH">
-                                        <rect key="frame" x="0.0" y="20" width="80" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="27"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZAp-Of-ALQ">
-                                        <rect key="frame" x="80" y="0.0" width="80" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="14"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Protein" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cqZ-FQ-3sh">
-                                        <rect key="frame" x="160" y="0.0" width="80" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="14"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Carbs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XJa-IQ-TTS">
-                                        <rect key="frame" x="240" y="0.0" width="80" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="14"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 g" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xUr-Sd-Fi2">
-                                        <rect key="frame" x="80" y="20" width="80" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="27"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10 g" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T9I-7f-nic">
-                                        <rect key="frame" x="160" y="20" width="80" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="27"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 g" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="75q-W4-L1H">
-                                        <rect key="frame" x="240" y="20" width="80" height="42"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="27"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calories" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="k22-ab-FVz">
+                                                <rect key="frame" x="0.0" y="0.0" width="80" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="14"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="700" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4Yw-vg-5HH">
+                                                <rect key="frame" x="0.0" y="20" width="80" height="42"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="27"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZAp-Of-ALQ">
+                                                <rect key="frame" x="80" y="0.0" width="80" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="14"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Protein" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cqZ-FQ-3sh">
+                                                <rect key="frame" x="160" y="0.0" width="80" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="14"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Carbs" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XJa-IQ-TTS">
+                                                <rect key="frame" x="240" y="0.0" width="80" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-LightItalic" family="Helvetica Neue" pointSize="14"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="30 g" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xUr-Sd-Fi2">
+                                                <rect key="frame" x="80" y="20" width="80" height="42"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="27"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10 g" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="T9I-7f-nic">
+                                                <rect key="frame" x="160" y="20" width="80" height="42"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="27"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50 g" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="75q-W4-L1H">
+                                                <rect key="frame" x="240" y="20" width="80" height="42"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="27"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="qgw-75-ohB" appends="YES" id="fVj-iX-hlj"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="RkC-jl-VES" appends="YES" id="dNS-3L-KXI"/>
+                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -115,38 +131,35 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="searchDisplayController" destination="ehW-Qy-jaZ" id="Gcm-5m-y6Q"/>
+                        <outlet property="footerContentsView" destination="HSh-j6-sP0" id="Ek1-xK-ZiB"/>
+                        <outlet property="footerView" destination="TcD-wm-O9n" id="ifm-yo-m5C"/>
+                        <outlet property="searchDisplayController" destination="knB-H8-aCM" id="iwf-Y8-Zg4"/>
                         <outlet property="tableView" destination="JmL-0Z-1Sa" id="Plg-69-a0m"/>
+                        <segue destination="re4-wb-kNL" kind="custom" identifier="showMealNutrition" customClass="MealNutritionSegue" id="lZy-Na-shX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="iO5-Gf-lcd">
+                <searchDisplayController id="knB-H8-aCM">
                     <connections>
-                        <outlet property="delegate" destination="vXZ-lx-hvc" id="MAR-9y-cGu"/>
-                        <outlet property="searchContentsController" destination="vXZ-lx-hvc" id="4Nv-0y-Usl"/>
-                        <outlet property="searchResultsDataSource" destination="vXZ-lx-hvc" id="a4G-6Q-Ofz"/>
-                        <outlet property="searchResultsDelegate" destination="vXZ-lx-hvc" id="Iau-5U-u2X"/>
+                        <outlet property="delegate" destination="vXZ-lx-hvc" id="1zE-9b-s4T"/>
+                        <outlet property="searchBar" destination="hzg-mM-6M1" id="by9-PV-DNa"/>
+                        <outlet property="searchContentsController" destination="vXZ-lx-hvc" id="u2T-hG-Mlm"/>
+                        <outlet property="searchResultsDataSource" destination="vXZ-lx-hvc" id="W06-e7-gte"/>
+                        <outlet property="searchResultsDelegate" destination="vXZ-lx-hvc" id="UxL-2q-4BG"/>
                     </connections>
                 </searchDisplayController>
-                <searchDisplayController id="Hws-KK-orN">
+                <panGestureRecognizer minimumNumberOfTouches="1" id="RkC-jl-VES">
                     <connections>
-                        <outlet property="delegate" destination="vXZ-lx-hvc" id="Khb-Xs-hfy"/>
-                        <outlet property="searchContentsController" destination="vXZ-lx-hvc" id="Ycn-5A-4bg"/>
-                        <outlet property="searchResultsDataSource" destination="vXZ-lx-hvc" id="mVB-yO-ex3"/>
-                        <outlet property="searchResultsDelegate" destination="vXZ-lx-hvc" id="2QZ-Xd-2xw"/>
+                        <action selector="pan:" destination="vXZ-lx-hvc" id="zdu-7r-25j"/>
                     </connections>
-                </searchDisplayController>
-                <searchDisplayController id="ehW-Qy-jaZ">
+                </panGestureRecognizer>
+                <tapGestureRecognizer id="qgw-75-ohB">
                     <connections>
-                        <outlet property="delegate" destination="vXZ-lx-hvc" id="W2Q-7w-2Do"/>
-                        <outlet property="searchBar" destination="ucT-0N-bEg" id="96z-ll-awQ"/>
-                        <outlet property="searchContentsController" destination="vXZ-lx-hvc" id="ank-gB-1Gh"/>
-                        <outlet property="searchResultsDataSource" destination="vXZ-lx-hvc" id="TmE-82-w0e"/>
-                        <outlet property="searchResultsDelegate" destination="vXZ-lx-hvc" id="vjn-f3-TSZ"/>
+                        <action selector="showMealNutrition:" destination="vXZ-lx-hvc" id="eGV-1Z-TEb"/>
                     </connections>
-                </searchDisplayController>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="647" y="44"/>
+            <point key="canvasLocation" x="649" y="-312"/>
         </scene>
         <!--Options View Controller - Select Dining Hall and Date-->
         <scene sceneID="IP3-tb-GWU">
@@ -257,7 +270,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="caw-Mn-yeE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1594" y="57"/>
+            <point key="canvasLocation" x="1596" y="-299"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="XPY-uh-aqe">
@@ -276,7 +289,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b3C-cW-06B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="115" y="44"/>
+            <point key="canvasLocation" x="117" y="-312"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7F3-o0-y06">
@@ -300,7 +313,84 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6hg-qT-oDm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1068" y="57"/>
+            <point key="canvasLocation" x="1070" y="-299"/>
+        </scene>
+        <!--Menu Item Detail View Controller - Menu Item Detail-->
+        <scene sceneID="Hvm-zF-o0Q">
+            <objects>
+                <viewController id="tm3-uv-7sF" customClass="MenuItemDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wte-LS-gBW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="6ST-zL-2q8" customClass="DQNutritionView">
+                                <rect key="frame" x="20" y="88" width="280" height="460"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.9233555947580645" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Menu Item Detail" id="2r0-e7-nKz"/>
+                    <connections>
+                        <outlet property="nutritionView" destination="6ST-zL-2q8" id="5LO-8C-V2S"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hCT-c2-3Be" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1070" y="404"/>
+        </scene>
+        <!--Meal Nutrition View Controller-->
+        <scene sceneID="qNd-KW-Jyg">
+            <objects>
+                <viewController id="re4-wb-kNL" customClass="MealNutritionViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ncq-Oi-19m">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" id="zWA-VG-MqN">
+                                <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="barTintColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <textAttributes key="titleTextAttributes">
+                                    <offsetWrapper key="textShadowOffset" horizontal="0.0" vertical="0.0"/>
+                                </textAttributes>
+                                <items>
+                                    <navigationItem title="Meal Nutrition" id="QTa-FZ-RTQ">
+                                        <barButtonItem key="leftBarButtonItem" title="Done" id="Svz-GA-oYi">
+                                            <connections>
+                                                <action selector="dismiss:" destination="re4-wb-kNL" id="DAk-sg-VkK"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                                <connections>
+                                    <outlet property="delegate" destination="re4-wb-kNL" id="4uJ-Iv-9N1"/>
+                                </connections>
+                            </navigationBar>
+                            <view contentMode="scaleToFill" id="iG8-C7-IfB">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="lU9-1E-sdr" customClass="DQNutritionView">
+                                        <rect key="frame" x="20" y="20" width="280" height="464"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.92335559479999996" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="navigationBar" destination="zWA-VG-MqN" id="1t5-50-xSN"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5D9-d9-Gbd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1076" y="1076"/>
         </scene>
     </scenes>
     <color key="tintColor" red="0.042912133038043976" green="0.0" blue="0.70061326026916504" alpha="1" colorSpace="calibratedRGB"/>
