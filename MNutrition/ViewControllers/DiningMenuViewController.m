@@ -12,6 +12,7 @@
 #import "MealNutritionViewController.h"
 #import "AppDelegate.h"
 #import "MMeals.h"
+#import "DQNavigationBarLabel.h"
 
 @interface DiningMenuViewController ()<OptionsViewControllerDelegate>
 
@@ -27,6 +28,8 @@
 @property NSArray *myOriginalLeftItems;
 @property CGRect originalFooterFrame;
 
+@property DQNavigationBarLabel *navBarLabel;
+
 @end
 
 @implementation DiningMenuViewController
@@ -38,6 +41,10 @@
     self.edgesForExtendedLayout = UIRectEdgeAll;
     self.footerView.clipsToBounds = NO;
     self.originalFooterFrame = self.footerView.frame;
+    
+    self.navBarLabel = [[DQNavigationBarLabel alloc] init];
+    self.navigationItem.titleView = self.navBarLabel;
+    self.navBarLabel.text = @"MNutrition";
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -195,11 +202,20 @@
 
 -(void)optionsViewControllerWillDismiss:(OptionsViewController *)controller
 {
+    static NSDateFormatter *formatter;
+    
+    if (!formatter)
+    {
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.dateStyle = NSDateFormatterMediumStyle;
+    }
+    
     self.selectedDiningHall = controller.selectedDiningHall;
     self.selectedDate = controller.selectedDate;
     self.mealType = controller.mealType;
     
-    self.navigationItem.title = self.selectedDiningHall.name;
+    self.navBarLabel.text = self.selectedDiningHall.name;
+    self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
     self.courses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
     [self.tableView reloadData];
     [self.tableView scrollRectToVisible:CGRectMake(0, 44, 1, 1) animated:NO];

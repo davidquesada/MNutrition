@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
-        <!--Dining Menu View Controller - MNutrition-->
+        <!--Dining Menu View Controller - Menu-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="DiningMenuViewController" sceneMemberID="viewController">
@@ -123,7 +123,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" title="MNutrition" id="8pO-Ti-PXR">
+                    <navigationItem key="navigationItem" title="Menu" id="8pO-Ti-PXR">
                         <barButtonItem key="leftBarButtonItem" systemItem="organize" id="xuB-hh-0gN">
                             <connections>
                                 <segue destination="o4h-qv-7iD" kind="modal" identifier="showOptions" id="ho2-Yi-mdw"/>
