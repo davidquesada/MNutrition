@@ -45,13 +45,24 @@
     self.navBarLabel = [[DQNavigationBarLabel alloc] init];
     self.navigationItem.titleView = self.navBarLabel;
     self.navBarLabel.text = @"MNutrition";
+    
+    [self restoreMenuSettingsFromUserDefaults];
+
+    // If we were able to restore a dining hall, date, and meal from the user defaults,
+    // then let's try to fetch that from the server again.
+    if (self.selectedDiningHall)
+    {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [self.selectedDiningHall fetchMenuInformationForDate:self.selectedDate completion:^{
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            [self reloadMenu];
+        }];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.courses = [AppDelegate mainInstance].coursesForActiveMeal;
-    [self.tableView reloadData];
     
     if (!self.mealNutrition)
         [self performSegueWithIdentifier:@"showMealNutrition" sender:nil];
@@ -60,6 +71,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     if (self.selectedDiningHall == nil)
         [self performSegueWithIdentifier:@"showOptions" sender:nil];
 }
@@ -81,6 +93,23 @@
         MMMenuItem *item = [self.courses[indexPath.section] items][indexPath.row];
         controller.menuItem = item;
     }
+}
+
+-(void)reloadMenu
+{
+    static NSDateFormatter *formatter;
+    
+    if (!formatter)
+    {
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.dateStyle = NSDateFormatterMediumStyle;
+    }
+    
+    self.navBarLabel.text = self.selectedDiningHall.name;
+    self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
+    self.courses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
+    [self.tableView reloadData];
+    [self.tableView scrollRectToVisible:CGRectMake(0, 44, 1, 1) animated:NO];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -198,27 +227,45 @@
     view.gestureRecognizers = @[ pan ];
 }
 
+#pragma mark - User Defaults functionality
+
+-(void)writeMenuSettingsToUserDefaults
+{
+    id payload = @{
+                   @"date" : self.selectedDate,
+                   @"mealType" : @(self.mealType),
+                   @"diningHallType" : @(self.selectedDiningHall.type),
+                   };
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults setObject:payload forKey:@"defaultMenuInfo"];
+    [defaults synchronize];
+}
+
+-(void)restoreMenuSettingsFromUserDefaults
+{
+    NSDictionary *payload = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"defaultMenuInfo"];
+    
+    if (!payload)
+        return;
+    
+    self.selectedDate = payload[@"date"];
+    self.mealType = (MMMealType)[payload[@"mealType"] intValue];
+    self.selectedDiningHall = [MMDiningHall diningHallOfType:(MMDiningHallType)[payload[@"diningHallType"] intValue]];
+}
+
 #pragma mark - OptionsViewControllerDelegate Methods
 
 -(void)optionsViewControllerWillDismiss:(OptionsViewController *)controller
 {
-    static NSDateFormatter *formatter;
-    
-    if (!formatter)
-    {
-        formatter = [[NSDateFormatter alloc] init];
-        formatter.dateStyle = NSDateFormatterMediumStyle;
-    }
-    
     self.selectedDiningHall = controller.selectedDiningHall;
     self.selectedDate = controller.selectedDate;
     self.mealType = controller.mealType;
     
-    self.navBarLabel.text = self.selectedDiningHall.name;
-    self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
-    self.courses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
-    [self.tableView reloadData];
-    [self.tableView scrollRectToVisible:CGRectMake(0, 44, 1, 1) animated:NO];
+    [self reloadMenu];
+    
+    [self writeMenuSettingsToUserDefaults];
 }
 
 @end
