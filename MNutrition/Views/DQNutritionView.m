@@ -72,10 +72,21 @@ typedef NS_ENUM(NSInteger, CellTag)
     [self.tableView reloadData];
 }
 
+-(UITableViewCell *)createCellWithPropertyName:(NSString *)propertyName label:(NSString *)label suffix:(NSString *)suffix
+{
+    if (suffix == nil)
+        suffix = @"";
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"IM A CELL!"];
+    
+    cell.textLabel.text = label;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@%@", [[(id)self.nutritionInfo valueForKey:propertyName] description], suffix];
+    
+    return cell;
+}
+
 -(void)createCells
 {
     UITableViewCell *cell;
-    UILabel *label;
     
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"yo"];
     cell.textLabel.text = @"Nutrition Facts";
@@ -83,6 +94,19 @@ typedef NS_ENUM(NSInteger, CellTag)
     cell.textLabel.font = [UIFont boldSystemFontOfSize:19.0];
     
     [self.cells addObject:cell];
+    
+    [self.cells addObject:[self createCellWithPropertyName:@"calories" label:@"Calories" suffix:nil]];
+    [self.cells addObject:[self createCellWithPropertyName:@"caloriesFromFat" label:@"Calories from Fat" suffix:nil]];
+    [self.cells addObject:[self createCellWithPropertyName:@"fat" label:@"Total Fats" suffix:@" g"]];
+    [self.cells addObject:[self createCellWithPropertyName:@"saturatedFat" label:@"Saturated Fat" suffix:@" g"]];
+    [self.cells addObject:[self createCellWithPropertyName:@"transFat" label:@"Trans Fat" suffix:@" g"]];
+    [self.cells addObject:[self createCellWithPropertyName:@"cholesterol" label:@"Cholesterol" suffix:@" mg"]];
+    [self.cells addObject:[self createCellWithPropertyName:@"sodium" label:@"Sodium" suffix:@" mg"]];
+    [self.cells addObject:[self createCellWithPropertyName:@"carbohydrates" label:@"Total Carbohydrates" suffix:@" g"]];
+    [self.cells addObject:[self createCellWithPropertyName:@"fiber" label:@"Dietary Fiber" suffix:@" g"]];
+    [self.cells addObject:[self createCellWithPropertyName:@"sugar" label:@"Sugars" suffix:@" g"]];
+    [self.cells addObject:[self createCellWithPropertyName:@"protein" label:@"Protein" suffix:@" g"]];
+    
 }
 
 #pragma mark - Appearance Properties
@@ -103,6 +127,11 @@ typedef NS_ENUM(NSInteger, CellTag)
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return self.cells[indexPath.row];
+}
+
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
 }
 
 @end

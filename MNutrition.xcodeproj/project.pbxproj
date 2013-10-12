@@ -24,6 +24,7 @@
 		639E15491805E95D00835819 /* DiningMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 639E15481805E95D00835819 /* DiningMenuViewController.m */; };
 		63A23272180888E500353A6C /* DQNavigationBarLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A23271180888E500353A6C /* DQNavigationBarLabel.m */; };
 		63A2327D18089DC800353A6C /* NSDate+Increment.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2327C18089DC800353A6C /* NSDate+Increment.m */; };
+		63C6D728180921450012ABFF /* libMMeals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A232851808AF4C00353A6C /* libMMeals.a */; };
 		63E842F81807BAB300EE8F32 /* MenuItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */; };
 		63E842FE1807C4AF00EE8F32 /* DQNutritionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */; };
 		63E84301180860CA00EE8F32 /* MealNutritionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E84300180860CA00EE8F32 /* MealNutritionViewController.m */; };
@@ -93,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63C6D728180921450012ABFF /* libMMeals.a in Frameworks */,
 				639E15141805E5E600835819 /* CoreGraphics.framework in Frameworks */,
 				639E15161805E5E600835819 /* UIKit.framework in Frameworks */,
 				639E15121805E5E600835819 /* Foundation.framework in Frameworks */,

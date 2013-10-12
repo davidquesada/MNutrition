@@ -21,7 +21,7 @@
     [super viewDidLoad];
     self.navigationItem.title = self.menuItem.name;
     
-    self.nutritionView.nutritionInfo = self.menuItem;
+    self.nutritionView.nutritionInfo = (id<DQNutritionObject>)self.menuItem;
 }
 
 @end
