@@ -20,6 +20,7 @@
 @interface DiningMenuViewController ()<OptionsViewControllerDelegate, CLLocationManagerDelegate>
 
 @property NSArray *courses;
+@property NSArray *previousCourses;
 @property(weak) IBOutlet UITableView *tableView;
 @property(weak) IBOutlet UIView *footerView;
 @property(weak) IBOutlet UIView *footerContentsView;
@@ -120,6 +121,14 @@
     self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
     self.courses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
     [self.tableView reloadData];
+    
+    if (self.courses != self.previousCourses)
+    {
+        [self.nutritionObject removeAllObjects];
+        [self updateNutritionDisplays];
+    }
+    self.previousCourses = self.courses;
+    
     [self.tableView scrollRectToVisible:CGRectMake(0, 44, 1, 1) animated:NO];
 }
 
