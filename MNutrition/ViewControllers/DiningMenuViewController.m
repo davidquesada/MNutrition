@@ -14,6 +14,7 @@
 #import "MMeals.h"
 #import "DQNavigationBarLabel.h"
 #import "NSDate+Increment.h"
+#import "CompositeNutritionObject.h"
 #import <CoreLocation/CoreLocation.h>
 
 @interface DiningMenuViewController ()<OptionsViewControllerDelegate, CLLocationManagerDelegate>
@@ -22,7 +23,11 @@
 @property(weak) IBOutlet UITableView *tableView;
 @property(weak) IBOutlet UIView *footerView;
 @property(weak) IBOutlet UIView *footerContentsView;
-@property(weak) IBOutlet UIPanGestureRecognizer *panGesture;
+
+@property(weak) IBOutlet UILabel *caloriesLabel;
+@property(weak) IBOutlet UILabel *fatLabel;
+@property(weak) IBOutlet UILabel *proteinLabel;
+@property(weak) IBOutlet UILabel *carbsLabel;
 
 @property CGRect startingFooterRect;
 @property MealNutritionViewController *mealNutrition;
@@ -33,6 +38,7 @@
 @property DQNavigationBarLabel *navBarLabel;
 
 @property CLLocationManager *locationManager;
+@property CompositeNutritionObject *nutritionObject;
 
 @end
 
@@ -53,6 +59,9 @@
     self.locationManager = [[CLLocationManager alloc] init];
     
     [self restoreMenuSettingsFromUserDefaults];
+    self.nutritionObject = [[CompositeNutritionObject alloc] init];
+    
+    [self updateNutritionDisplays];
 
     // If we were able to restore a dining hall, date, and meal from the user defaults,
     // then let's try to fetch that from the server again.
@@ -114,6 +123,62 @@
     [self.tableView scrollRectToVisible:CGRectMake(0, 44, 1, 1) animated:NO];
 }
 
+-(void)updateNutritionDisplays
+{
+    self.caloriesLabel.text = [NSString stringWithFormat:@"%d", self.nutritionObject.calories];
+    self.fatLabel.text = [NSString stringWithFormat:@"%d g", self.nutritionObject.fat];
+    self.proteinLabel.text = [NSString stringWithFormat:@"%d g", self.nutritionObject.protein];
+    self.carbsLabel.text = [NSString stringWithFormat:@"%d g", self.nutritionObject.carbohydrates];
+    
+    if ([self.nutritionObject itemCount] == 0)
+        [self setFooterViewVisible:NO animated:YES];
+    else
+        [self setFooterViewVisible:YES animated:YES];
+}
+
+-(void)setFooterViewVisible:(BOOL)visible animated:(BOOL)animated
+{
+    if (animated)
+    {
+        [UIView animateWithDuration:.13f animations:^{ [self setFooterViewVisible:visible animated:NO];}];
+        return;
+    }
+    
+    if (visible)
+    {
+        self.footerView.frame = self.originalFooterFrame;
+        
+        UIEdgeInsets insets;
+        
+        insets = self.tableView.scrollIndicatorInsets;
+        insets.bottom = self.originalFooterFrame.size.height;
+        self.tableView.scrollIndicatorInsets = insets;
+        
+        insets = self.tableView.contentInset;
+        insets.bottom = self.originalFooterFrame.size.height;
+        self.tableView.contentInset = insets;
+    }
+    else
+    {
+        self.footerView.frame = CGRectMake(self.footerView.frame.origin.x, self.footerView.superview.frame.size.height, self.footerView.frame.size.width, self.footerView.frame.size.height);
+        
+        UIEdgeInsets insets;
+        
+        insets = self.tableView.scrollIndicatorInsets;
+        insets.bottom = 0;
+        self.tableView.scrollIndicatorInsets = insets;
+        
+        insets = self.tableView.contentInset;
+        insets.bottom = 0;
+        self.tableView.contentInset = insets;
+    }
+}
+
+-(MMMenuItem *)menuItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.courses[indexPath.section] items][indexPath.row];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     MMCourse *course = [self.courses objectAtIndex:section];
@@ -138,11 +203,53 @@
     if (!cell)
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"menuItemCell"];
     
-    MMMenuItem *item = [self.courses[indexPath.section] items][indexPath.row];
-    
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    int count = [self.nutritionObject countOfItem:item];
     cell.textLabel.text = item.name;
-    cell.detailTextLabel.text = @"Baka";
+    
+    if (count == 0)
+    {
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.detailTextLabel.text = @"";
+        return cell;
+    }
+    
+    if (count == 1)
+        cell.detailTextLabel.text = @"1 Serving";
+    else
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Servings", count];
+    cell.textLabel.textColor = [UIColor blueColor];
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    [self.nutritionObject addItem:item];
+    [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationMiddle];
+    [self updateNutritionDisplays];
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    if ([self.nutritionObject countOfItem:item] > 0)
+        return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleNone;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    [self.nutritionObject removeItem:item];
+    [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self updateNutritionDisplays];
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"Remove";
 }
 
 -(IBAction)pan:(UIPanGestureRecognizer *)sender
@@ -226,8 +333,13 @@
 
 -(void)cloneTransitionToLeft:(BOOL)toLeft
 {
-    UIView *temp = [self.tableView snapshotViewAfterScreenUpdates:NO];
-    [self.view insertSubview:temp aboveSubview:self.tableView];
+    UIView *viewToSnapshot = self.tableView;
+    
+    if (self.nutritionObject.itemCount)
+        viewToSnapshot = self.view;
+    
+    UIView *temp = [viewToSnapshot snapshotViewAfterScreenUpdates:NO];
+    [self.view insertSubview:temp aboveSubview:viewToSnapshot];
     
     [UIView animateWithDuration:0.3f animations:^{
         

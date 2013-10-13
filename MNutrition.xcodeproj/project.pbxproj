@@ -26,6 +26,7 @@
 		63A2327D18089DC800353A6C /* NSDate+Increment.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2327C18089DC800353A6C /* NSDate+Increment.m */; };
 		63C6D728180921450012ABFF /* libMMeals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A232851808AF4C00353A6C /* libMMeals.a */; };
 		63C6D72D1809A80E0012ABFF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C6D72C1809A80E0012ABFF /* CoreLocation.framework */; };
+		63C6D738180A447E0012ABFF /* CompositeNutritionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C6D737180A447E0012ABFF /* CompositeNutritionObject.m */; };
 		63E842F81807BAB300EE8F32 /* MenuItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */; };
 		63E842FE1807C4AF00EE8F32 /* DQNutritionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */; };
 		63E84301180860CA00EE8F32 /* MealNutritionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E84300180860CA00EE8F32 /* MealNutritionViewController.m */; };
@@ -83,6 +84,9 @@
 		63A2327C18089DC800353A6C /* NSDate+Increment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Increment.m"; path = "Categories/NSDate+Increment.m"; sourceTree = "<group>"; };
 		63A2327F1808AF4C00353A6C /* MMeals.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMeals.xcodeproj; path = MMeals/MMeals.xcodeproj; sourceTree = "<group>"; };
 		63C6D72C1809A80E0012ABFF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		63C6D734180A44290012ABFF /* DQNutritionObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DQNutritionObject.h; path = Protocols/DQNutritionObject.h; sourceTree = "<group>"; };
+		63C6D736180A447E0012ABFF /* CompositeNutritionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CompositeNutritionObject.h; path = Classes/CompositeNutritionObject.h; sourceTree = "<group>"; };
+		63C6D737180A447E0012ABFF /* CompositeNutritionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CompositeNutritionObject.m; path = Classes/CompositeNutritionObject.m; sourceTree = "<group>"; };
 		63E842F61807BAB300EE8F32 /* MenuItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuItemDetailViewController.h; path = ViewControllers/MenuItemDetailViewController.h; sourceTree = "<group>"; };
 		63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuItemDetailViewController.m; path = ViewControllers/MenuItemDetailViewController.m; sourceTree = "<group>"; };
 		63E842FC1807C4AF00EE8F32 /* DQNutritionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DQNutritionView.h; path = Views/DQNutritionView.h; sourceTree = "<group>"; };
@@ -152,6 +156,8 @@
 		639E15171805E5E600835819 /* MNutrition */ = {
 			isa = PBXGroup;
 			children = (
+				63C6D735180A442D0012ABFF /* Protocols */,
+				63C6D733180A43E90012ABFF /* Classes */,
 				63A2327818089D9C00353A6C /* Categories */,
 				63E842FB1807C49500EE8F32 /* Views */,
 				639E15461805E7D700835819 /* ViewControllers */,
@@ -224,6 +230,23 @@
 				63A232871808AF4C00353A6C /* MMealsTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		63C6D733180A43E90012ABFF /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				63C6D736180A447E0012ABFF /* CompositeNutritionObject.h */,
+				63C6D737180A447E0012ABFF /* CompositeNutritionObject.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		63C6D735180A442D0012ABFF /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				63C6D734180A44290012ABFF /* DQNutritionObject.h */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		63E842FB1807C49500EE8F32 /* Views */ = {
@@ -367,6 +390,7 @@
 				63A23272180888E500353A6C /* DQNavigationBarLabel.m in Sources */,
 				63E842FE1807C4AF00EE8F32 /* DQNutritionView.m in Sources */,
 				632AD4881807172F005D01A3 /* OptionsViewController.m in Sources */,
+				63C6D738180A447E0012ABFF /* CompositeNutritionObject.m in Sources */,
 				639E15491805E95D00835819 /* DiningMenuViewController.m in Sources */,
 				639E151E1805E5E600835819 /* main.m in Sources */,
 			);
