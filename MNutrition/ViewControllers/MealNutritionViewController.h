@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class DiningMenuViewController;
+@class DQNutritionView;
 
 @interface MealNutritionViewController : UIViewController
 
 @property IBOutlet UINavigationBar *navigationBar;
+@property IBOutlet DQNutritionView *nutritionView;
 @property(weak) DiningMenuViewController *diningMenu;
 
 @end

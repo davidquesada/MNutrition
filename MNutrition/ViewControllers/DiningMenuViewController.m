@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "MMeals.h"
 #import "DQNavigationBarLabel.h"
+#import "DQNutritionView.h"
 #import "NSDate+Increment.h"
 #import "CompositeNutritionObject.h"
 #import <CoreLocation/CoreLocation.h>
@@ -143,6 +144,8 @@
         [self setFooterViewVisible:NO animated:YES];
     else
         [self setFooterViewVisible:YES animated:YES];
+    
+    self.mealNutrition.nutritionView.nutritionInfo = self.nutritionObject;
 }
 
 -(void)setFooterViewVisible:(BOOL)visible animated:(BOOL)animated

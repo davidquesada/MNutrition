@@ -423,6 +423,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="navigationBar" destination="zWA-VG-MqN" id="1t5-50-xSN"/>
+                        <outlet property="nutritionView" destination="lU9-1E-sdr" id="xBm-5F-Zey"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5D9-d9-Gbd" userLabel="First Responder" sceneMemberID="firstResponder"/>
