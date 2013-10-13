@@ -7,8 +7,10 @@
 //
 
 #import "AppDelegate.h"
+#import "DQNavigationBarLabel.h"
 
 AppDelegate *mainInstance;
+BOOL ios7;
 
 @implementation AppDelegate
 
@@ -17,10 +19,22 @@ AppDelegate *mainInstance;
     return mainInstance;
 }
 
++(BOOL)isIOS7
+{
+    return ios7;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
     mainInstance = self;
+    
+    ios7 = ([[UIDevice currentDevice].systemVersion integerValue] >= 7);
+    
+    if (!ios7)
+    {
+        [[UINavigationBar appearance] setTintColor:[UIColor blueColor]];
+    }
+    
     return YES;
 }
 							

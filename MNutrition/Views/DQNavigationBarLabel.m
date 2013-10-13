@@ -33,6 +33,9 @@
     self.subtitleLabel.backgroundColor = [UIColor clearColor];
     self.subtitleLabel.opaque = NO;
     [self addSubview:self.subtitleLabel];
+    
+    if ([[UIDevice currentDevice].systemVersion integerValue] < 7)
+        self.titleLabel.textColor = self.subtitleLabel.textColor = [UIColor whiteColor];
 }
 
 - (id)initWithFrame:(CGRect)frame

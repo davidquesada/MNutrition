@@ -17,6 +17,7 @@
 #import "NSDate+Increment.h"
 #import "CompositeNutritionObject.h"
 #import <CoreLocation/CoreLocation.h>
+#import "UIView+SafeScreenshot.h"
 
 @interface DiningMenuViewController ()<OptionsViewControllerDelegate, CLLocationManagerDelegate>
 
@@ -50,7 +51,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.edgesForExtendedLayout = UIRectEdgeAll;
     self.footerView.clipsToBounds = NO;
     self.originalFooterFrame = self.footerView.frame;
     
@@ -71,6 +71,11 @@
         [self fetchMenuInformation:^{
             [self reloadMenu];
         }];
+    
+    if (![AppDelegate isIOS7])
+    {
+        self.tableView.editing = YES;
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -208,12 +213,17 @@
     return self.courses.count;
 }
 
+-(IBAction)removeServings:(id)sender
+{
+    NSLog(@"WOO");
+}
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"menuItemCell"];
-    
-    if (!cell)
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"menuItemCell"];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"menuItemCell"];
+
+    if (![AppDelegate isIOS7])
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
     MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
     int count = [self.nutritionObject countOfItem:item];
@@ -264,6 +274,17 @@
     return @"Remove";
 }
 
+/*
+    This method is needed for the way I implemented iOS <7 compatibility.
+ */
+-(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    if ([self.nutritionObject countOfItem:item] > 0 || (tableView == self.searchDisplayController.searchResultsTableView))
+        return 0;
+    return -1;
+}
+
 -(IBAction)pan:(UIPanGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateBegan)
@@ -311,7 +332,16 @@
     
     rect = self.mealNutrition.view.frame;
     rect.origin = point;
+    
+    if (![AppDelegate isIOS7])
+    {
+        rect.origin.y -= 64;
+        self.mealNutrition.view.alpha = (1.0f - progress);
+    }
+    
     self.mealNutrition.view.frame = rect;
+    
+    
     self.mealNutrition.navigationBar.alpha = (1.0f - progress);
     self.footerContentsView.alpha = progress;
     
@@ -350,7 +380,13 @@
     if (self.nutritionObject.itemCount)
         viewToSnapshot = self.view;
     
-    UIView *temp = [viewToSnapshot snapshotViewAfterScreenUpdates:NO];
+    UIView *temp;
+    
+    if ([AppDelegate isIOS7])
+        temp = [viewToSnapshot snapshotViewAfterScreenUpdates:NO];
+    else
+        temp = [viewToSnapshot screenshotView];
+        
     [self.view insertSubview:temp aboveSubview:viewToSnapshot];
     
     [UIView animateWithDuration:0.3f animations:^{

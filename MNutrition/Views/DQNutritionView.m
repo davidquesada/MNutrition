@@ -52,7 +52,8 @@ typedef NS_ENUM(NSInteger, CellTag)
     self.tableView.dataSource = self;
     [self addSubview:self.tableView];
     
-    self.tableView.separatorInset = UIEdgeInsetsMake(0, 2.0, 0, 2.0);
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)])
+        self.tableView.separatorInset = UIEdgeInsetsMake(0, 2.0, 0, 2.0);
     self.tableView.rowHeight = 25.0f;
     self.tableView.contentInset = UIEdgeInsetsMake(-46.0, 0, 0, 0);
     
