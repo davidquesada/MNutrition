@@ -131,6 +131,11 @@
                                 <segue destination="o4h-qv-7iD" kind="modal" identifier="showOptions" id="ho2-Yi-mdw"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="zjJ-5k-Qjl">
+                            <connections>
+                                <action selector="goToCurrentMeal:" destination="vXZ-lx-hvc" id="Cxv-sK-AdV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="footerContentsView" destination="HSh-j6-sP0" id="Ek1-xK-ZiB"/>

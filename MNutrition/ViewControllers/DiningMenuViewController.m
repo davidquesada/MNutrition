@@ -14,8 +14,9 @@
 #import "MMeals.h"
 #import "DQNavigationBarLabel.h"
 #import "NSDate+Increment.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface DiningMenuViewController ()<OptionsViewControllerDelegate>
+@interface DiningMenuViewController ()<OptionsViewControllerDelegate, CLLocationManagerDelegate>
 
 @property NSArray *courses;
 @property(weak) IBOutlet UITableView *tableView;
@@ -30,6 +31,8 @@
 @property CGRect originalFooterFrame;
 
 @property DQNavigationBarLabel *navBarLabel;
+
+@property CLLocationManager *locationManager;
 
 @end
 
@@ -46,6 +49,8 @@
     self.navBarLabel = [[DQNavigationBarLabel alloc] init];
     self.navigationItem.titleView = self.navBarLabel;
     self.navBarLabel.text = @"MNutrition";
+    
+    self.locationManager = [[CLLocationManager alloc] init];
     
     [self restoreMenuSettingsFromUserDefaults];
 
@@ -308,6 +313,40 @@
         [self cloneTransitionToLeft:NO];
         [self reloadMenu];
     }];
+}
+
+-(IBAction)goToCurrentMeal:(id)sender
+{
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted)
+    {
+        self.selectedDate = [NSDate date];
+        self.mealType = MMMealTypeFromTime(self.selectedDate);
+        
+        [self fetchMenuInformation:^{
+            [self reloadMenu];
+        }];
+        return;
+    }
+
+    [self.locationManager startUpdatingLocation];
+}
+
+#pragma mark - CLLocationManagerDelegate Methods
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    self.selectedDate = [NSDate date];
+    self.mealType = MMMealTypeFromTime(self.selectedDate);
+    self.selectedDiningHall = [MMDiningHall diningHallClosestToLocation:newLocation];
+    
+    [self fetchMenuInformation:^{
+        [self reloadMenu];
+    }];
+    
+    [manager stopUpdatingLocation];
 }
 
 #pragma mark - User Defaults functionality
