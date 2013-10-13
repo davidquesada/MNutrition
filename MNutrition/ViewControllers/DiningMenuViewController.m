@@ -436,6 +436,7 @@
     {
         self.selectedDate = [NSDate date];
         self.mealType = MMMealTypeFromTime(self.selectedDate);
+        [self writeMenuSettingsToUserDefaults];
         
         [self fetchMenuInformation:^{
             [self reloadMenu];
@@ -453,6 +454,7 @@
     self.selectedDate = [NSDate date];
     self.mealType = MMMealTypeFromTime(self.selectedDate);
     self.selectedDiningHall = [MMDiningHall diningHallClosestToLocation:newLocation];
+    [self writeMenuSettingsToUserDefaults];
     
     [self fetchMenuInformation:^{
         [self reloadMenu];
