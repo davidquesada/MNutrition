@@ -43,6 +43,8 @@
 @property CLLocationManager *locationManager;
 @property CompositeNutritionObject *nutritionObject;
 
+@property(weak) MMMenuItem *selectedMenuItem;
+
 @end
 
 @implementation DiningMenuViewController
@@ -106,10 +108,7 @@
     } else if ([segue.identifier isEqualToString:@"showMenuItem"])
     {
         MenuItemDetailViewController *controller = segue.destinationViewController;
-        UITableViewCell *cell = sender;
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-        MMMenuItem *item = [self.courses[indexPath.section] items][indexPath.row];
-        controller.menuItem = item;
+        controller.menuItem = self.selectedMenuItem;
     }
 }
 
@@ -251,6 +250,12 @@
     [self.nutritionObject addItem:item];
     [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationMiddle];
     [self updateNutritionDisplays];
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    self.selectedMenuItem = [self menuItemAtIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"showMenuItem" sender:nil];
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath

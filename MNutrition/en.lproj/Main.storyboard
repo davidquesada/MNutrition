@@ -28,7 +28,7 @@
                                     </connections>
                                 </searchBar>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="detailButton" indentationWidth="30" shouldIndentWhileEditing="NO" reuseIdentifier="menuItemCell" editingAccessoryType="detailDisclosureButton" textLabel="5Id-CB-JJg" detailTextLabel="ZxG-hP-R3o" style="IBUITableViewCellStyleSubtitle" id="79p-o9-Emv">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="detailButton" indentationWidth="30" shouldIndentWhileEditing="NO" reuseIdentifier="menuItemCell" editingAccessoryType="detailDisclosureButton" textLabel="5Id-CB-JJg" detailTextLabel="ZxG-hP-R3o" style="IBUITableViewCellStyleSubtitle" id="79p-o9-Emv" customClass="TableViewCellBaseCell">
                                         <rect key="frame" x="0.0" y="130" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="79p-o9-Emv" id="5Fp-zi-6kG">
@@ -51,9 +51,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="tm3-uv-7sF" kind="push" identifier="showMenuItem" trigger="accessoryAction" id="hSk-bF-mim"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -166,6 +163,7 @@
                         <outlet property="searchDisplayController" destination="knB-H8-aCM" id="iwf-Y8-Zg4"/>
                         <outlet property="tableView" destination="JmL-0Z-1Sa" id="Plg-69-a0m"/>
                         <segue destination="re4-wb-kNL" kind="custom" identifier="showMealNutrition" customClass="MealNutritionSegue" id="lZy-Na-shX"/>
+                        <segue destination="tm3-uv-7sF" kind="push" identifier="showMenuItem" id="z0g-Fi-HaW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

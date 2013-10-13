@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		632AD4881807172F005D01A3 /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632AD4871807172F005D01A3 /* OptionsViewController.m */; };
+		638955BF180A7CEA00C91C28 /* TableViewCellBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 638955BE180A7CEA00C91C28 /* TableViewCellBaseCell.m */; };
 		639E15121805E5E600835819 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15111805E5E600835819 /* Foundation.framework */; };
 		639E15141805E5E600835819 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15131805E5E600835819 /* CoreGraphics.framework */; };
 		639E15161805E5E600835819 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15151805E5E600835819 /* UIKit.framework */; };
@@ -60,6 +61,9 @@
 /* Begin PBXFileReference section */
 		632AD4861807172F005D01A3 /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsViewController.h; path = ViewControllers/OptionsViewController.h; sourceTree = "<group>"; };
 		632AD4871807172F005D01A3 /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsViewController.m; path = ViewControllers/OptionsViewController.m; sourceTree = "<group>"; };
+		638955BA180A7C7000C91C28 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
+		638955BD180A7CEA00C91C28 /* TableViewCellBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCellBaseCell.h; path = Classes/TableViewCellBaseCell.h; sourceTree = "<group>"; };
+		638955BE180A7CEA00C91C28 /* TableViewCellBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCellBaseCell.m; path = Classes/TableViewCellBaseCell.m; sourceTree = "<group>"; };
 		639E150E1805E5E600835819 /* MNutrition.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MNutrition.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		639E15111805E5E600835819 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		639E15131805E5E600835819 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -70,7 +74,6 @@
 		639E151F1805E5E600835819 /* MNutrition-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MNutrition-Prefix.pch"; sourceTree = "<group>"; };
 		639E15201805E5E600835819 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		639E15211805E5E600835819 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		639E15241805E5E600835819 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		639E15291805E5E600835819 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		639E152F1805E5E600835819 /* MNutritionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MNutritionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		639E15301805E5E600835819 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -242,6 +245,8 @@
 			children = (
 				63C6D736180A447E0012ABFF /* CompositeNutritionObject.h */,
 				63C6D737180A447E0012ABFF /* CompositeNutritionObject.m */,
+				638955BD180A7CEA00C91C28 /* TableViewCellBaseCell.h */,
+				638955BE180A7CEA00C91C28 /* TableViewCellBaseCell.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -388,6 +393,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				638955BF180A7CEA00C91C28 /* TableViewCellBaseCell.m in Sources */,
 				639E15221805E5E600835819 /* AppDelegate.m in Sources */,
 				63A2327D18089DC800353A6C /* NSDate+Increment.m in Sources */,
 				63E842F81807BAB300EE8F32 /* MenuItemDetailViewController.m in Sources */,
@@ -432,7 +438,7 @@
 		639E15231805E5E600835819 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				639E15241805E5E600835819 /* Base */,
+				638955BA180A7C7000C91C28 /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
