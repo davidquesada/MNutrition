@@ -55,7 +55,7 @@ typedef NS_ENUM(NSInteger, CellTag)
     if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)])
         self.tableView.separatorInset = UIEdgeInsetsMake(0, 2.0, 0, 2.0);
     self.tableView.rowHeight = 25.0f;
-    self.tableView.contentInset = UIEdgeInsetsMake(-46.0, 0, 0, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(20.0, 0, 0, 0);
     
     self.separatorColor = [UIColor blueColor];
     

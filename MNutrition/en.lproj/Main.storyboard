@@ -356,7 +356,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
         <!--Menu Item Detail View Controller - Menu Item Detail-->
         <scene sceneID="Hvm-zF-o0Q">
             <objects>
-                <viewController id="tm3-uv-7sF" customClass="MenuItemDetailViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="tm3-uv-7sF" customClass="MenuItemDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wte-LS-gBW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
