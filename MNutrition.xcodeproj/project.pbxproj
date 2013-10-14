@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		632AD4881807172F005D01A3 /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632AD4871807172F005D01A3 /* OptionsViewController.m */; };
+		637E1010180B9CB700B98318 /* DQNutritionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 637E100F180B9CB700B98318 /* DQNutritionObject.m */; };
 		638955BF180A7CEA00C91C28 /* TableViewCellBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 638955BE180A7CEA00C91C28 /* TableViewCellBaseCell.m */; };
 		639E15121805E5E600835819 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15111805E5E600835819 /* Foundation.framework */; };
 		639E15141805E5E600835819 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639E15131805E5E600835819 /* CoreGraphics.framework */; };
@@ -61,6 +62,7 @@
 /* Begin PBXFileReference section */
 		632AD4861807172F005D01A3 /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsViewController.h; path = ViewControllers/OptionsViewController.h; sourceTree = "<group>"; };
 		632AD4871807172F005D01A3 /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsViewController.m; path = ViewControllers/OptionsViewController.m; sourceTree = "<group>"; };
+		637E100F180B9CB700B98318 /* DQNutritionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DQNutritionObject.m; path = Protocols/DQNutritionObject.m; sourceTree = "<group>"; };
 		638955BA180A7C7000C91C28 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		638955BD180A7CEA00C91C28 /* TableViewCellBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCellBaseCell.h; path = Classes/TableViewCellBaseCell.h; sourceTree = "<group>"; };
 		638955BE180A7CEA00C91C28 /* TableViewCellBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewCellBaseCell.m; path = Classes/TableViewCellBaseCell.m; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				63C6D734180A44290012ABFF /* DQNutritionObject.h */,
+				637E100F180B9CB700B98318 /* DQNutritionObject.m */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -400,6 +403,7 @@
 				63E84301180860CA00EE8F32 /* MealNutritionViewController.m in Sources */,
 				63A23272180888E500353A6C /* DQNavigationBarLabel.m in Sources */,
 				63E842FE1807C4AF00EE8F32 /* DQNutritionView.m in Sources */,
+				637E1010180B9CB700B98318 /* DQNutritionObject.m in Sources */,
 				63C6D73B180A59BA0012ABFF /* UIView+SafeScreenshot.m in Sources */,
 				632AD4881807172F005D01A3 /* OptionsViewController.m in Sources */,
 				63C6D738180A447E0012ABFF /* CompositeNutritionObject.m in Sources */,

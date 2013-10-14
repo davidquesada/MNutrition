@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol DQNutritionObject <NSObject>
+@required
 
 @property (readonly) int calories;
 @property (readonly) int caloriesFromFat;
@@ -29,3 +30,5 @@
 @property (readonly) NSString *servingSize;
 
 @end
+
+NSString *DQNutritionObjectLongDescription(id<DQNutritionObject> object);

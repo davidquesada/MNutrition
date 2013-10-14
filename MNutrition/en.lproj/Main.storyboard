@@ -401,6 +401,11 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                                 <action selector="dismiss:" destination="re4-wb-kNL" id="DAk-sg-VkK"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="F4c-GU-vbc">
+                                            <connections>
+                                                <action selector="share:" destination="re4-wb-kNL" id="Kk9-2u-zYK"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                                 <connections>
@@ -424,6 +429,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="contentsView" destination="iG8-C7-IfB" id="THN-fA-una"/>
                         <outlet property="navigationBar" destination="zWA-VG-MqN" id="1t5-50-xSN"/>
                         <outlet property="nutritionView" destination="lU9-1E-sdr" id="xBm-5F-Zey"/>
                     </connections>

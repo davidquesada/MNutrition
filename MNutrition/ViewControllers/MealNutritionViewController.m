@@ -8,9 +8,13 @@
 
 #import "MealNutritionViewController.h"
 #import "DiningMenuViewController.h"
+#import "UIView+SafeScreenshot.h"
+#import "DQNutritionObject.h"
+#import "CompositeNutritionObject.h"
+#import "AppDelegate.h"
 
 @interface MealNutritionViewController ()<UINavigationBarDelegate>
-
+@property (weak) IBOutlet UIView *contentsView;
 @end
 
 @implementation MealNutritionViewController
@@ -29,6 +33,22 @@
 -(UIBarPosition)positionForBar:(id<UIBarPositioning>)bar
 {
     return UIBarPositionTopAttached;
+}
+
+-(IBAction)share:(id)sender
+{
+    UIImage *image = [self.contentsView screenshot];
+    NSArray *activityItems = @[ DQNutritionObjectLongDescription(self.diningMenu.nutritionObject), image ];
+    NSArray *applicationActivities = @[ ];
+    
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+    
+    controller.excludedActivityTypes = @[
+                                          UIActivityTypeAssignToContact,
+                                          UIActivityTypePostToTwitter,
+                                          ];
+    
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 @end

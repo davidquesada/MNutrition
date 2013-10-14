@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "MMeals.h"
 
+@class CompositeNutritionObject;
+
 @interface DiningMenuViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property MMDiningHall *selectedDiningHall;
 @property MMMealType mealType;
 @property NSDate *selectedDate;
+
+@property (readonly) CompositeNutritionObject *nutritionObject;
 
 -(void)setNutritionVisible:(BOOL)visible;
 -(void)addPanGestureToView:(UIView *)view;
