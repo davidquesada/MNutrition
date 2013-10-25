@@ -9,6 +9,7 @@
 #import "OptionsViewController.h"
 #import "AppDelegate.h"
 #import "MMeals.h"
+#import "SVProgressHUD.h"
 
 @interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -63,6 +64,9 @@
 {
     self.navigationItem.leftBarButtonItem.enabled = NO;
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    
     [self downloadMenu:^{
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         

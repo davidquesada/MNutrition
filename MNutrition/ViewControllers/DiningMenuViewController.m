@@ -18,6 +18,7 @@
 #import "CompositeNutritionObject.h"
 #import <CoreLocation/CoreLocation.h>
 #import "UIView+SafeScreenshot.h"
+#import "SVProgressHUD.h"
 
 @interface DiningMenuViewController ()<OptionsViewControllerDelegate, CLLocationManagerDelegate>
 
@@ -133,6 +134,7 @@
         [self updateNutritionDisplays];
     }
     self.previousCourses = self.courses;
+    [SVProgressHUD dismiss];
     
     [self.tableView scrollRectToVisible:CGRectMake(0, 44, 1, 1) animated:NO];
 }
@@ -421,6 +423,7 @@
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeNone];
     
     [self.selectedDiningHall fetchMenuInformationForDate:self.selectedDate completion:^{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
