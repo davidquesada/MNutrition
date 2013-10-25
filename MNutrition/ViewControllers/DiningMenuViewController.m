@@ -154,6 +154,21 @@
     self.mealNutrition.nutritionView.nutritionInfo = self.nutritionObject;
 }
 
+-(CGRect)footerViewFrame:(BOOL)visible
+{
+    if (visible)
+    {
+        CGRect frame = self.footerView.bounds;
+        frame.origin.y = self.view.frame.size.height - frame.size.height;
+        //frame = [self.footerView.superview convertRect:frame fromView:self.view];
+        return frame;
+    }
+    else
+    {
+        return CGRectMake(self.footerView.frame.origin.x, self.footerView.superview.frame.size.height, self.footerView.frame.size.width, self.footerView.frame.size.height);
+    }
+}
+
 -(void)setFooterViewVisible:(BOOL)visible animated:(BOOL)animated
 {
     if (animated)
@@ -162,10 +177,10 @@
         return;
     }
     
+    self.footerView.frame = [self footerViewFrame:visible];
+    
     if (visible)
     {
-        self.footerView.frame = self.originalFooterFrame;
-        
         UIEdgeInsets insets;
         
         insets = self.tableView.scrollIndicatorInsets;
@@ -178,8 +193,6 @@
     }
     else
     {
-        self.footerView.frame = CGRectMake(self.footerView.frame.origin.x, self.footerView.superview.frame.size.height, self.footerView.frame.size.width, self.footerView.frame.size.height);
-        
         UIEdgeInsets insets;
         
         insets = self.tableView.scrollIndicatorInsets;
@@ -346,6 +359,9 @@
         self.mealNutrition.view.alpha = (1.0f - progress);
     }
     
+    // Compensate for a potentially enlarged status bar.
+    rect.origin.y -= self.mealNutrition.view.superview.frame.origin.y;
+    
     self.mealNutrition.view.frame = rect;
     
     
@@ -363,12 +379,13 @@
         {
             CGRect rect = self.footerView.frame;
             rect.origin = CGPointZero;
+           
             [self setFooterViewFrame:rect];
             self.mealNutrition.view.userInteractionEnabled = YES;
         }
         else
         {
-            [self setFooterViewFrame:self.originalFooterFrame];
+            [self setFooterViewFrame:[self footerViewFrame:YES]];
             self.mealNutrition.view.userInteractionEnabled = NO;
         }
     }];
@@ -576,10 +593,13 @@
     nutrition.diningMenu = menu;
     
     UIView *superview = [UIApplication sharedApplication].windows[0];
+    superview = ((UIWindow *)superview).rootViewController.view;
     
     CGRect rect = superview.frame;
     rect.origin = CGPointMake(0, rect.size.height - menu.footerView.frame.size.height);
 //    rect.origin = [menu.footerView convertPoint:CGPointZero toView:superview];
+    
+    nutrition.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
     nutrition.view.frame = rect;
     nutrition.view.userInteractionEnabled = NO;
