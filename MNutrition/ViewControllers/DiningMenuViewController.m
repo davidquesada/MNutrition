@@ -383,6 +383,7 @@
     [self fetchMenuInformation:^{
         [self cloneTransitionToLeft:YES];
         [self reloadMenu];
+        [self writeMenuSettingsToUserDefaults];
     }];
 }
 
@@ -409,6 +410,7 @@
     [self fetchMenuInformation:^{
         [self cloneTransitionToLeft:NO];
         [self reloadMenu];
+        [self writeMenuSettingsToUserDefaults];
     }];
 }
 
