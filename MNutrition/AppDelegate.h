@@ -14,6 +14,7 @@
 
 +(instancetype)mainInstance;
 +(BOOL)isIOS7;
++(BOOL)isIOS6;
 
 @end
 

@@ -11,6 +11,7 @@
 
 AppDelegate *mainInstance;
 BOOL ios7;
+BOOL ios6;
 
 @implementation AppDelegate
 
@@ -24,11 +25,17 @@ BOOL ios7;
     return ios7;
 }
 
++(BOOL)isIOS6
+{
+    return ios6;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     mainInstance = self;
     
     ios7 = ([[UIDevice currentDevice].systemVersion integerValue] >= 7);
+    ios6 = ([[UIDevice currentDevice].systemVersion integerValue] >= 6);
     
     if (!ios7)
     {

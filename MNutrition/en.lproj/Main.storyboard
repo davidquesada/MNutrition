@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="PNg-7i-0tE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="PNg-7i-0tE">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Dining Menu View Controller - Menu-->
@@ -19,17 +19,9 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <inset key="contentInset" minX="0.0" minY="0.0" maxX="0.0" maxY="64"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="64"/>
-                                <searchBar key="tableHeaderView" contentMode="redraw" id="hzg-mM-6M1">
-                                    <rect key="frame" x="0.0" y="64" width="320" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="vXZ-lx-hvc" id="3Pf-gp-QQo"/>
-                                    </connections>
-                                </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="detailButton" indentationWidth="30" shouldIndentWhileEditing="NO" reuseIdentifier="menuItemCell" editingAccessoryType="detailDisclosureButton" textLabel="5Id-CB-JJg" detailTextLabel="ZxG-hP-R3o" style="IBUITableViewCellStyleSubtitle" id="79p-o9-Emv" customClass="TableViewCellBaseCell">
-                                        <rect key="frame" x="0.0" y="130" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="79p-o9-Emv" id="5Fp-zi-6kG">
                                             <rect key="frame" x="0.0" y="0.0" width="273" height="43"/>
@@ -147,7 +139,7 @@
                                 <segue destination="o4h-qv-7iD" kind="modal" identifier="showOptions" id="ho2-Yi-mdw"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="zjJ-5k-Qjl">
+                        <barButtonItem key="rightBarButtonItem" image="locationArrow.png" id="zjJ-5k-Qjl">
                             <connections>
                                 <action selector="goToCurrentMeal:" destination="vXZ-lx-hvc" id="Cxv-sK-AdV"/>
                             </connections>
@@ -170,7 +162,6 @@
                 <searchDisplayController id="knB-H8-aCM">
                     <connections>
                         <outlet property="delegate" destination="vXZ-lx-hvc" id="1zE-9b-s4T"/>
-                        <outlet property="searchBar" destination="hzg-mM-6M1" id="by9-PV-DNa"/>
                         <outlet property="searchContentsController" destination="vXZ-lx-hvc" id="u2T-hG-Mlm"/>
                         <outlet property="searchResultsDataSource" destination="vXZ-lx-hvc" id="W06-e7-gte"/>
                         <outlet property="searchResultsDelegate" destination="vXZ-lx-hvc" id="UxL-2q-4BG"/>
@@ -338,7 +329,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rPy-wJ-39h">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="0.81000000000000005" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="FS2-mc-SBV">
@@ -439,6 +430,9 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
             <point key="canvasLocation" x="1076" y="1076"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="locationArrow.png" width="26" height="25"/>
+    </resources>
     <color key="tintColor" red="0.042912133038043976" green="0.0" blue="0.70061326026916504" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -45,6 +45,7 @@
 @property CompositeNutritionObject *nutritionObject;
 
 @property(weak) MMMenuItem *selectedMenuItem;
+@property   UIRefreshControl *refreshControl;
 
 @end
 
@@ -78,6 +79,14 @@
     if (![AppDelegate isIOS7])
     {
         self.tableView.editing = YES;
+    }
+    
+    if ([AppDelegate isIOS6])
+    {
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.tableView addSubview:self.refreshControl];
+        self.refreshControl.backgroundColor = [UIColor whiteColor];
+        [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
     }
 }
 
@@ -205,105 +214,7 @@
     }
 }
 
--(MMMenuItem *)menuItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self.courses[indexPath.section] items][indexPath.row];
-}
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    MMCourse *course = [self.courses objectAtIndex:section];
-    return course.items.count;
-}
-
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    MMCourse *course = [self.courses objectAtIndex:section];
-    return course.name;
-}
-
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return self.courses.count;
-}
-
--(IBAction)removeServings:(id)sender
-{
-    NSLog(@"WOO");
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"menuItemCell"];
-
-    if (![AppDelegate isIOS7])
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    
-    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
-    int count = [self.nutritionObject countOfItem:item];
-    cell.textLabel.text = item.name;
-    
-    if (count == 0)
-    {
-        cell.textLabel.textColor = [UIColor blackColor];
-        cell.detailTextLabel.text = @"";
-        return cell;
-    }
-    
-    if (count == 1)
-        cell.detailTextLabel.text = @"1 Serving";
-    else
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Servings", count];
-    cell.textLabel.textColor = [UIColor blueColor];
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
-    [self.nutritionObject addItem:item];
-    [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationMiddle];
-    [self updateNutritionDisplays];
-}
-
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    self.selectedMenuItem = [self menuItemAtIndexPath:indexPath];
-    [self performSegueWithIdentifier:@"showMenuItem" sender:nil];
-}
-
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
-    if ([self.nutritionObject countOfItem:item] > 0)
-        return UITableViewCellEditingStyleDelete;
-    return UITableViewCellEditingStyleNone;
-}
-
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
-    [self.nutritionObject removeItem:item];
-    [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self updateNutritionDisplays];
-}
-
--(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @"Remove";
-}
-
-/*
-    This method is needed for the way I implemented iOS <7 compatibility.
- */
--(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
-    if ([self.nutritionObject countOfItem:item] > 0 || (tableView == self.searchDisplayController.searchResultsTableView))
-        return 0;
-    return -1;
-}
 
 -(IBAction)pan:(UIPanGestureRecognizer *)sender
 {
@@ -443,6 +354,7 @@
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeNone];
     
     [self.selectedDiningHall fetchMenuInformationForDate:self.selectedDate completion:^{
+        [SVProgressHUD dismiss];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         completion();
     }];
@@ -518,6 +430,111 @@
     }
 
     [self.locationManager startUpdatingLocation];
+}
+
+-(void)refresh:(id)sender
+{
+    [self.selectedDiningHall clearCachedMenuInformationForDate:self.selectedDate];
+    [self fetchMenuInformation:^{
+        [self.refreshControl endRefreshing];
+    }];
+}
+
+-(MMMenuItem *)menuItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.courses[indexPath.section] items][indexPath.row];
+}
+
+#pragma mark - UITableView
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    MMCourse *course = [self.courses objectAtIndex:section];
+    return course.items.count;
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    MMCourse *course = [self.courses objectAtIndex:section];
+    return course.name;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return self.courses.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"menuItemCell"];
+    
+    if (![AppDelegate isIOS7])
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+    
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    int count = [self.nutritionObject countOfItem:item];
+    cell.textLabel.text = item.name;
+    
+    if (count == 0)
+    {
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.detailTextLabel.text = @"";
+        return cell;
+    }
+    
+    if (count == 1)
+        cell.detailTextLabel.text = @"1 Serving";
+    else
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Servings", count];
+    cell.textLabel.textColor = [UIColor blueColor];
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    [self.nutritionObject addItem:item];
+    [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationMiddle];
+    [self updateNutritionDisplays];
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    self.selectedMenuItem = [self menuItemAtIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"showMenuItem" sender:nil];
+}
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    if ([self.nutritionObject countOfItem:item] > 0)
+        return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleNone;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    [self.nutritionObject removeItem:item];
+    [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self updateNutritionDisplays];
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"Remove";
+}
+
+/*
+ This method is needed for the way I implemented iOS <7 compatibility.
+ */
+-(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    if ([self.nutritionObject countOfItem:item] > 0 || (tableView == self.searchDisplayController.searchResultsTableView))
+        return 0;
+    return -1;
 }
 
 #pragma mark - CLLocationManagerDelegate Methods
