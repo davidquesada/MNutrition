@@ -29,6 +29,8 @@
 @property (readonly) int portionSize;
 @property (readonly) NSString *servingSize;
 
+@property (readonly) NSDictionary *percentages;
+
 @end
 
 NSString *DQNutritionObjectLongDescription(id<DQNutritionObject> object);

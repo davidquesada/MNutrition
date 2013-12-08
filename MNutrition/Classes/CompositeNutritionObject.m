@@ -28,6 +28,8 @@
 @property (readwrite) int sugar;
 @property (readwrite) int protein;
 
+@property (readwrite) NSMutableDictionary *percentages;
+
 @end
 
 @implementation CompositeNutritionObject
@@ -37,6 +39,7 @@
     self = [super init];
     if (self) {
         self.items = [[NSCountedSet alloc] init];
+        self.percentages = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -56,6 +59,12 @@
     self.fiber += item.fiber;
     self.sugar += item.sugar;
     self.protein += item.protein;
+    
+    [item.percentages enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        int currentValue = [self.percentages[key] intValue];
+        int newValue = currentValue + [obj intValue];
+        self.percentages[key] = @(newValue);
+    }];
 }
 
 -(void)removeItem:(MMMenuItem *)item
@@ -79,6 +88,12 @@
     self.fiber -= item.fiber * count;
     self.sugar -= item.sugar * count;
     self.protein -= item.protein * count;
+    
+    [item.percentages enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        int currentValue = [self.percentages[key] intValue];
+        int newValue = currentValue - ([obj intValue] * count);
+        self.percentages[key] = @(newValue);
+    }];
 }
 
 -(void)removeAllObjects
@@ -96,6 +111,8 @@
     self.fiber = 0;
     self.sugar = 0;
     self.protein = 0;
+    
+    [self.percentages removeAllObjects];
 }
 
 -(int)itemCount
