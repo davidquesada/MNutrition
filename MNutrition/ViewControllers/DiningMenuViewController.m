@@ -122,6 +122,11 @@
     }
 }
 
+-(void)showMenuItem
+{
+    [self performSegueWithIdentifier:@"showMenuItem" sender:nil];
+}
+
 -(void)reloadMenu
 {
     static NSDateFormatter *formatter;
@@ -504,7 +509,12 @@
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedMenuItem = [self menuItemAtIndexPath:indexPath];
-    [self performSegueWithIdentifier:@"showMenuItem" sender:nil];
+    
+    // If we push the detail view while the table view is editing,
+    NSTimeInterval delay = self.tableView.isEditing ? .6 : 0.0;
+    [tableView setEditing:NO animated:YES];
+    
+    [self performSelector:@selector(showMenuItem) withObject:nil afterDelay:delay];
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
