@@ -60,7 +60,7 @@
     
     self.navBarLabel = [[DQNavigationBarLabel alloc] init];
     self.navigationItem.titleView = self.navBarLabel;
-    self.navBarLabel.text = @"MNutrition";
+    self.navBarLabel.text = @"BlueMenu";
     
     self.locationManager = [[CLLocationManager alloc] init];
     
