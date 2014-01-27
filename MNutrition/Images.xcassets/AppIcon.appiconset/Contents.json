@@ -21,19 +21,19 @@
     {
       "size" : "57x57",
       "idiom" : "iphone",
-      "filename" : "iPhone_HomeScreen_60.png",
+      "filename" : "iPhone_Old_57.png",
       "scale" : "1x"
     },
     {
       "size" : "57x57",
       "idiom" : "iphone",
-      "filename" : "iPhone_HomeScreen_120_Retina.png",
+      "filename" : "iPhone_Old_114_Retina.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "iPhone_HomeScreen_120_Retina-1.png",
+      "filename" : "iPhone_HomeScreen_120_Retina.png",
       "scale" : "2x"
     }
   ],
