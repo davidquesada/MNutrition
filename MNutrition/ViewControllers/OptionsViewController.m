@@ -11,6 +11,7 @@
 #import "MMeals.h"
 #import "SVProgressHUD.h"
 #import "DiningMenuViewController.h"
+#import "UserDefaults.h"
 
 @interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -19,6 +20,7 @@
 @property IBOutlet UISegmentedControl *mealTypeSegmentedControl;
 @property IBOutlet UIDatePicker *datePicker;
 @property MMMealType shownMealType;
+@property BOOL hasLaunched;
 
 @end
 
@@ -41,12 +43,30 @@
         self.mealTypeSegmentedControl.selectedSegmentIndex = 1;
     else if (self.mealType == MMMealTypeDinner)
         self.mealTypeSegmentedControl.selectedSegmentIndex = 2;
+    
+    [self continueToMenuIfPossible];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self writeOptionsToUI];
+}
+
+-(void)continueToMenuIfPossible
+{
+    // Only do this once.
+    if (self.hasLaunched)
+        return;
+    self.hasLaunched = YES;
+    
+    UserDefaults *manager = [UserDefaults defaultManager];
+    if (![manager readFromUserDefaults])
+        return;
+    self.selectedDate = manager.date;
+    self.selectedDiningHall = manager.diningHall;
+    self.mealType = manager.mealType;
+    [self showMenu];
 }
 
 -(void)downloadMenu:(void (^)())completion
