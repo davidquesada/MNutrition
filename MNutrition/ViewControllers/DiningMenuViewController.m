@@ -19,6 +19,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "UIView+SafeScreenshot.h"
 #import "SVProgressHUD.h"
+#import "UserDefaults.h"
 
 @interface DiningMenuViewController ()<OptionsViewControllerDelegate, CLLocationManagerDelegate>
 
@@ -569,28 +570,20 @@
 
 -(void)writeMenuSettingsToUserDefaults
 {
-    id payload = @{
-                   @"date" : self.selectedDate,
-                   @"mealType" : @(self.mealType),
-                   @"diningHallType" : @(self.selectedDiningHall.type),
-                   };
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [defaults setObject:payload forKey:@"defaultMenuInfo"];
-    [defaults synchronize];
+    UserDefaults *manager = [UserDefaults defaultManager];
+    manager.date = self.selectedDate;
+    manager.diningHall = self.selectedDiningHall;
+    manager.mealType = self.mealType;
+    [manager writeToUserDefaults];
 }
 
 -(void)restoreMenuSettingsFromUserDefaults
 {
-    NSDictionary *payload = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"defaultMenuInfo"];
-    
-    if (!payload)
-        return;
-    
-    self.selectedDate = payload[@"date"];
-    self.mealType = (MMMealType)[payload[@"mealType"] intValue];
-    self.selectedDiningHall = [MMDiningHall diningHallOfType:(MMDiningHallType)[payload[@"diningHallType"] intValue]];
+    UserDefaults *manager = [UserDefaults defaultManager];
+    [manager readFromUserDefaults];
+    self.selectedDiningHall = manager.diningHall;
+    self.selectedDate = manager.date;
+    self.mealType = manager.mealType;
 }
 
 #pragma mark - OptionsViewControllerDelegate Methods
