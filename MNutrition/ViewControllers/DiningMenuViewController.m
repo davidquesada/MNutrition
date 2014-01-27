@@ -340,11 +340,6 @@
     }];
 }
 
--(IBAction)showMealNutrition:(id)sender
-{
-    [self setNutritionVisible:YES];
-}
-
 -(void)fetchMenuInformation:(void (^)())completion
 {
     id data = [self.selectedDiningHall menuInformationForDate:self.selectedDate];
@@ -363,6 +358,41 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         completion();
     }];
+}
+
+-(void)refresh:(id)sender
+{
+    [self.selectedDiningHall clearCachedMenuInformationForDate:self.selectedDate];
+    [self fetchMenuInformation:^{
+        [self.refreshControl endRefreshing];
+    }];
+}
+
+-(MMMenuItem *)menuItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.courses[indexPath.section] items][indexPath.row];
+}
+
+#pragma mark - IBActions
+
+-(IBAction)goToCurrentMeal:(id)sender
+{
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted)
+    {
+        self.selectedDate = [NSDate date];
+        self.mealType = MMMealTypeFromTime(self.selectedDate);
+        [self writeMenuSettingsToUserDefaults];
+        
+        [self fetchMenuInformation:^{
+            [self reloadMenu];
+        }];
+        return;
+    }
+    
+    [self.locationManager startUpdatingLocation];
 }
 
 -(IBAction)moveToNextMeal:(id)sender
@@ -396,7 +426,7 @@
 {
     if (self.mealType == MMMealTypeBreakfast)
         self.selectedDate = [self.selectedDate previousDay];
-
+    
     switch (self.mealType)
     {
         case MMMealTypeBreakfast:
@@ -419,37 +449,17 @@
     }];
 }
 
--(IBAction)goToCurrentMeal:(id)sender
+-(IBAction)showMealNutrition:(id)sender
 {
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted)
-    {
-        self.selectedDate = [NSDate date];
-        self.mealType = MMMealTypeFromTime(self.selectedDate);
-        [self writeMenuSettingsToUserDefaults];
-        
-        [self fetchMenuInformation:^{
-            [self reloadMenu];
-        }];
-        return;
-    }
-
-    [self.locationManager startUpdatingLocation];
+    [self setNutritionVisible:YES];
 }
 
--(void)refresh:(id)sender
+-(IBAction)showOptions:(id)sender
 {
-    [self.selectedDiningHall clearCachedMenuInformationForDate:self.selectedDate];
-    [self fetchMenuInformation:^{
-        [self.refreshControl endRefreshing];
-    }];
-}
-
--(MMMenuItem *)menuItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self.courses[indexPath.section] items][indexPath.row];
+    self.optionsViewController.selectedDate = self.selectedDate;
+    self.optionsViewController.selectedDiningHall = self.selectedDiningHall;
+    self.optionsViewController.mealType = self.mealType;
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - UITableView
@@ -595,7 +605,7 @@
 
 #pragma mark - OptionsViewControllerDelegate Methods
 
--(void)optionsViewControllerWillDismiss:(OptionsViewController *)controller
+-(void)optionsViewControllerDidChooseOptions:(OptionsViewController *)controller
 {
     self.selectedDiningHall = controller.selectedDiningHall;
     self.selectedDate = controller.selectedDate;

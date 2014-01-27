@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "MMeals.h"
 #import "SVProgressHUD.h"
+#import "DiningMenuViewController.h"
 
 @interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate>
 
@@ -17,6 +18,7 @@
 
 @property IBOutlet UISegmentedControl *mealTypeSegmentedControl;
 @property IBOutlet UIDatePicker *datePicker;
+@property MMMealType shownMealType;
 
 @end
 
@@ -39,6 +41,12 @@
         self.mealTypeSegmentedControl.selectedSegmentIndex = 1;
     else if (self.mealType == MMMealTypeDinner)
         self.mealTypeSegmentedControl.selectedSegmentIndex = 2;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self writeOptionsToUI];
 }
 
 -(void)downloadMenu:(void (^)())completion
@@ -70,11 +78,77 @@
     [self downloadMenu:^{
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
-        if ([self.delegate respondsToSelector:@selector(optionsViewControllerWillDismiss:)])
-            [self.delegate optionsViewControllerWillDismiss:self];
+        if ([self.delegate respondsToSelector:@selector(optionsViewControllerDidChooseOptions:)])
+            [self.delegate optionsViewControllerDidChooseOptions:self];
         
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
+}
+
+-(void)showMenu
+{
+    [self performSegueWithIdentifier:@"showMenu" sender:nil];
+}
+
+-(void)writeUIToOptions
+{
+    self.selectedDate = self.datePicker.date;
+    if (!self.selectedDate)
+        self.selectedDate = [NSDate date];
+    self.mealType = self.shownMealType;
+    
+    // It's not necessary to assign self.selectedDiningHall to itself.
+}
+
+-(void)writeOptionsToUI
+{
+    if (!self.selectedDate)
+        self.selectedDate = [NSDate date];
+    self.datePicker.date = self.selectedDate;
+    self.shownMealType = self.mealType;
+}
+
+/* Informs the given object that the receiver has chosen menu options. The listener argmuent is not required to implement any protocols, and if it doesn't, this method will send no other messages to the listener..
+ */
+-(void)reportDidChooseOptionsToPotentialListener:(id)listener
+{
+    [self writeUIToOptions];
+    if (![listener respondsToSelector:@selector(optionsViewControllerDidChooseOptions:)])
+        return;
+    [listener optionsViewControllerDidChooseOptions:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    id destination = segue.destinationViewController;
+    [self reportDidChooseOptionsToPotentialListener:destination];
+    
+    if ([destination isKindOfClass:[DiningMenuViewController class]])
+        [destination setOptionsViewController:self];
+}
+
+-(MMMealType)shownMealType
+{
+    switch (self.mealTypeSegmentedControl.selectedSegmentIndex)
+    {
+        case 0: return MMMealTypeBreakfast;
+        case 1: return MMMealTypeLunch;
+        case 2: return MMMealTypeDinner;
+        default: return MMMealTypeNone;
+    }
+}
+
+-(void)setShownMealType:(MMMealType)shownMealType
+{
+    int val = 0;
+    switch (shownMealType)
+    {
+        case MMMealTypeBreakfast: val = 0; break;
+        case MMMealTypeLunch: val = 1; break;
+        case MMMealTypeDinner: val = 2; break;
+        default: break;
+    }
+    self.mealTypeSegmentedControl.selectedSegmentIndex = val;
 }
 
 #pragma mark - UITableViewDataSource / Delegate Methods
@@ -91,9 +165,9 @@
     cell.textLabel.text = hall.name;
     
     if (hall == self.selectedDiningHall)
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        cell.textLabel.textColor = [UIColor blueColor];
     else
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.textColor = [UIColor blackColor];
     
     return cell;
 }
@@ -105,7 +179,7 @@
     
     [tableView reloadRowsAtIndexPaths:[tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
     
-    self.navigationItem.leftBarButtonItem.enabled = YES;
+    [self showMenu];
 }
 
 @end

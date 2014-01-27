@@ -10,6 +10,7 @@
 #import "MMeals.h"
 
 @class CompositeNutritionObject;
+@class OptionsViewController;
 
 @interface DiningMenuViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
@@ -18,6 +19,7 @@
 @property NSDate *selectedDate;
 
 @property (readonly) CompositeNutritionObject *nutritionObject;
+@property (weak) OptionsViewController *optionsViewController;
 
 -(void)setNutritionVisible:(BOOL)visible;
 -(void)addPanGestureToView:(UIView *)view;
