@@ -28,6 +28,8 @@
 		639E15491805E95D00835819 /* DiningMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 639E15481805E95D00835819 /* DiningMenuViewController.m */; };
 		63A23272180888E500353A6C /* DQNavigationBarLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A23271180888E500353A6C /* DQNavigationBarLabel.m */; };
 		63A2327D18089DC800353A6C /* NSDate+Increment.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A2327C18089DC800353A6C /* NSDate+Increment.m */; };
+		63AA1F49189C570400D1351B /* DQDateSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA1F48189C570400D1351B /* DQDateSlider.m */; };
+		63AA1F92189CC1F800D1351B /* BottomTrayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA1F91189CC1F800D1351B /* BottomTrayView.m */; };
 		63AEA1821895DC0200E5835D /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AEA1811895DC0200E5835D /* UserDefaults.m */; };
 		63B6931F185432AC0022CAE0 /* locationArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B6931D185432AC0022CAE0 /* locationArrow.png */; };
 		63B69320185432AC0022CAE0 /* locationArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B6931E185432AC0022CAE0 /* locationArrow@2x.png */; };
@@ -97,6 +99,10 @@
 		63A2327B18089DC800353A6C /* NSDate+Increment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Increment.h"; path = "Categories/NSDate+Increment.h"; sourceTree = "<group>"; };
 		63A2327C18089DC800353A6C /* NSDate+Increment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Increment.m"; path = "Categories/NSDate+Increment.m"; sourceTree = "<group>"; };
 		63A2327F1808AF4C00353A6C /* MMeals.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MMeals.xcodeproj; path = MMeals/MMeals.xcodeproj; sourceTree = "<group>"; };
+		63AA1F47189C570400D1351B /* DQDateSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DQDateSlider.h; path = Views/DQDateSlider.h; sourceTree = "<group>"; };
+		63AA1F48189C570400D1351B /* DQDateSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DQDateSlider.m; path = Views/DQDateSlider.m; sourceTree = "<group>"; };
+		63AA1F90189CC1F800D1351B /* BottomTrayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomTrayView.h; path = Views/BottomTrayView.h; sourceTree = "<group>"; };
+		63AA1F91189CC1F800D1351B /* BottomTrayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomTrayView.m; path = Views/BottomTrayView.m; sourceTree = "<group>"; };
 		63AEA1801895DC0200E5835D /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDefaults.h; path = Classes/UserDefaults.h; sourceTree = "<group>"; };
 		63AEA1811895DC0200E5835D /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDefaults.m; path = Classes/UserDefaults.m; sourceTree = "<group>"; };
 		63B6931D185432AC0022CAE0 /* locationArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locationArrow.png; path = Resources/locationArrow.png; sourceTree = "<group>"; };
@@ -304,6 +310,10 @@
 				63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */,
 				63A23270180888E500353A6C /* DQNavigationBarLabel.h */,
 				63A23271180888E500353A6C /* DQNavigationBarLabel.m */,
+				63AA1F47189C570400D1351B /* DQDateSlider.h */,
+				63AA1F48189C570400D1351B /* DQDateSlider.m */,
+				63AA1F90189CC1F800D1351B /* BottomTrayView.h */,
+				63AA1F91189CC1F800D1351B /* BottomTrayView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -449,6 +459,8 @@
 				63C6D738180A447E0012ABFF /* CompositeNutritionObject.m in Sources */,
 				639E15491805E95D00835819 /* DiningMenuViewController.m in Sources */,
 				639E151E1805E5E600835819 /* main.m in Sources */,
+				63AA1F49189C570400D1351B /* DQDateSlider.m in Sources */,
+				63AA1F92189CC1F800D1351B /* BottomTrayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
