@@ -388,7 +388,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Meal Nutrition" id="QTa-FZ-RTQ">
-                                        <barButtonItem key="leftBarButtonItem" title="Done" id="Svz-GA-oYi">
+                                        <barButtonItem key="leftBarButtonItem" title="Done" style="done" id="Svz-GA-oYi">
                                             <connections>
                                                 <action selector="dismiss:" destination="re4-wb-kNL" id="DAk-sg-VkK"/>
                                             </connections>

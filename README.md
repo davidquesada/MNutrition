@@ -14,3 +14,4 @@ Version numbers are the versions of the app on the App Store.
 
 ####Unreleased Changes
 - Removed South Quad
+- Fixed a memory leak
