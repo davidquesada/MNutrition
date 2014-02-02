@@ -253,6 +253,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Select Dining Hall and Date" id="GwE-da-Djt"/>
                     <connections>
+                        <outlet property="datePicker" destination="5on-JU-YEb" id="x8n-cJ-c2G"/>
                         <segue destination="vXZ-lx-hvc" kind="push" identifier="showMenu" id="tke-cm-yMd"/>
                     </connections>
                 </viewController>

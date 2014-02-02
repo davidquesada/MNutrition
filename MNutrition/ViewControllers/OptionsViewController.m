@@ -12,13 +12,14 @@
 #import "SVProgressHUD.h"
 #import "DiningMenuViewController.h"
 #import "UserDefaults.h"
+#import "DQDateSlider.h"
 
 @interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property NSArray *allDiningHalls;
 
 @property IBOutlet UISegmentedControl *mealTypeSegmentedControl;
-@property IBOutlet UIDatePicker *datePicker;
+@property IBOutlet DQDateSlider *datePicker;
 @property MMMealType shownMealType;
 @property BOOL hasLaunched;
 
