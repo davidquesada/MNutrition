@@ -20,6 +20,7 @@
 
 @property IBOutlet UISegmentedControl *mealTypeSegmentedControl;
 @property IBOutlet DQDateSlider *datePicker;
+@property(weak) IBOutlet UITableView *tableView;
 @property MMMealType shownMealType;
 @property BOOL hasLaunched;
 
@@ -127,6 +128,7 @@
         self.selectedDate = [NSDate date];
     self.datePicker.date = self.selectedDate;
     self.shownMealType = self.mealType;
+    [self.tableView reloadData];
 }
 
 /* Informs the given object that the receiver has chosen menu options. The listener argmuent is not required to implement any protocols, and if it doesn't, this method will send no other messages to the listener..
