@@ -18,7 +18,13 @@
 -(instancetype)initWithSpacing:(CGFloat)spacing color:(UIColor *)color insets:(UIEdgeInsets)insets;
 @end
 
-
+@interface PropertyCell : UITableViewCell
+@property NSString *label;
+@property NSString *suffix;
+@property NSString *propertyName;
+@property BOOL hidePercentage;
+-(void)showPropertyForNutritionObject:(id<DQNutritionObject>)object;
+@end
 
 typedef NS_ENUM(NSInteger, CellTag)
 {
@@ -90,8 +96,17 @@ typedef NS_ENUM(NSInteger, CellTag)
 {
     _nutritionInfo = nutritionInfo;
     
-    self.cells = [[NSMutableArray alloc] init];
-    [self createCells];
+    if (!self.cells)
+    {
+        self.cells = [[NSMutableArray alloc] init];
+        [self createCells];
+    }
+    for (PropertyCell *cell in self.cells)
+    {
+        if (![cell isKindOfClass:[PropertyCell class]])
+            continue;
+        [cell showPropertyForNutritionObject:nutritionInfo];
+    }
     [self.tableView reloadData];
 }
 
@@ -99,34 +114,16 @@ typedef NS_ENUM(NSInteger, CellTag)
 {
     if (suffix == nil)
         suffix = @"";
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"IM A CELL!"];
+    PropertyCell *cell = [[PropertyCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"IM A CELL!"];
     
-    
-    id attr1 = @{ NSFontAttributeName : self.primaryLabelFont, NSForegroundColorAttributeName : [UIColor blackColor] };
-    id attr2 = @{ NSFontAttributeName : self.valueFont, NSForegroundColorAttributeName : [UIColor darkGrayColor] };
-    
-    
+//    [cell showPropertyForNutritionObject:self.nutritionInfo];
+    cell.propertyName = propertyName;
+    cell.label = label;
+    cell.suffix = suffix;
     if (indented)
-    {
         cell.indentationLevel = 3;
-        attr1 = [attr1 mutableCopy];
-        attr1[NSFontAttributeName] = self.secondaryLabelFont;
-    }
-    
-    
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:label attributes:attr1];
-    
-    NSString *valueText = [NSString stringWithFormat:@"  %@%@", [[(id)self.nutritionInfo valueForKey:propertyName] description], suffix];
-    [string appendAttributedString:[[NSAttributedString alloc] initWithString:valueText attributes:attr2]];
-    cell.textLabel.attributedText = string;
     
     cell.tag = (indented ? CellTagSecondary : CellTagPrimary);
-    
-    int percent = [[[self nutritionInfo] percentages][propertyName] intValue];
-    if (percent)
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d%%", percent];
-    else
-        cell.detailTextLabel.text = @"0%";
     
     return cell;
 }
@@ -140,7 +137,7 @@ typedef NS_ENUM(NSInteger, CellTag)
 #define SEP(Height,Color,Left,Right) ADD([[SeparatorCell alloc] initWithSpacing:Height color:Color insets:UIEdgeInsetsMake(0,(Left),0,(Right))])
 #define SEPARATOR(Height,Color) ADD([[SeparatorCell alloc] initWithSpacing:Height color:Color insets:UIEdgeInsetsZero])
     
-#define REMOVE_DV() [[self.cells lastObject] detailTextLabel].text = nil
+#define REMOVE_DV() [[self.cells lastObject] setHidePercentage:YES]
     
     UITableViewCell *cell;
     
@@ -249,6 +246,58 @@ typedef NS_ENUM(NSInteger, CellTag)
         return 28;
     
     return 24;
+}
+
+@end
+
+@implementation PropertyCell
+
+-(UIFont *)primaryLabelFont
+{
+    UIFont *f = nil;
+    if (!f)
+        f = [UIFont boldSystemFontOfSize:18];
+    return f;
+}
+
+-(UIFont *)secondaryLabelFont
+{
+    UIFont *f = nil;
+    if (!f)
+        f = [UIFont systemFontOfSize:18];
+    return f;
+}
+
+-(UIFont *)valueFont
+{
+    UIFont *f = nil;
+    if (!f)
+        f = [UIFont systemFontOfSize:18];
+    return f;
+}
+
+-(void)showPropertyForNutritionObject:(id<DQNutritionObject>)object
+{
+    id attr1 = @{ NSFontAttributeName : self.primaryLabelFont, NSForegroundColorAttributeName : [UIColor blackColor] };
+    id attr2 = @{ NSFontAttributeName : self.valueFont, NSForegroundColorAttributeName : [UIColor darkGrayColor] };
+    
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.label attributes:attr1];
+    
+    NSString *valueText = [NSString stringWithFormat:@"  %@%@", [[(id)object valueForKey:self.propertyName] description], self.suffix];
+    [string appendAttributedString:[[NSAttributedString alloc] initWithString:valueText attributes:attr2]];
+    self.textLabel.attributedText = string;
+    
+    if (self.hidePercentage)
+        self.detailTextLabel.text = @"";
+    else
+    {
+        id percentObject = [object percentages][self.propertyName];
+        int percent = [percentObject intValue];
+        if (percent)
+            self.detailTextLabel.text = [NSString stringWithFormat:@"%d%%", percent];
+        else
+            self.detailTextLabel.text = @"0%";
+    }
 }
 
 @end
