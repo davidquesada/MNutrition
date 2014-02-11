@@ -511,11 +511,15 @@
 {
     self.selectedMenuItem = [self menuItemAtIndexPath:indexPath];
     
-    // If we push the detail view while the table view is editing,
-    NSTimeInterval delay = self.tableView.isEditing ? .6 : 0.0;
-    [tableView setEditing:NO animated:YES];
-    
-    [self performSelector:@selector(showMenuItem) withObject:nil afterDelay:delay];
+    if ([AppDelegate isIOS7])
+    {
+        // If we push the detail view while the table view is editing, there's a strange bug where the
+        // interactive pop gesture is disabled in the detail view controller.
+        NSTimeInterval delay = self.tableView.isEditing ? .6 : 0.0;
+        [tableView setEditing:NO animated:YES];
+        [self performSelector:@selector(showMenuItem) withObject:nil afterDelay:delay];
+    } else
+        [self showMenuItem];
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
