@@ -190,7 +190,7 @@
             </objects>
             <point key="canvasLocation" x="649" y="-312"/>
         </scene>
-        <!--Options View Controller - Select Dining Hall and Date-->
+        <!--Options View Controller - Dining Hall and Date-->
         <scene sceneID="IP3-tb-GWU">
             <objects>
                 <viewController id="kyj-ZI-g5w" customClass="OptionsViewController" sceneMemberID="viewController">
@@ -285,7 +285,7 @@ AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Select Dining Hall and Date" id="GwE-da-Djt">
+                    <navigationItem key="navigationItem" title="Dining Hall and Date" id="GwE-da-Djt">
                         <barButtonItem key="leftBarButtonItem" style="done" systemItem="done" id="q2H-hP-X7X">
                             <connections>
                                 <action selector="dismiss:" destination="kyj-ZI-g5w" id="QsX-YX-Sf1"/>
