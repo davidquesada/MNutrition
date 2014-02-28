@@ -445,6 +445,7 @@
     [self.selectedDiningHall clearCachedMenuInformationForDate:self.selectedDate];
     [self fetchMenuInformation:^{
         [self.refreshControl endRefreshing];
+        [self reloadMenu];
     }];
 }
 

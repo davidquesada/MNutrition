@@ -18,3 +18,7 @@ Version numbers are the versions of the app on the App Store.
 - Fixed crashes for iOS 5 devices
 - Fix some iOS 6 weirdness
 - Removed ugly gloss for legacy iOS.
+
+####Unreleased Changes
+- Fixed bug with when reloading menus.
+
