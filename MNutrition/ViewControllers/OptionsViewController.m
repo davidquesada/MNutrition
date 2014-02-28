@@ -22,6 +22,7 @@
 @property IBOutlet DQDateSlider *datePicker;
 @property(weak) IBOutlet UITableView *tableView;
 @property(weak) IBOutlet UIView *bottomTrayView;
+@property(weak) IBOutlet UIToolbar *toolbar;
 @property MMMealType shownMealType;
 @property BOOL hasLaunched;
 
@@ -48,8 +49,13 @@
         self.mealTypeSegmentedControl.selectedSegmentIndex = 2;
     
     [self continueToMenuIfPossible];
-    self.tableView.rowHeight = 49.5;
     
+    // Make some adjustments so that on a 4-inch screen, 8 items fit perfectly
+    // and the cell dividers don't interfere with the hairline border of the bottom view.
+    self.tableView.rowHeight = 49.5;
+    self.tableView.contentInset = UIEdgeInsetsMake(1, 0, -1, 0);
+    
+    // Give the legacy date slider (i.e. UIDatePicker) some more room. It wants to be 216 pt high.
     if ([_datePicker isLegacyDateSlider])
     {
         CGFloat diff = 162 - (self.bottomTrayView.frame.size.height - self.datePicker.frame.origin.y);
@@ -63,6 +69,11 @@
         f.origin.y -= diff;
         self.bottomTrayView.frame = f;
     }
+    
+    // The UIToolbar class puts the the segmented control too close to the top of the
+    // toolbar for my taste, so shift the toolbar down.
+    if ([AppDelegate isIOS7])
+        self.toolbar.frame = CGRectOffset(self.toolbar.bounds, 0, 4);
 }
 
 -(void)viewWillAppear:(BOOL)animated

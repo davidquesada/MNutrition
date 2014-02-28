@@ -40,7 +40,22 @@ BOOL ios6;
     if (!ios7)
     {
         [[UINavigationBar appearance] setTintColor:[UIColor blueColor]];
+    }
+    
+    if (ios6 && !ios7)
+    {
+//        [[UIToolbar appearance] setTintColor:[UIColor yellowColor]];
+        UIImage *img = [[UIImage alloc] init];
+        [[UIToolbar appearance] setBackgroundImage:img forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        [[UIToolbar appearance] setShadowImage:img forToolbarPosition:UIBarPositionAny];
         [[UISegmentedControl appearance] setTintColor:[UIColor darkGrayColor]];
+    }
+    
+    if (ios7)
+    {
+        UIImage *img = [[UIImage alloc] init];
+        [[UIToolbar appearance] setBackgroundImage:img forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        [[UIToolbar appearance] setShadowImage:img forToolbarPosition:UIBarPositionAny];
     }
     
     return YES;
