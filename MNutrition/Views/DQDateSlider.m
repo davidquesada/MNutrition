@@ -8,7 +8,7 @@
 
 #import "DQDateSlider.h"
 
-NSDate *referenceDate()
+static NSDate *referenceDate()
 {
     static NSDate *date = nil;
     if (!date)
@@ -179,7 +179,6 @@ static NSDate *dateFromIndex(int index)
     self.frame = self.frame;
     self.date = [NSDate date];
     [self.container reloadData];
-//    [self performSelector:@selector(refreshCellProgresses) withObject:nil afterDelay:.01];
 }
 
 -(void)setDate:(NSDate *)date animated:(BOOL)animated
@@ -209,13 +208,13 @@ static NSDate *dateFromIndex(int index)
 
 -(void)refreshCellProgresses
 {
-    CGFloat myCenter = self.bounds.size.width / 2;
-    id paths = self.container.indexPathsForVisibleItems;
-    for (NSIndexPath *indexPath in paths)
+    CGFloat width = self.bounds.size.width / 2;
+    CGFloat myCenter = width + _container.contentOffset.x;
+    
+    for (DQDateSliderCell *cell in _container.subviews)
     {
-        DQDateSliderCell *cell = (id)[self.container cellForItemAtIndexPath:indexPath];
-        CGFloat center = (cell.frame.origin.x + cell.frame.size.width/2 - self.container.contentOffset.x);
-        CGFloat progress = (center - myCenter) / myCenter;
+        CGFloat center = (cell.frame.origin.x + cell.frame.size.width/2);
+        CGFloat progress = (center - myCenter) / width;
         [cell setProgress:progress];
     }
 }
@@ -256,10 +255,12 @@ static NSDate *dateFromIndex(int index)
     x += diff;
     targetContentOffset->x = x;
     
-    
     NSIndexPath *ipForTargetRow = [self.container indexPathForItemAtPoint:*targetContentOffset];
-    NSDate *targetDate = dateFromIndex(ipForTargetRow.row);
-    NSLog(@"%@", targetDate);
+    
+    // I still don't understand why I need the +1.
+    NSDate *targetDate = dateFromIndex(ipForTargetRow.row + 1);
+    NSLog(@"Selecting (%d): %@", ipForTargetRow.row, targetDate);
+    _date = targetDate;
 }
 
 #pragma mark - UICollectionView
@@ -283,6 +284,8 @@ static NSDate *dateFromIndex(int index)
         [cell setProgress:1.0];
     else if (indexPath.row < _dateIndex)
         [cell setProgress:(-1.0)];
+    else
+        [cell setProgress:0];
     
     return cell;
 }
