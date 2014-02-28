@@ -40,6 +40,7 @@ BOOL ios6;
     if (!ios7)
     {
         [[UINavigationBar appearance] setTintColor:[UIColor blueColor]];
+        [[UISegmentedControl appearance] setTintColor:[UIColor darkGrayColor]];
     }
     
     return YES;
