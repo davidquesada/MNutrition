@@ -8,6 +8,8 @@
 
 #import "DQNutritionView.h"
 
+static BOOL useTextAttributesForDQNutritionView = NO;
+
 @interface SpacerCell : UITableViewCell
 @property CGFloat spacing;
 -(instancetype)initWithSpacing:(CGFloat)spacing;
@@ -90,6 +92,7 @@ typedef NS_ENUM(NSInteger, CellTag)
     self.primaryLabelFont = [UIFont boldSystemFontOfSize:18];
     self.secondaryLabelFont = [UIFont systemFontOfSize:18];
     self.valueFont = [UIFont systemFontOfSize:18];
+    useTextAttributesForDQNutritionView = [[[UIDevice currentDevice] systemVersion] intValue] >= 6;
 }
 
 -(void)setNutritionInfo:(id)nutritionInfo
@@ -202,6 +205,8 @@ typedef NS_ENUM(NSInteger, CellTag)
     DEFAULT_THIN_SEP();
     MAKE_CELL(@"protein", @"Protein", @" g", NO);
     REMOVE_DV();
+    
+    [self.cells setValue:@(UITableViewCellSelectionStyleNone) forKey:@"selectionStyle"];
 }
 
 #pragma mark - Appearance Properties
@@ -278,14 +283,32 @@ typedef NS_ENUM(NSInteger, CellTag)
 
 -(void)showPropertyForNutritionObject:(id<DQNutritionObject>)object
 {
-    id attr1 = @{ NSFontAttributeName : self.primaryLabelFont, NSForegroundColorAttributeName : [UIColor blackColor] };
-    id attr2 = @{ NSFontAttributeName : self.valueFont, NSForegroundColorAttributeName : [UIColor darkGrayColor] };
+    NSDictionary *attr1, *attr2;
     
-    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.label attributes:attr1];
-    
-    NSString *valueText = [NSString stringWithFormat:@"  %@%@", [[(id)object valueForKey:self.propertyName] description], self.suffix];
-    [string appendAttributedString:[[NSAttributedString alloc] initWithString:valueText attributes:attr2]];
-    self.textLabel.attributedText = string;
+    // These features are only available in iOS 6.0+
+    if (useTextAttributesForDQNutritionView)
+    {
+        attr1 = @{ NSFontAttributeName : self.primaryLabelFont, NSForegroundColorAttributeName : [UIColor blackColor] };
+        attr2 = @{ NSFontAttributeName : self.valueFont, NSForegroundColorAttributeName : [UIColor darkGrayColor] };
+    }
+    else
+    {
+        NSLog(@"Text attributes not available");
+        attr1 = attr2 = @{};
+    }
+
+    if (useTextAttributesForDQNutritionView)
+    {
+        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self.label attributes:attr1];
+
+        NSString *valueText = [NSString stringWithFormat:@"  %@%@", [[(id)object valueForKey:self.propertyName] description], self.suffix];
+        [string appendAttributedString:[[NSAttributedString alloc] initWithString:valueText attributes:attr2]];
+        self.textLabel.attributedText = string;
+    } else
+    {
+        NSString *valueText = [NSString stringWithFormat:@"%@: %@%@", self.label, [[(id)object valueForKey:self.propertyName] description], self.suffix];
+        self.textLabel.text = valueText;
+    }
     
     if (self.hidePercentage)
         self.detailTextLabel.text = @"";

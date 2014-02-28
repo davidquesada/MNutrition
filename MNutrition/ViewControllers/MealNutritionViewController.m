@@ -23,6 +23,13 @@
 {
     [super viewDidLoad];
     [self.diningMenu addPanGestureToView:self.navigationBar];
+    
+    // Sharing is not included in pre-ios6 SDK.
+    if (![AppDelegate isIOS6])
+    {
+        UINavigationItem *item = self.navigationBar.items.lastObject;
+        item.rightBarButtonItem = nil;
+    }
 }
 
 -(IBAction)dismiss:(id)sender

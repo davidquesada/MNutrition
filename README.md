@@ -12,6 +12,9 @@ Version numbers are the versions of the app on the App Store.
 ####v1.0.0
 - Initial Release
 
-####Unreleased Changes
+####v1.0.1
 - Removed South Quad
 - Fixed a memory leak
+- Fixed crashes for iOS 5 devices
+- Fix some iOS 6 weirdness
+- Removed ugly gloss for legacy iOS.
