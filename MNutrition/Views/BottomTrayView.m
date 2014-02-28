@@ -40,7 +40,7 @@
 -(void)addThings
 {
     UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, .5)];
-    borderView.backgroundColor = [UIColor lightGrayColor];
+    borderView.backgroundColor = [UIColor colorWithWhite:.75 alpha:1.0];
     [self addSubview:borderView];
 //    self.clipsToBounds = NO;
 //    self.layer.shadowColor = [UIColor blackColor].CGColor;

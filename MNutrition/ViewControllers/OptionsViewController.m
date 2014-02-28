@@ -47,6 +47,7 @@
         self.mealTypeSegmentedControl.selectedSegmentIndex = 2;
     
     [self continueToMenuIfPossible];
+    self.tableView.rowHeight = 49.5;
 }
 
 -(void)viewWillAppear:(BOOL)animated
