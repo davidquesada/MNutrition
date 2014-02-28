@@ -251,7 +251,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Select Dining Hall and Date" id="GwE-da-Djt"/>
+                    <navigationItem key="navigationItem" title="Dining Hall and Date" id="GwE-da-Djt"/>
                     <connections>
                         <outlet property="datePicker" destination="5on-JU-YEb" id="x8n-cJ-c2G"/>
                         <outlet property="mealTypeSegmentedControl" destination="LDq-78-t4y" id="Mgc-mb-3jf"/>
