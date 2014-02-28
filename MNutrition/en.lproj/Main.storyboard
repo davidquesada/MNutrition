@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5023" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="o4h-qv-7iD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="o4h-qv-7iD">
     <dependencies>
         <deployment defaultVersion="1280" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <scenes>
         <!--Dining Menu View Controller - Menu-->
@@ -232,7 +232,7 @@
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="LDq-78-t4y">
                                         <rect key="frame" x="10" y="10" width="300" height="31"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <segments>
                                             <segment title="Breakfast"/>
                                             <segment title="Lunch"/>
@@ -241,7 +241,7 @@
                                     </segmentedControl>
                                     <view contentMode="scaleToFill" id="5on-JU-YEb" customClass="DQDateSlider">
                                         <rect key="frame" x="0.0" y="49" width="320" height="61"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
@@ -253,6 +253,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Dining Hall and Date" id="GwE-da-Djt"/>
                     <connections>
+                        <outlet property="bottomTrayView" destination="63k-me-8Jn" id="Lt2-uk-Mhv"/>
                         <outlet property="datePicker" destination="5on-JU-YEb" id="x8n-cJ-c2G"/>
                         <outlet property="mealTypeSegmentedControl" destination="LDq-78-t4y" id="Mgc-mb-3jf"/>
                         <outlet property="tableView" destination="Z6f-ZG-YfP" id="Iic-Gl-Vdf"/>

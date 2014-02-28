@@ -7,6 +7,7 @@
 //
 
 #import "DQDateSlider.h"
+#import "DQDateSlider5.h"
 
 static NSDate *referenceDate()
 {
@@ -129,7 +130,14 @@ static NSDate *dateFromIndex(int index)
 
 @implementation DQDateSlider
 
-- (id)init
++(id)alloc
+{
+    if ([UIDevice currentDevice].systemVersion.intValue < 6)
+        return (DQDateSlider *)[DQDateSlider5 alloc];
+    return [super alloc];
+}
+
+-(id)init
 {
     self = [super init];
     if (self) {
@@ -228,6 +236,11 @@ static NSDate *dateFromIndex(int index)
 -(void)setDate:(NSDate *)date
 {
     [self setDate:date animated:NO];
+}
+
+-(BOOL)isLegacyDateSlider
+{
+    return NO;
 }
 
 #pragma mark - UIScrollView

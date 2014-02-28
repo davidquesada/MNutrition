@@ -33,6 +33,7 @@
 		63AEA1821895DC0200E5835D /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AEA1811895DC0200E5835D /* UserDefaults.m */; };
 		63B6931F185432AC0022CAE0 /* locationArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B6931D185432AC0022CAE0 /* locationArrow.png */; };
 		63B69320185432AC0022CAE0 /* locationArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B6931E185432AC0022CAE0 /* locationArrow@2x.png */; };
+		63B9610718C1286200869AFE /* DQDateSlider5.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B9610618C1286200869AFE /* DQDateSlider5.m */; };
 		63C6D728180921450012ABFF /* libMMeals.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A232851808AF4C00353A6C /* libMMeals.a */; };
 		63C6D72D1809A80E0012ABFF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C6D72C1809A80E0012ABFF /* CoreLocation.framework */; };
 		63C6D738180A447E0012ABFF /* CompositeNutritionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C6D737180A447E0012ABFF /* CompositeNutritionObject.m */; };
@@ -107,6 +108,8 @@
 		63AEA1811895DC0200E5835D /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDefaults.m; path = Classes/UserDefaults.m; sourceTree = "<group>"; };
 		63B6931D185432AC0022CAE0 /* locationArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locationArrow.png; path = Resources/locationArrow.png; sourceTree = "<group>"; };
 		63B6931E185432AC0022CAE0 /* locationArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "locationArrow@2x.png"; path = "Resources/locationArrow@2x.png"; sourceTree = "<group>"; };
+		63B9610518C1286200869AFE /* DQDateSlider5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DQDateSlider5.h; path = Views/DQDateSlider5.h; sourceTree = "<group>"; };
+		63B9610618C1286200869AFE /* DQDateSlider5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DQDateSlider5.m; path = Views/DQDateSlider5.m; sourceTree = "<group>"; };
 		63C6D72C1809A80E0012ABFF /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		63C6D734180A44290012ABFF /* DQNutritionObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DQNutritionObject.h; path = Protocols/DQNutritionObject.h; sourceTree = "<group>"; };
 		63C6D736180A447E0012ABFF /* CompositeNutritionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CompositeNutritionObject.h; path = Classes/CompositeNutritionObject.h; sourceTree = "<group>"; };
@@ -314,6 +317,8 @@
 				63AA1F48189C570400D1351B /* DQDateSlider.m */,
 				63AA1F90189CC1F800D1351B /* BottomTrayView.h */,
 				63AA1F91189CC1F800D1351B /* BottomTrayView.m */,
+				63B9610518C1286200869AFE /* DQDateSlider5.h */,
+				63B9610618C1286200869AFE /* DQDateSlider5.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -445,6 +450,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				638955BF180A7CEA00C91C28 /* TableViewCellBaseCell.m in Sources */,
+				63B9610718C1286200869AFE /* DQDateSlider5.m in Sources */,
 				63AEA1821895DC0200E5835D /* UserDefaults.m in Sources */,
 				639E15221805E5E600835819 /* AppDelegate.m in Sources */,
 				63A2327D18089DC800353A6C /* NSDate+Increment.m in Sources */,

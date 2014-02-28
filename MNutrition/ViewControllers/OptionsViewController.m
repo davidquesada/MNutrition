@@ -21,6 +21,7 @@
 @property IBOutlet UISegmentedControl *mealTypeSegmentedControl;
 @property IBOutlet DQDateSlider *datePicker;
 @property(weak) IBOutlet UITableView *tableView;
+@property(weak) IBOutlet UIView *bottomTrayView;
 @property MMMealType shownMealType;
 @property BOOL hasLaunched;
 
@@ -48,6 +49,20 @@
     
     [self continueToMenuIfPossible];
     self.tableView.rowHeight = 49.5;
+    
+    if ([_datePicker isLegacyDateSlider])
+    {
+        CGFloat diff = 162 - (self.bottomTrayView.frame.size.height - self.datePicker.frame.origin.y);
+        
+        CGRect f = self.tableView.frame;
+        f.size.height -= diff;
+        self.tableView.frame = f;
+        
+        f = self.bottomTrayView.frame;
+        f.size.height += diff;
+        f.origin.y -= diff;
+        self.bottomTrayView.frame = f;
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated

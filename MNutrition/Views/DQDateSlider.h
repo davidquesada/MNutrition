@@ -11,7 +11,8 @@
 @interface DQDateSlider : UIView
 
 @property NSDate *date;
-
 -(void)setDate:(NSDate *)date animated:(BOOL)animated;
+
+-(BOOL)isLegacyDateSlider;
 
 @end
