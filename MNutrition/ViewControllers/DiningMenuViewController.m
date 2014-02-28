@@ -22,6 +22,13 @@
 #import "UserDefaults.h"
 
 @interface DiningMenuViewController ()<OptionsViewControllerDelegate, CLLocationManagerDelegate>
+{
+    BOOL _hasNotice;
+    
+    UIView *_noticeView;
+    UILabel *_noticeLabel;
+    UIColor *_noticeBackgroundColor;
+}
 
 @property NSArray *courses;
 @property NSArray *previousCourses;
@@ -47,6 +54,8 @@
 
 @property(weak) MMMenuItem *selectedMenuItem;
 @property   UIRefreshControl *refreshControl;
+
+-(void)setNotice:(NSString *)notice reloadTableView:(BOOL)reload;
 
 @end
 
@@ -140,7 +149,21 @@
     
     self.navBarLabel.text = self.selectedDiningHall.name;
     self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
-    self.courses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
+    NSArray *newCourses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
+    
+    // TODO: We could probably move the "notice" functionality to the MMeals library, rather than
+    // extracting the notices in the application, like we do here.
+    _hasNotice = [[[newCourses firstObject] name] isEqualToString:@"notice"];
+    if (_hasNotice)
+    {
+        NSString *notice = [[[[newCourses firstObject] items] firstObject] name];
+        [self setNotice:notice reloadTableView:NO];
+    } else
+    {
+        [self setNotice:nil reloadTableView:NO];
+    }
+    
+    self.courses = newCourses;
     [self.tableView reloadData];
     
     if (self.courses != self.previousCourses)
@@ -152,6 +175,47 @@
     [SVProgressHUD dismiss];
     
     [self.tableView scrollRectToVisible:CGRectMake(0, 44, 1, 1) animated:NO];
+}
+
+-(void)setNotice:(NSString *)notice reloadTableView:(BOOL)reload
+{
+    if (!_noticeView)
+    {
+        _noticeView = [[UIView alloc] initWithFrame:CGRectZero];
+        
+        _noticeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _noticeLabel.numberOfLines = 0;
+        _noticeLabel.font = [UIFont systemFontOfSize:22];
+        _noticeLabel.textColor = [UIColor grayColor];
+        _noticeLabel.textAlignment = NSTextAlignmentCenter;
+        _noticeLabel.backgroundColor = [UIColor clearColor];
+        [_noticeView addSubview:_noticeLabel];
+        _noticeBackgroundColor = [UIColor colorWithWhite:.9 alpha:1.0];
+    }
+    
+    if (notice.length)
+    {
+        // Resize the views.
+        _noticeView.frame = UIEdgeInsetsInsetRect(_tableView.bounds, _tableView.contentInset);
+        _noticeLabel.frame = UIEdgeInsetsInsetRect(_noticeView.bounds, UIEdgeInsetsMake(0, 30, _noticeView.bounds.size.height / 4, 30));
+        
+        _noticeLabel.text = notice;
+        _tableView.tableHeaderView = _noticeView;
+        
+        self.tableView.backgroundColor = _noticeBackgroundColor;
+        self.refreshControl.backgroundColor = _noticeBackgroundColor;
+        
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
+    else
+    {
+        self.tableView.tableHeaderView = nil;
+        self.tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }
+    
+    if (reload)
+        [self.tableView reloadData];
 }
 
 -(void)updateNutritionDisplays
@@ -479,6 +543,8 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (_hasNotice)
+        return 0;
     return self.courses.count;
 }
 
