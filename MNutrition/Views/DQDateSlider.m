@@ -25,11 +25,15 @@ static int indexFromDate(NSDate *date)
 }
 static NSDate *dateFromIndex(int index)
 {
-    NSDateComponents *dayComponent = [[NSDateComponents alloc] init];
-    dayComponent.day = index;
+    static NSCalendar *cal = nil;
+    if (!cal)
+        cal = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
+    dateComponents.year = 1970;
+    dateComponents.month = 1;
+    dateComponents.day = 1 + index;
     
-    NSCalendar *theCalendar = [NSCalendar currentCalendar];
-    return [theCalendar dateByAddingComponents:dayComponent toDate:referenceDate() options:0];
+    return [cal dateFromComponents:dateComponents];
 }
 
 @interface DQDateSliderCell : UICollectionViewCell
