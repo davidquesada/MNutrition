@@ -117,6 +117,11 @@
         [self performSegueWithIdentifier:@"showOptions" sender:nil];
 }
 
+-(void)dealloc
+{
+    [self.mealNutrition.view removeFromSuperview];
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"showOptions"])
@@ -715,7 +720,6 @@
     
     CGRect rect = superview.frame;
     rect.origin = CGPointMake(0, rect.size.height - menu.footerView.frame.size.height);
-//    rect.origin = [menu.footerView convertPoint:CGPointZero toView:superview];
     
     nutrition.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
