@@ -56,6 +56,7 @@
 @property   UIRefreshControl *refreshControl;
 
 -(void)setNotice:(NSString *)notice reloadTableView:(BOOL)reload;
+-(void)updateNavBarLabel;
 
 @end
 
@@ -70,7 +71,7 @@
     
     self.navBarLabel = [[DQNavigationBarLabel alloc] init];
     self.navigationItem.titleView = self.navBarLabel;
-    self.navBarLabel.text = @"BlueMenu";
+    [self updateNavBarLabel];
     
     self.locationManager = [[CLLocationManager alloc] init];
     
@@ -139,16 +140,7 @@
 
 -(void)reloadMenu
 {
-    static NSDateFormatter *formatter;
-    
-    if (!formatter)
-    {
-        formatter = [[NSDateFormatter alloc] init];
-        formatter.dateStyle = NSDateFormatterMediumStyle;
-    }
-    
-    self.navBarLabel.text = self.selectedDiningHall.name;
-    self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
+    [self updateNavBarLabel];
     NSArray *newCourses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
     
     // TODO: We could probably move the "notice" functionality to the MMeals library, rather than
@@ -227,6 +219,18 @@
     
     if (reload)
         [self.tableView reloadData];
+}
+
+-(void)updateNavBarLabel
+{
+    static NSDateFormatter *formatter;
+    if (!formatter)
+    {
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.dateStyle = NSDateFormatterMediumStyle;
+    }
+    self.navBarLabel.text = self.selectedDiningHall.name;
+    self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
 }
 
 -(void)updateNutritionDisplays
