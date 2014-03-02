@@ -276,7 +276,6 @@ static NSDate *dateFromIndex(int index)
     
     // I still don't understand why I need the +1.
     NSDate *targetDate = dateFromIndex(ipForTargetRow.row + 1);
-    NSLog(@"Selecting (%d): %@", ipForTargetRow.row, targetDate);
     _date = targetDate;
 }
 
