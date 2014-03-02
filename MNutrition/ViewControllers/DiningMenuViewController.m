@@ -211,6 +211,7 @@
     {
         self.tableView.tableHeaderView = nil;
         self.tableView.backgroundColor = [UIColor whiteColor];
+        self.refreshControl.backgroundColor = [UIColor whiteColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     }
     
