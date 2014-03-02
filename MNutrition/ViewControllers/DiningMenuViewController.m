@@ -156,12 +156,19 @@
     _hasNotice = [[[newCourses firstObject] name] isEqualToString:@"notice"];
     if (_hasNotice)
     {
+        // UUUUUUGLY!
+        // New challenge to self. Beat 4 square brackets. I won't be
+        // satisfied until I see '[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[['
+        // used legitimately in a project.
         NSString *notice = [[[[newCourses firstObject] items] firstObject] name];
         [self setNotice:notice reloadTableView:NO];
     } else
     {
         [self setNotice:nil reloadTableView:NO];
     }
+    
+    if (!newCourses.count)
+        [self setNotice:@"Unable to load menu." reloadTableView:NO];
     
     self.courses = newCourses;
     [self.tableView reloadData];
@@ -195,6 +202,8 @@
     
     if (notice.length)
     {
+        _hasNotice = YES;
+        
         // Resize the views.
         _noticeView.frame = UIEdgeInsetsInsetRect(_tableView.bounds, _tableView.contentInset);
         _noticeLabel.frame = UIEdgeInsetsInsetRect(_noticeView.bounds, UIEdgeInsetsMake(0, 30, _noticeView.bounds.size.height / 4, 30));
@@ -209,6 +218,7 @@
     }
     else
     {
+        _hasNotice = NO;
         self.tableView.tableHeaderView = nil;
         self.tableView.backgroundColor = [UIColor whiteColor];
         self.refreshControl.backgroundColor = [UIColor whiteColor];
