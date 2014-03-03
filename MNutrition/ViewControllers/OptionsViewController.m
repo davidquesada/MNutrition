@@ -10,13 +10,21 @@
 #import "AppDelegate.h"
 #import "MMeals.h"
 #import "SVProgressHUD.h"
+#import "DiningMenuViewController.h"
+#import "UserDefaults.h"
+#import "DQDateSlider.h"
 
 @interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property NSArray *allDiningHalls;
 
 @property IBOutlet UISegmentedControl *mealTypeSegmentedControl;
-@property IBOutlet UIDatePicker *datePicker;
+@property IBOutlet DQDateSlider *datePicker;
+@property(weak) IBOutlet UITableView *tableView;
+@property(weak) IBOutlet UIView *bottomTrayView;
+@property(weak) IBOutlet UIToolbar *toolbar;
+@property MMMealType shownMealType;
+@property BOOL hasLaunched;
 
 @end
 
@@ -39,6 +47,56 @@
         self.mealTypeSegmentedControl.selectedSegmentIndex = 1;
     else if (self.mealType == MMMealTypeDinner)
         self.mealTypeSegmentedControl.selectedSegmentIndex = 2;
+    
+    [self continueToMenuIfPossible];
+    
+    // Make some adjustments so that on a 4-inch screen, 8 items fit perfectly
+    // and the cell dividers don't interfere with the hairline border of the bottom view.
+    if ([UIScreen mainScreen].scale > 1.9)
+        self.tableView.rowHeight = 49.5;
+    self.tableView.contentInset = UIEdgeInsetsMake(1, 0, -1, 0);
+    
+    // Give the legacy date slider (i.e. UIDatePicker) some more room. It wants to be 216 pt high.
+    if ([_datePicker isLegacyDateSlider])
+    {
+        CGFloat diff = 162 - (self.bottomTrayView.frame.size.height - self.datePicker.frame.origin.y);
+        
+        CGRect f = self.tableView.frame;
+        f.size.height -= diff;
+        self.tableView.frame = f;
+        
+        f = self.bottomTrayView.frame;
+        f.size.height += diff;
+        f.origin.y -= diff;
+        self.bottomTrayView.frame = f;
+    }
+    
+    // The UIToolbar class puts the the segmented control too close to the top of the
+    // toolbar for my taste, so shift the toolbar down.
+    if ([AppDelegate isIOS7])
+        self.toolbar.frame = CGRectOffset(self.toolbar.bounds, 0, 4);
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self writeOptionsToUI];
+}
+
+-(void)continueToMenuIfPossible
+{
+    // Only do this once.
+    if (self.hasLaunched)
+        return;
+    self.hasLaunched = YES;
+    
+    UserDefaults *manager = [UserDefaults defaultManager];
+    if (![manager readFromUserDefaults])
+        return;
+    self.selectedDate = manager.date;
+    self.selectedDiningHall = manager.diningHall;
+    self.mealType = manager.mealType;
+    [self showMenu];
 }
 
 -(void)downloadMenu:(void (^)())completion
@@ -70,11 +128,78 @@
     [self downloadMenu:^{
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
-        if ([self.delegate respondsToSelector:@selector(optionsViewControllerWillDismiss:)])
-            [self.delegate optionsViewControllerWillDismiss:self];
+        if ([self.delegate respondsToSelector:@selector(optionsViewControllerDidChooseOptions:)])
+            [self.delegate optionsViewControllerDidChooseOptions:self];
         
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
+}
+
+-(void)showMenu
+{
+    [self performSegueWithIdentifier:@"showMenu" sender:nil];
+}
+
+-(void)writeUIToOptions
+{
+    self.selectedDate = self.datePicker.date;
+    if (!self.selectedDate)
+        self.selectedDate = [NSDate date];
+    self.mealType = self.shownMealType;
+    
+    // It's not necessary to assign self.selectedDiningHall to itself.
+}
+
+-(void)writeOptionsToUI
+{
+    if (!self.selectedDate)
+        self.selectedDate = [NSDate date];
+    self.datePicker.date = self.selectedDate;
+    self.shownMealType = self.mealType;
+    [self.tableView reloadData];
+}
+
+/* Informs the given object that the receiver has chosen menu options. The listener argmuent is not required to implement any protocols, and if it doesn't, this method will send no other messages to the listener..
+ */
+-(void)reportDidChooseOptionsToPotentialListener:(id)listener
+{
+    [self writeUIToOptions];
+    if (![listener respondsToSelector:@selector(optionsViewControllerDidChooseOptions:)])
+        return;
+    [listener optionsViewControllerDidChooseOptions:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    id destination = segue.destinationViewController;
+    [self reportDidChooseOptionsToPotentialListener:destination];
+    
+    if ([destination isKindOfClass:[DiningMenuViewController class]])
+        [destination setOptionsViewController:self];
+}
+
+-(MMMealType)shownMealType
+{
+    switch (self.mealTypeSegmentedControl.selectedSegmentIndex)
+    {
+        case 0: return MMMealTypeBreakfast;
+        case 1: return MMMealTypeLunch;
+        case 2: return MMMealTypeDinner;
+        default: return MMMealTypeNone;
+    }
+}
+
+-(void)setShownMealType:(MMMealType)shownMealType
+{
+    int val = 0;
+    switch (shownMealType)
+    {
+        case MMMealTypeBreakfast: val = 0; break;
+        case MMMealTypeLunch: val = 1; break;
+        case MMMealTypeDinner: val = 2; break;
+        default: break;
+    }
+    self.mealTypeSegmentedControl.selectedSegmentIndex = val;
 }
 
 #pragma mark - UITableViewDataSource / Delegate Methods
@@ -91,9 +216,9 @@
     cell.textLabel.text = hall.name;
     
     if (hall == self.selectedDiningHall)
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        cell.textLabel.textColor = [UIColor blueColor];
     else
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.textColor = [UIColor blackColor];
     
     return cell;
 }
@@ -105,7 +230,7 @@
     
     [tableView reloadRowsAtIndexPaths:[tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
     
-    self.navigationItem.leftBarButtonItem.enabled = YES;
+    [self showMenu];
 }
 
 @end

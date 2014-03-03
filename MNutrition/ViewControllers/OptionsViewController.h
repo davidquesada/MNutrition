@@ -13,7 +13,7 @@
 
 @protocol OptionsViewControllerDelegate <NSObject>
 @optional
--(void)optionsViewControllerWillDismiss:(OptionsViewController *)controller;
+-(void)optionsViewControllerDidChooseOptions:(OptionsViewController *)controller;
 @end
 
 @interface OptionsViewController : UIViewController

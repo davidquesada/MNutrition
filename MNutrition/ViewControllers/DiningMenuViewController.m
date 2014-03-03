@@ -22,6 +22,13 @@
 #import "UserDefaults.h"
 
 @interface DiningMenuViewController ()<OptionsViewControllerDelegate, CLLocationManagerDelegate>
+{
+    BOOL _hasNotice;
+    
+    UIView *_noticeView;
+    UILabel *_noticeLabel;
+    UIColor *_noticeBackgroundColor;
+}
 
 @property NSArray *courses;
 @property NSArray *previousCourses;
@@ -48,6 +55,9 @@
 @property(weak) MMMenuItem *selectedMenuItem;
 @property   UIRefreshControl *refreshControl;
 
+-(void)setNotice:(NSString *)notice reloadTableView:(BOOL)reload;
+-(void)updateNavBarLabel;
+
 @end
 
 @implementation DiningMenuViewController
@@ -61,7 +71,7 @@
     
     self.navBarLabel = [[DQNavigationBarLabel alloc] init];
     self.navigationItem.titleView = self.navBarLabel;
-    self.navBarLabel.text = @"BlueMenu";
+    [self updateNavBarLabel];
     
     self.locationManager = [[CLLocationManager alloc] init];
     
@@ -107,6 +117,11 @@
         [self performSegueWithIdentifier:@"showOptions" sender:nil];
 }
 
+-(void)dealloc
+{
+    [self.mealNutrition.view removeFromSuperview];
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"showOptions"])
@@ -130,17 +145,29 @@
 
 -(void)reloadMenu
 {
-    static NSDateFormatter *formatter;
+    [self updateNavBarLabel];
+    NSArray *newCourses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
     
-    if (!formatter)
+    // TODO: We could probably move the "notice" functionality to the MMeals library, rather than
+    // extracting the notices in the application, like we do here.
+    _hasNotice = [[[newCourses firstObject] name] isEqualToString:@"notice"];
+    if (_hasNotice)
     {
-        formatter = [[NSDateFormatter alloc] init];
-        formatter.dateStyle = NSDateFormatterMediumStyle;
+        // UUUUUUGLY!
+        // New challenge to self. Beat 4 square brackets. I won't be
+        // satisfied until I see '[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[['
+        // used legitimately in a project.
+        NSString *notice = [[[[newCourses firstObject] items] firstObject] name];
+        [self setNotice:notice reloadTableView:NO];
+    } else
+    {
+        [self setNotice:nil reloadTableView:NO];
     }
     
-    self.navBarLabel.text = self.selectedDiningHall.name;
-    self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
-    self.courses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
+    if (!newCourses.count)
+        [self setNotice:@"Unable to load menu." reloadTableView:NO];
+    
+    self.courses = newCourses;
     [self.tableView reloadData];
     
     if (self.courses != self.previousCourses)
@@ -152,6 +179,63 @@
     [SVProgressHUD dismiss];
     
     [self.tableView scrollRectToVisible:CGRectMake(0, 44, 1, 1) animated:NO];
+}
+
+-(void)setNotice:(NSString *)notice reloadTableView:(BOOL)reload
+{
+    if (!_noticeView)
+    {
+        _noticeView = [[UIView alloc] initWithFrame:CGRectZero];
+        
+        _noticeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _noticeLabel.numberOfLines = 0;
+        _noticeLabel.font = [UIFont systemFontOfSize:22];
+        _noticeLabel.textColor = [UIColor grayColor];
+        _noticeLabel.textAlignment = NSTextAlignmentCenter;
+        _noticeLabel.backgroundColor = [UIColor clearColor];
+        [_noticeView addSubview:_noticeLabel];
+        _noticeBackgroundColor = [UIColor colorWithWhite:.9 alpha:1.0];
+    }
+    
+    if (notice.length)
+    {
+        _hasNotice = YES;
+        
+        // Resize the views.
+        _noticeView.frame = UIEdgeInsetsInsetRect(_tableView.bounds, _tableView.contentInset);
+        _noticeLabel.frame = UIEdgeInsetsInsetRect(_noticeView.bounds, UIEdgeInsetsMake(0, 30, _noticeView.bounds.size.height / 4, 30));
+        
+        _noticeLabel.text = notice;
+        _tableView.tableHeaderView = _noticeView;
+        
+        self.tableView.backgroundColor = _noticeBackgroundColor;
+        self.refreshControl.backgroundColor = _noticeBackgroundColor;
+        
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
+    else
+    {
+        _hasNotice = NO;
+        self.tableView.tableHeaderView = nil;
+        self.tableView.backgroundColor = [UIColor whiteColor];
+        self.refreshControl.backgroundColor = [UIColor whiteColor];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }
+    
+    if (reload)
+        [self.tableView reloadData];
+}
+
+-(void)updateNavBarLabel
+{
+    static NSDateFormatter *formatter;
+    if (!formatter)
+    {
+        formatter = [[NSDateFormatter alloc] init];
+        formatter.dateStyle = NSDateFormatterMediumStyle;
+    }
+    self.navBarLabel.text = self.selectedDiningHall.name;
+    self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
 }
 
 -(void)updateNutritionDisplays
@@ -341,11 +425,6 @@
     }];
 }
 
--(IBAction)showMealNutrition:(id)sender
-{
-    [self setNutritionVisible:YES];
-}
-
 -(void)fetchMenuInformation:(void (^)())completion
 {
     id data = [self.selectedDiningHall menuInformationForDate:self.selectedDate];
@@ -364,6 +443,42 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         completion();
     }];
+}
+
+-(void)refresh:(id)sender
+{
+    [self.selectedDiningHall clearCachedMenuInformationForDate:self.selectedDate];
+    [self fetchMenuInformation:^{
+        [self.refreshControl endRefreshing];
+        [self reloadMenu];
+    }];
+}
+
+-(MMMenuItem *)menuItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self.courses[indexPath.section] items][indexPath.row];
+}
+
+#pragma mark - IBActions
+
+-(IBAction)goToCurrentMeal:(id)sender
+{
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted)
+    {
+        self.selectedDate = [NSDate date];
+        self.mealType = MMMealTypeFromTime(self.selectedDate);
+        [self writeMenuSettingsToUserDefaults];
+        
+        [self fetchMenuInformation:^{
+            [self reloadMenu];
+        }];
+        return;
+    }
+    
+    [self.locationManager startUpdatingLocation];
 }
 
 -(IBAction)moveToNextMeal:(id)sender
@@ -397,7 +512,7 @@
 {
     if (self.mealType == MMMealTypeBreakfast)
         self.selectedDate = [self.selectedDate previousDay];
-
+    
     switch (self.mealType)
     {
         case MMMealTypeBreakfast:
@@ -420,38 +535,17 @@
     }];
 }
 
--(IBAction)goToCurrentMeal:(id)sender
+-(IBAction)showMealNutrition:(id)sender
 {
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted)
-    {
-        self.selectedDate = [NSDate date];
-        self.mealType = MMMealTypeFromTime(self.selectedDate);
-        [self writeMenuSettingsToUserDefaults];
-        
-        [self fetchMenuInformation:^{
-            [self reloadMenu];
-        }];
-        return;
-    }
-
-    [self.locationManager startUpdatingLocation];
+    [self setNutritionVisible:YES];
 }
 
--(void)refresh:(id)sender
+-(IBAction)showOptions:(id)sender
 {
-    [self.selectedDiningHall clearCachedMenuInformationForDate:self.selectedDate];
-    [self fetchMenuInformation:^{
-        [self.refreshControl endRefreshing];
-        [self reloadMenu];
-    }];
-}
-
--(MMMenuItem *)menuItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return [self.courses[indexPath.section] items][indexPath.row];
+    self.optionsViewController.selectedDate = self.selectedDate;
+    self.optionsViewController.selectedDiningHall = self.selectedDiningHall;
+    self.optionsViewController.mealType = self.mealType;
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark - UITableView
@@ -470,6 +564,8 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (_hasNotice)
+        return 0;
     return self.courses.count;
 }
 
@@ -593,7 +689,7 @@
 
 #pragma mark - OptionsViewControllerDelegate Methods
 
--(void)optionsViewControllerWillDismiss:(OptionsViewController *)controller
+-(void)optionsViewControllerDidChooseOptions:(OptionsViewController *)controller
 {
     self.selectedDiningHall = controller.selectedDiningHall;
     self.selectedDate = controller.selectedDate;
@@ -624,7 +720,6 @@
     
     CGRect rect = superview.frame;
     rect.origin = CGPointMake(0, rect.size.height - menu.footerView.frame.size.height);
-//    rect.origin = [menu.footerView convertPoint:CGPointZero toView:superview];
     
     nutrition.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
