@@ -96,6 +96,7 @@
     self.selectedDate = manager.date;
     self.selectedDiningHall = manager.diningHall;
     self.mealType = manager.mealType;
+    [self writeOptionsToUI];
     [self showMenu];
 }
 

@@ -75,7 +75,7 @@
     
     self.locationManager = [[CLLocationManager alloc] init];
     
-    [self restoreMenuSettingsFromUserDefaults];
+    //[self restoreMenuSettingsFromUserDefaults];
     self.nutritionObject = [[CompositeNutritionObject alloc] init];
     
     [self updateNutritionDisplays];

@@ -45,7 +45,8 @@
     if (diningHallType == nil || diningHallType == [NSNull null])
         return NO;
     
-    self.date = payload[@"date"];
+//    self.date = payload[@"date"];
+    self.date = [NSDate date];
     self.mealType = (MMMealType)[payload[@"mealType"] intValue];
     self.diningHall = [MMDiningHall diningHallOfType:(MMDiningHallType)[diningHallType intValue]];
     
