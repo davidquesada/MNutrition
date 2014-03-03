@@ -21,4 +21,5 @@ Version numbers are the versions of the app on the App Store.
 
 ####Unreleased Changes
 - Fixed bug with when reloading menus.
-
+- Fixed a memory leak.
+- UI Improvements.
