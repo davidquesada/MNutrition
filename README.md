@@ -19,7 +19,8 @@ Version numbers are the versions of the app on the App Store.
 - Fix some iOS 6 weirdness
 - Removed ugly gloss for legacy iOS.
 
-####Unreleased Changes
+####v1.1.0
 - Fixed bug with when reloading menus.
 - Fixed a memory leak.
 - UI Improvements.
+- Add network timeout for purposes of crappy network.
