@@ -76,6 +76,7 @@ typedef NS_ENUM(NSInteger, CellTag)
     self.tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self addSubview:self.tableView];
     
     if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)])

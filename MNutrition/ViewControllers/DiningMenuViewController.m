@@ -58,6 +58,8 @@
 -(void)setNotice:(NSString *)notice reloadTableView:(BOOL)reload;
 -(void)updateNavBarLabel;
 
+-(void)showOptionsViewController;
+
 @end
 
 @implementation DiningMenuViewController
@@ -114,12 +116,19 @@
     [super viewDidAppear:animated];
     
     if (self.selectedDiningHall == nil)
-        [self performSegueWithIdentifier:@"showOptions" sender:nil];
+        [self showOptionsViewController];
 }
 
 -(void)dealloc
 {
     [self.mealNutrition.view removeFromSuperview];
+}
+
+-(void)showOptionsViewController
+{
+    // We don't need to do anything if we're on iPad, because the options are always visible.
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [self performSegueWithIdentifier:@"showOptions" sender:nil];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

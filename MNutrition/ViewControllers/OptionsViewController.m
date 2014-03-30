@@ -14,7 +14,7 @@
 #import "UserDefaults.h"
 #import "DQDateSlider.h"
 
-@interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate, UISplitViewControllerDelegate>
 
 @property NSArray *allDiningHalls;
 
@@ -48,6 +48,12 @@
     else if (self.mealType == MMMealTypeDinner)
         self.mealTypeSegmentedControl.selectedSegmentIndex = 2;
     
+    if (self.splitViewController)
+    {
+        // WOO!
+        self.delegate = (id)[[[[[self splitViewController] viewControllers] lastObject] viewControllers] lastObject];
+    }
+    
     [self continueToMenuIfPossible];
     
     // Make some adjustments so that on a 4-inch screen, 8 items fit perfectly
@@ -75,6 +81,8 @@
     // toolbar for my taste, so shift the toolbar down.
     if ([AppDelegate isIOS7])
         self.toolbar.frame = CGRectOffset(self.toolbar.bounds, 0, 4);
+    
+    self.splitViewController.delegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -138,7 +146,16 @@
 
 -(void)showMenu
 {
-    [self performSegueWithIdentifier:@"showMenu" sender:nil];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        [self performSegueWithIdentifier:@"showMenu" sender:nil];
+    else
+    {
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
+        [self downloadMenu:^{
+            [SVProgressHUD dismiss];
+            [self reportDidChooseOptionsToPotentialListener:self.delegate];
+        }];
+    }
 }
 
 -(void)writeUIToOptions
@@ -180,6 +197,10 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     id destination = segue.destinationViewController;
+    
+    if ([destination isKindOfClass:[UINavigationController class]])
+        destination = [[destination viewControllers] firstObject];
+    
     [self reportDidChooseOptionsToPotentialListener:destination];
     
     if ([destination isKindOfClass:[DiningMenuViewController class]])
@@ -210,6 +231,12 @@
     self.mealTypeSegmentedControl.selectedSegmentIndex = val;
 }
 
+-(IBAction)mealTypeWasChanged:(id)sender
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self reportDidChooseOptionsToPotentialListener:[self delegate]];
+}
+
 #pragma mark - UITableViewDataSource / Delegate Methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -230,9 +257,14 @@
 {
     self.selectedDiningHall = [self.allDiningHalls objectAtIndex:indexPath.row];
     
-    [tableView reloadRowsAtIndexPaths:[tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
-    
     [self showMenu];
+}
+
+#pragma mark - UISplitViewControllerDelegate Methods
+
+-(BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation
+{
+    return NO;
 }
 
 @end

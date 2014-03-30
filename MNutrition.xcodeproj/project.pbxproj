@@ -41,6 +41,7 @@
 		63E842F81807BAB300EE8F32 /* MenuItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */; };
 		63E842FE1807C4AF00EE8F32 /* DQNutritionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */; };
 		63E84301180860CA00EE8F32 /* MealNutritionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E84300180860CA00EE8F32 /* MealNutritionViewController.m */; };
+		B29A95F218E7D33A00DF9875 /* Main~iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B29A95F118E7D33A00DF9875 /* Main~iPad.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DQNutritionView.m; path = Views/DQNutritionView.m; sourceTree = "<group>"; };
 		63E842FF180860CA00EE8F32 /* MealNutritionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MealNutritionViewController.h; path = ViewControllers/MealNutritionViewController.h; sourceTree = "<group>"; };
 		63E84300180860CA00EE8F32 /* MealNutritionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MealNutritionViewController.m; path = ViewControllers/MealNutritionViewController.m; sourceTree = "<group>"; };
+		B29A95F118E7D33A00DF9875 /* Main~iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~iPad.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 				639E15201805E5E600835819 /* AppDelegate.h */,
 				639E15211805E5E600835819 /* AppDelegate.m */,
 				639E15231805E5E600835819 /* Main.storyboard */,
+				B29A95F118E7D33A00DF9875 /* Main~iPad.storyboard */,
 				639E15291805E5E600835819 /* Images.xcassets */,
 				639E15181805E5E600835819 /* Supporting Files */,
 			);
@@ -427,6 +430,7 @@
 			files = (
 				639E152A1805E5E600835819 /* Images.xcassets in Resources */,
 				63B6931F185432AC0022CAE0 /* locationArrow.png in Resources */,
+				B29A95F218E7D33A00DF9875 /* Main~iPad.storyboard in Resources */,
 				639E151C1805E5E600835819 /* InfoPlist.strings in Resources */,
 				639E15251805E5E600835819 /* Main.storyboard in Resources */,
 				639B75BC181A03280052AFC4 /* SVProgressHUD.bundle in Resources */,
@@ -599,10 +603,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MNutrition/MNutrition-Prefix.pch";
 				INFOPLIST_FILE = "MNutrition/MNutrition-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/MMeals/MMeals";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -620,10 +624,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MNutrition/MNutrition-Prefix.pch";
 				INFOPLIST_FILE = "MNutrition/MNutrition-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/MMeals/MMeals";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
