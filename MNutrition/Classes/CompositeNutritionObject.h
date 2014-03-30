@@ -16,7 +16,7 @@
 -(void)addItem:(MMMenuItem *)item;
 -(void)removeItem:(MMMenuItem *)item;
 -(void)removeAllObjects;
--(int)itemCount;
+-(NSUInteger)itemCount;
 -(NSUInteger)countOfItem:(MMMenuItem *)item;
 
 @end

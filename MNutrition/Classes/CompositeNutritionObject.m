@@ -13,20 +13,20 @@
 
 @property NSCountedSet *items;
 
-@property (readwrite) int calories;
-@property (readwrite) int caloriesFromFat;
+@property (readwrite) NSInteger calories;
+@property (readwrite) NSInteger caloriesFromFat;
 
-@property (readwrite) int fat;
-@property (readwrite) int saturatedFat;
-@property (readwrite) int transFat;
+@property (readwrite) NSInteger fat;
+@property (readwrite) NSInteger saturatedFat;
+@property (readwrite) NSInteger transFat;
 
-@property (readwrite) int cholesterol;
-@property (readwrite) int sodium;
+@property (readwrite) NSInteger cholesterol;
+@property (readwrite) NSInteger sodium;
 
-@property (readwrite) int carbohydrates;
-@property (readwrite) int fiber;
-@property (readwrite) int sugar;
-@property (readwrite) int protein;
+@property (readwrite) NSInteger carbohydrates;
+@property (readwrite) NSInteger fiber;
+@property (readwrite) NSInteger sugar;
+@property (readwrite) NSInteger protein;
 
 @property (readwrite) NSMutableDictionary *percentages;
 
@@ -69,7 +69,7 @@
 
 -(void)removeItem:(MMMenuItem *)item
 {
-    int count = [self.items countForObject:item];
+    NSUInteger count = [self.items countForObject:item];
 
     if (!count)
         return;
@@ -90,8 +90,8 @@
     self.protein -= item.protein * count;
     
     [item.percentages enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        int currentValue = [self.percentages[key] intValue];
-        int newValue = currentValue - ([obj intValue] * count);
+        NSInteger currentValue = [self.percentages[key] integerValue];
+        NSInteger newValue = currentValue - ([obj integerValue] * count);
         self.percentages[key] = @(newValue);
     }];
 }
@@ -115,7 +115,7 @@
     [self.percentages removeAllObjects];
 }
 
--(int)itemCount
+-(NSUInteger)itemCount
 {
     return [self.items count];
 }
@@ -127,7 +127,7 @@
 
 #pragma mark - DQNutritionObject Properties
 
--(int)portionSize
+-(NSInteger)portionSize
 {
     return 0;
 }

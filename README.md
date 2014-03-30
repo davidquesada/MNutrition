@@ -24,3 +24,8 @@ Version numbers are the versions of the app on the App Store.
 - Fixed a memory leak.
 - UI Improvements.
 - Add network timeout for purposes of crappy network.
+
+####New
+- A new interface designed for iPad.
+- 64-bit optimized version.
+

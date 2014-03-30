@@ -11,22 +11,22 @@
 @protocol DQNutritionObject <NSObject>
 @required
 
-@property (readonly) int calories;
-@property (readonly) int caloriesFromFat;
+@property (readonly) NSInteger calories;
+@property (readonly) NSInteger caloriesFromFat;
 
-@property (readonly) int fat;
-@property (readonly) int saturatedFat;
-@property (readonly) int transFat;
+@property (readonly) NSInteger fat;
+@property (readonly) NSInteger saturatedFat;
+@property (readonly) NSInteger transFat;
 
-@property (readonly) int cholesterol;
-@property (readonly) int sodium;
+@property (readonly) NSInteger cholesterol;
+@property (readonly) NSInteger sodium;
 
-@property (readonly) int carbohydrates;
-@property (readonly) int fiber;
-@property (readonly) int sugar;
-@property (readonly) int protein;
+@property (readonly) NSInteger carbohydrates;
+@property (readonly) NSInteger fiber;
+@property (readonly) NSInteger sugar;
+@property (readonly) NSInteger protein;
 
-@property (readonly) int portionSize;
+@property (readonly) NSInteger portionSize;
 @property (readonly) NSString *servingSize;
 
 @property (readonly) NSDictionary *percentages;

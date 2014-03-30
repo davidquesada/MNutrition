@@ -155,7 +155,7 @@ typedef NS_ENUM(NSInteger, CellTag)
     if ([self.nutritionInfo servingSize].length)
     {
         if ([self.nutritionInfo portionSize])
-            cell.textLabel.text = [NSString stringWithFormat:@"Serving Size: %@ (%d g)", [self.nutritionInfo servingSize], [self.nutritionInfo portionSize]];
+            cell.textLabel.text = [NSString stringWithFormat:@"Serving Size: %@ (%d g)", [self.nutritionInfo servingSize], (int)[self.nutritionInfo portionSize]];
         else
             cell.textLabel.text = [NSString stringWithFormat:@"Serving Size: %@", [self.nutritionInfo servingSize]];
     }

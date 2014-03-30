@@ -17,13 +17,13 @@ static NSDate *referenceDate()
     return date;
 }
 
-static int indexFromDate(NSDate *date)
+static NSInteger indexFromDate(NSDate *date)
 {
     NSCalendar *cal = [NSCalendar currentCalendar];
     NSDateComponents *comps = [cal components:NSDayCalendarUnit fromDate:referenceDate() toDate:date options:0];
     return [comps day];
 }
-static NSDate *dateFromIndex(int index)
+static NSDate *dateFromIndex(NSInteger index)
 {
     static NSCalendar *cal = nil;
     if (!cal)
@@ -41,7 +41,7 @@ static NSDate *dateFromIndex(int index)
 @property UILabel *dayLabel;
 @property NSDate *date;
 -(void)setProgress:(CGFloat)progress;
--(void)setDateValue:(int)value;
+-(void)setDateValue:(NSInteger)value;
 @end
 @implementation DQDateSliderCell
 
@@ -104,7 +104,7 @@ static NSDate *dateFromIndex(int index)
     self.contentView.transform = trans;
 }
 
--(void)setDateValue:(int)value
+-(void)setDateValue:(NSInteger)value
 {
     static NSDateFormatter *formatter = nil, *dayFormatter = nil;
     if (!formatter)
@@ -125,7 +125,7 @@ static NSDate *dateFromIndex(int index)
 @interface DQDateSlider ()<UICollectionViewDataSource, UICollectionViewDelegate>
 {
     NSDate *_date;
-    int _dateIndex;
+    NSInteger _dateIndex;
 }
 @property UILabel *dateLabel;
 @property UICollectionView *container;
@@ -195,7 +195,7 @@ static NSDate *dateFromIndex(int index)
 
 -(void)setDate:(NSDate *)date animated:(BOOL)animated
 {
-    int index = indexFromDate(date);
+    NSInteger index = indexFromDate(date);
     _dateIndex = index;
     NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
     [self.container scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];

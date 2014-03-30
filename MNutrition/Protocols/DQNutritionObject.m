@@ -14,17 +14,17 @@ NSString *DQNutritionObjectLongDescription(id<DQNutritionObject> object)
     
     [string appendFormat:@"Serving Size: %@\n", object.servingSize];
     [string appendFormat:@"\n"];
-    [string appendFormat:@"Calories: %d\n", object.calories];
-    [string appendFormat:@" - Calories from Fat: %d\n", object.caloriesFromFat];
-    [string appendFormat:@"Total Fat: %d g\n", object.fat];
-    [string appendFormat:@" - Saturated Fat: %d g\n", object.saturatedFat];
-    [string appendFormat:@" - Trans Fat: %d g\n", object.transFat];
-    [string appendFormat:@"Cholesterol: %d mg\n", object.cholesterol];
-    [string appendFormat:@"Sodium: %d mg\n", object.sodium];
-    [string appendFormat:@"Total Carbohydrates: %d g\n", object.carbohydrates];
-    [string appendFormat:@" - Dietary Fiber: %d g\n", object.fiber];
-    [string appendFormat:@" - Sugar: %d \n", object.sugar];
-    [string appendFormat:@"Protein: %d g", object.protein];
+    [string appendFormat:@"Calories: %d\n", (int)object.calories];
+    [string appendFormat:@" - Calories from Fat: %d\n", (int)object.caloriesFromFat];
+    [string appendFormat:@"Total Fat: %d g\n", (int)object.fat];
+    [string appendFormat:@" - Saturated Fat: %d g\n", (int)object.saturatedFat];
+    [string appendFormat:@" - Trans Fat: %d g\n", (int)object.transFat];
+    [string appendFormat:@"Cholesterol: %d mg\n", (int)object.cholesterol];
+    [string appendFormat:@"Sodium: %d mg\n", (int)object.sodium];
+    [string appendFormat:@"Total Carbohydrates: %d g\n", (int)object.carbohydrates];
+    [string appendFormat:@" - Dietary Fiber: %d g\n", (int)object.fiber];
+    [string appendFormat:@" - Sugar: %d \n", (int)object.sugar];
+    [string appendFormat:@"Protein: %d g", (int)object.protein];
     
     return string;
 }
