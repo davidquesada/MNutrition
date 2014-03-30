@@ -296,10 +296,10 @@
             </objects>
             <point key="canvasLocation" x="-573" y="1301"/>
         </scene>
-        <!--Split View Controller-->
+        <!--Main Split View Controller-->
         <scene sceneID="Y1b-Pp-b7R">
             <objects>
-                <splitViewController id="t4D-JV-i73" sceneMemberID="viewController">
+                <splitViewController id="t4D-JV-i73" customClass="MainSplitViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <connections>
                         <segue destination="odl-j8-uuN" kind="relationship" relationship="masterViewController" id="9eH-1A-d0N"/>
@@ -425,6 +425,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="KHR-9m-edJ"/>
+        <segue reference="EgM-Nf-Odx"/>
     </inferredMetricsTieBreakers>
 </document>

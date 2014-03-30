@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		632AD4881807172F005D01A3 /* OptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632AD4871807172F005D01A3 /* OptionsViewController.m */; };
+		635F072C18E8E47200F20A0C /* MainSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 635F072B18E8E47200F20A0C /* MainSplitViewController.m */; };
 		637E1010180B9CB700B98318 /* DQNutritionObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 637E100F180B9CB700B98318 /* DQNutritionObject.m */; };
 		638955BF180A7CEA00C91C28 /* TableViewCellBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 638955BE180A7CEA00C91C28 /* TableViewCellBaseCell.m */; };
 		639B75BC181A03280052AFC4 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 639B75B9181A03280052AFC4 /* SVProgressHUD.bundle */; };
@@ -71,6 +72,8 @@
 /* Begin PBXFileReference section */
 		632AD4861807172F005D01A3 /* OptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OptionsViewController.h; path = ViewControllers/OptionsViewController.h; sourceTree = "<group>"; };
 		632AD4871807172F005D01A3 /* OptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OptionsViewController.m; path = ViewControllers/OptionsViewController.m; sourceTree = "<group>"; };
+		635F072A18E8E47200F20A0C /* MainSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainSplitViewController.h; path = ViewControllers/MainSplitViewController.h; sourceTree = "<group>"; };
+		635F072B18E8E47200F20A0C /* MainSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainSplitViewController.m; path = ViewControllers/MainSplitViewController.m; sourceTree = "<group>"; };
 		637E100F180B9CB700B98318 /* DQNutritionObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DQNutritionObject.m; path = Protocols/DQNutritionObject.m; sourceTree = "<group>"; };
 		638955BA180A7C7000C91C28 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		638955BD180A7CEA00C91C28 /* TableViewCellBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewCellBaseCell.h; path = Classes/TableViewCellBaseCell.h; sourceTree = "<group>"; };
@@ -254,6 +257,8 @@
 				63E842F71807BAB300EE8F32 /* MenuItemDetailViewController.m */,
 				63E842FF180860CA00EE8F32 /* MealNutritionViewController.h */,
 				63E84300180860CA00EE8F32 /* MealNutritionViewController.m */,
+				635F072A18E8E47200F20A0C /* MainSplitViewController.h */,
+				635F072B18E8E47200F20A0C /* MainSplitViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -454,6 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				638955BF180A7CEA00C91C28 /* TableViewCellBaseCell.m in Sources */,
+				635F072C18E8E47200F20A0C /* MainSplitViewController.m in Sources */,
 				63B9610718C1286200869AFE /* DQDateSlider5.m in Sources */,
 				63AEA1821895DC0200E5835D /* UserDefaults.m in Sources */,
 				639E15221805E5E600835819 /* AppDelegate.m in Sources */,

@@ -14,7 +14,7 @@
 #import "UserDefaults.h"
 #import "DQDateSlider.h"
 
-@interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate, UISplitViewControllerDelegate>
+@interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property NSArray *allDiningHalls;
 
@@ -81,8 +81,6 @@
     // toolbar for my taste, so shift the toolbar down.
     if ([AppDelegate isIOS7])
         self.toolbar.frame = CGRectOffset(self.toolbar.bounds, 0, 4);
-    
-    self.splitViewController.delegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -258,13 +256,6 @@
     self.selectedDiningHall = [self.allDiningHalls objectAtIndex:indexPath.row];
     
     [self showMenu];
-}
-
-#pragma mark - UISplitViewControllerDelegate Methods
-
--(BOOL)splitViewController:(UISplitViewController *)svc shouldHideViewController:(UIViewController *)vc inOrientation:(UIInterfaceOrientation)orientation
-{
-    return NO;
 }
 
 @end
