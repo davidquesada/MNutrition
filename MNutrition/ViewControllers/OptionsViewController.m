@@ -158,6 +158,13 @@
     self.datePicker.date = self.selectedDate;
     self.shownMealType = self.mealType;
     [self.tableView reloadData];
+    
+    NSUInteger idx = [_allDiningHalls indexOfObject:_selectedDiningHall];
+    if (idx != NSNotFound)
+    {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:idx inSection:0];
+        [_tableView selectRowAtIndexPath:path animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
 }
 
 /* Informs the given object that the receiver has chosen menu options. The listener argmuent is not required to implement any protocols, and if it doesn't, this method will send no other messages to the listener..
@@ -216,17 +223,11 @@
     MMDiningHall *hall = [self.allDiningHalls objectAtIndex:indexPath.row];
     cell.textLabel.text = hall.name;
     
-    if (hall == self.selectedDiningHall)
-        cell.textLabel.textColor = [UIColor blueColor];
-    else
-        cell.textLabel.textColor = [UIColor blackColor];
-    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedDiningHall = [self.allDiningHalls objectAtIndex:indexPath.row];
     
     [tableView reloadRowsAtIndexPaths:[tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
