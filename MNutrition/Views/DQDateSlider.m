@@ -190,12 +190,10 @@ static NSDate *dateFromIndex(NSInteger index)
     
     self.frame = self.frame;
     self.date = [NSDate date];
-    [self.container reloadData];
 }
 
 -(void)setDate:(NSDate *)date animated:(BOOL)animated
 {
-    [_container reloadData];
     NSInteger index = indexFromDate(date);
     _dateIndex = index;
     NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
@@ -312,8 +310,22 @@ static NSDate *dateFromIndex(NSInteger index)
     return cell;
 }
 
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    // Fixes some strange errors where assigning any date causes the collectionview
+    // to scroll as far in the future as possible.
+    [_container reloadData];
+}
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    // If the user is sliding quickly then taps one date to stop the scrolling,
+    // this method gets called and weird stuff happens. So don't do anything in this case.
+    if (collectionView.isDecelerating)
+        return;
+    
     DQDateSliderCell *cell = (id)[collectionView cellForItemAtIndexPath:indexPath];
     [self setDate:cell.date animated:YES];
     
