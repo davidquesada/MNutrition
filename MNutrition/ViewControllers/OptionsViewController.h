@@ -24,4 +24,6 @@
 
 @property id<OptionsViewControllerDelegate> delegate;
 
+-(void)writeOptionsToUI;
+
 @end

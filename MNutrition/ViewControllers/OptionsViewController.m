@@ -51,7 +51,9 @@
     if (self.splitViewController)
     {
         // WOO!
-        self.delegate = (id)[[[[[self splitViewController] viewControllers] lastObject] viewControllers] lastObject];
+        DiningMenuViewController *menu = [[[[[self splitViewController] viewControllers] lastObject] viewControllers] lastObject];
+        self.delegate = (id)menu;
+        menu.optionsViewController = self;
     }
     
     [self continueToMenuIfPossible];

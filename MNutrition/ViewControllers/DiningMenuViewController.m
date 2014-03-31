@@ -154,6 +154,7 @@
 
 -(void)reloadMenu
 {
+    [self updateOptionsViewController];
     [self updateNavBarLabel];
     NSArray *newCourses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
     
@@ -468,6 +469,16 @@
     return [self.courses[indexPath.section] items][indexPath.row];
 }
 
+-(void)updateOptionsViewController
+{
+    self.optionsViewController.selectedDate = self.selectedDate;
+    self.optionsViewController.selectedDiningHall = self.selectedDiningHall;
+    self.optionsViewController.mealType = self.mealType;
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self.optionsViewController writeOptionsToUI];
+}
+
 #pragma mark - IBActions
 
 -(IBAction)goToCurrentMeal:(id)sender
@@ -551,9 +562,7 @@
 
 -(IBAction)showOptions:(id)sender
 {
-    self.optionsViewController.selectedDate = self.selectedDate;
-    self.optionsViewController.selectedDiningHall = self.selectedDiningHall;
-    self.optionsViewController.mealType = self.mealType;
+    [self updateOptionsViewController];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
