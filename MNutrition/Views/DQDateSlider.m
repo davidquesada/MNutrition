@@ -194,6 +194,13 @@ static NSDate *dateFromIndex(NSInteger index)
 
 -(void)setDate:(NSDate *)date animated:(BOOL)animated
 {
+    // To avoid timezone issues, we're going to desconstruct the date into its three
+    // components, then build a new date with those numbers. It essentially "rounds" the
+    // date to the proper midnight in the current time zone.
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    NSDateComponents *comps = [cal components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:date];
+    date = [cal dateFromComponents:comps];
+
     NSInteger index = indexFromDate(date);
     _dateIndex = index;
     NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
@@ -276,6 +283,8 @@ static NSDate *dateFromIndex(NSInteger index)
     // I still don't understand why I need the +1.
     NSDate *targetDate = dateFromIndex(ipForTargetRow.row + 1);
     _date = targetDate;
+    
+    NSLog(@"Calculated: %@", targetDate);
 }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
