@@ -190,7 +190,7 @@
     self.previousCourses = self.courses;
     [SVProgressHUD dismiss];
     
-    [self.tableView scrollRectToVisible:CGRectMake(0, 44, 1, 1) animated:NO];
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
 }
 
 -(void)setNotice:(NSString *)notice reloadTableView:(BOOL)reload
@@ -246,8 +246,17 @@
         formatter = [[NSDateFormatter alloc] init];
         formatter.dateStyle = NSDateFormatterMediumStyle;
     }
-    self.navBarLabel.text = self.selectedDiningHall.name;
-    self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
+    
+    if (_selectedDiningHall)
+    {
+        self.navBarLabel.text = self.selectedDiningHall.name;
+        self.navBarLabel.subtitle = [NSString stringWithFormat:@"%@, %@", MMMealTypeToString(self.mealType), [formatter stringFromDate:self.selectedDate]];
+    }
+    else
+    {
+        self.navBarLabel.text = nil;
+        self.navBarLabel.subtitle = nil;
+    }
 }
 
 -(void)updateNutritionDisplays
