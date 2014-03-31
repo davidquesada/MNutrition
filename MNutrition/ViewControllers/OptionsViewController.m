@@ -15,6 +15,9 @@
 #import "DQDateSlider.h"
 
 @interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate>
+{
+    BOOL _useLegacyHighlightColor;
+}
 
 @property NSArray *allDiningHalls;
 
@@ -83,6 +86,8 @@
     // toolbar for my taste, so shift the toolbar down.
     if ([AppDelegate isIOS7])
         self.toolbar.frame = CGRectOffset(self.toolbar.bounds, 0, 4);
+    
+    _useLegacyHighlightColor = [[[UIDevice currentDevice] systemVersion] intValue] < 7;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -256,6 +261,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"diningHallCell"];
     MMDiningHall *hall = [self.allDiningHalls objectAtIndex:indexPath.row];
     cell.textLabel.text = hall.name;
+    
+    if (_useLegacyHighlightColor)
+        cell.textLabel.highlightedTextColor = [UIColor whiteColor];
     
     return cell;
 }
