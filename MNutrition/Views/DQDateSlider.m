@@ -195,6 +195,7 @@ static NSDate *dateFromIndex(NSInteger index)
 
 -(void)setDate:(NSDate *)date animated:(BOOL)animated
 {
+    [_container reloadData];
     NSInteger index = indexFromDate(date);
     _dateIndex = index;
     NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
@@ -279,6 +280,11 @@ static NSDate *dateFromIndex(NSInteger index)
     _date = targetDate;
 }
 
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
+}
+
 #pragma mark - UICollectionView
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -310,6 +316,9 @@ static NSDate *dateFromIndex(NSInteger index)
 {
     DQDateSliderCell *cell = (id)[collectionView cellForItemAtIndexPath:indexPath];
     [self setDate:cell.date animated:YES];
+    
+    // This might be slightly problematic if this is called before the animation finishes.
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
 
     self.container.userInteractionEnabled = NO;
     [self.container performSelector:@selector(setUserInteractionEnabled:) withObject:@(YES) afterDelay:.25];

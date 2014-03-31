@@ -28,6 +28,8 @@
     UIView *_noticeView;
     UILabel *_noticeLabel;
     UIColor *_noticeBackgroundColor;
+    
+    BOOL _isLookingForLocation;
 }
 
 @property NSArray *courses;
@@ -498,6 +500,7 @@
         return;
     }
     
+    _isLookingForLocation = YES;
     [self.locationManager startUpdatingLocation];
 }
 
@@ -673,6 +676,13 @@
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    [manager stopUpdatingLocation];
+    
+    if (!_isLookingForLocation)
+        return;
+    
+    _isLookingForLocation = NO;
+    
     self.selectedDate = [NSDate date];
     self.mealType = MMMealTypeFromTime(self.selectedDate);
     self.selectedDiningHall = [MMDiningHall diningHallClosestToLocation:newLocation];
@@ -681,8 +691,6 @@
     [self fetchMenuInformation:^{
         [self reloadMenu];
     }];
-    
-    [manager stopUpdatingLocation];
 }
 
 #pragma mark - User Defaults functionality

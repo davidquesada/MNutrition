@@ -237,6 +237,13 @@
         [self reportDidChooseOptionsToPotentialListener:[self delegate]];
 }
 
+-(IBAction)dateWasChanged:(id)sender
+{
+    self.selectedDate = self.datePicker.date;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self showMenu];
+}
+
 #pragma mark - UITableViewDataSource / Delegate Methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

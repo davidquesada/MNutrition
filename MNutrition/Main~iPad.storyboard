@@ -257,6 +257,9 @@
                                         <rect key="frame" x="0.0" y="44" width="320" height="64"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="dateWasChanged:" destination="p5T-2B-htC" eventType="valueChanged" id="s2q-eF-6LU"/>
+                                        </connections>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92985826729999999" green="0.90662640329999999" blue="0.25628978009999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -425,6 +428,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="EgM-Nf-Odx"/>
+        <segue reference="KHR-9m-edJ"/>
     </inferredMetricsTieBreakers>
 </document>

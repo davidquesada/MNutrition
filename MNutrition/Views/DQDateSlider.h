@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DQDateSlider : UIView
+@interface DQDateSlider : UIControl
 
 @property NSDate *date;
 -(void)setDate:(NSDate *)date animated:(BOOL)animated;
