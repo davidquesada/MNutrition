@@ -66,12 +66,34 @@
 
 @implementation DiningMenuViewController
 
+-(void)forceFooterViewHidden
+{
+    void (^actions)() = ^{
+        self.footerView.frame = CGRectOffset(_footerView.bounds, 0, _footerView.superview.frame.size.height);
+    };
+    if ([UIView respondsToSelector:@selector(performWithoutAnimation:)])
+        [UIView performWithoutAnimation:actions];
+    else
+    {
+        BOOL areAnimationsEnabled = [UIView areAnimationsEnabled];
+        [UIView setAnimationsEnabled:NO];
+        actions();
+        [UIView setAnimationsEnabled:areAnimationsEnabled];
+    }
+}
+
+-(void)loadView
+{
+    [super loadView];
+    self.originalFooterFrame = self.footerView.frame;
+    [self forceFooterViewHidden];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.footerView.clipsToBounds = NO;
-    self.originalFooterFrame = self.footerView.frame;
     
     self.navBarLabel = [[DQNavigationBarLabel alloc] init];
     self.navigationItem.titleView = self.navBarLabel;
@@ -439,6 +461,10 @@
         temp = [viewToSnapshot screenshotView];
         
     [self.view insertSubview:temp aboveSubview:viewToSnapshot];
+    
+//    [UIView performWithoutAnimation:^{
+        [self setFooterViewVisible:NO animated:NO];
+//    }];
     
     [UIView animateWithDuration:0.3f animations:^{
         
