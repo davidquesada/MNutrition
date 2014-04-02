@@ -61,11 +61,20 @@
     
     [self continueToMenuIfPossible];
     
-    // Make some adjustments so that on a 4-inch screen, 8 items fit perfectly
-    // and the cell dividers don't interfere with the hairline border of the bottom view.
-    if ([UIScreen mainScreen].scale > 1.9)
-        self.tableView.rowHeight = 49.5;
-    self.tableView.contentInset = UIEdgeInsetsMake(1, 0, -1, 0);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        // Make some adjustments so that on a 4-inch screen, 8 items fit perfectly
+        // and the cell dividers don't interfere with the hairline border of the bottom view.
+        if ([UIScreen mainScreen].scale > 1.9)
+            self.tableView.rowHeight = 49.5;
+        self.tableView.contentInset = UIEdgeInsetsMake(1, 0, -1, 0);
+    }
+    else //iPad
+    {
+        self.tableView.rowHeight = 52;
+        self.tableView.contentInset = UIEdgeInsetsMake(-1.5, 0, 0, 0);
+        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:(CGRect){1,1,1,1}];
+    }
     
     // Give the legacy date slider (i.e. UIDatePicker) some more room. It wants to be 216 pt high.
     if ([_datePicker isLegacyDateSlider])
