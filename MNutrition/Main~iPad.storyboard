@@ -129,7 +129,7 @@
                                         </connections>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="0.96999999999999997" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.91372549020000005" blue="0.31372549020000001" alpha="0.97999999999999998" colorSpace="calibratedRGB"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="44" maxX="0.0" maxY="-44"/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="1pm-XR-9ta" appends="YES" id="XfL-FG-dHz"/>
@@ -262,7 +262,7 @@
                                         </connections>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.92985826729999999" green="0.90662640329999999" blue="0.25628978009999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.94901960784313721" green="0.9137254901960784" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>

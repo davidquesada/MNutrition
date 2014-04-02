@@ -123,7 +123,7 @@
                                         </connections>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.91372549020000005" blue="0.31372549020000001" alpha="0.97999999999999998" colorSpace="calibratedRGB"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="44" maxX="0.0" maxY="-44"/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="RkC-jl-VES" appends="YES" id="dNS-3L-KXI"/>
@@ -255,7 +255,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.92985826730728149" green="0.90662640333175659" blue="0.2562897801399231" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.94901960780000005" green="0.91372549020000005" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
