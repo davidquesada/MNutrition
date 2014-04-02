@@ -111,6 +111,11 @@
     
     if (!self.mealNutrition)
         [self performSegueWithIdentifier:@"showMealNutrition" sender:nil];
+    
+    // Gray out the tableview if there hasn't been a dining hall set yet.
+    // (Happens on iPad when initially loading menu or on first app launch)
+    if (!_selectedDiningHall)
+        [self setNotice:@" " reloadTableView:NO];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -515,6 +520,9 @@
 
 -(IBAction)moveToNextMeal:(id)sender
 {
+    if (!_selectedDiningHall)
+        return;
+    
     if (self.mealType == MMMealTypeDinner)
         self.selectedDate = [self.selectedDate nextDay];
     
@@ -542,6 +550,9 @@
 
 -(IBAction)moveToPreviousMeal:(id)sender
 {
+    if (!_selectedDiningHall)
+        return;
+    
     if (self.mealType == MMMealTypeBreakfast)
         self.selectedDate = [self.selectedDate previousDay];
     
