@@ -25,7 +25,7 @@ Version numbers are the versions of the app on the App Store.
 - UI Improvements.
 - Add network timeout for purposes of crappy network.
 
-####New
+####v1.2
 - A new interface designed for iPad.
 - 64-bit optimized version.
 - Fix a bug where the menus are wrong after 7 or 8 PM.
