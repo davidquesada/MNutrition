@@ -14,5 +14,6 @@
 @property(nonatomic) id<DQNutritionObject> nutritionInfo;
 
 @property(nonatomic) UIColor *separatorColor;
+@property(nonatomic) BOOL scrollEnabled;
 
 @end

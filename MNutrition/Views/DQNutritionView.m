@@ -218,6 +218,16 @@ typedef NS_ENUM(NSInteger, CellTag)
     self.tableView.separatorColor = separatorColor;
 }
 
+-(BOOL)scrollEnabled
+{
+    return _tableView.scrollEnabled;
+}
+
+-(void)setScrollEnabled:(BOOL)scrollEnabled
+{
+    _tableView.scrollEnabled = scrollEnabled;
+}
+
 #pragma mark - UITableViewDataSource / Delegate Methods
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

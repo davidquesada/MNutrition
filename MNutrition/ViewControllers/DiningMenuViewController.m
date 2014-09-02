@@ -30,6 +30,8 @@
     UIColor *_noticeBackgroundColor;
     
     BOOL _isLookingForLocation;
+    
+    UIPopoverController *_pop;
 }
 
 @property NSArray *courses;
@@ -37,6 +39,7 @@
 @property(weak) IBOutlet UITableView *tableView;
 @property(weak) IBOutlet UIView *footerView;
 @property(weak) IBOutlet UIView *footerContentsView;
+@property(weak) IBOutlet UIView *centeredFooterContentsView;
 
 @property(weak) IBOutlet UILabel *caloriesLabel;
 @property(weak) IBOutlet UILabel *fatLabel;
@@ -187,8 +190,10 @@
     [self updateNavBarLabel];
     NSArray *newCourses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
     
-    // TODO: We could probably move the "notice" functionality to the MMeals library, rather than
+    // TODO: We should probably move the "notice" functionality to the MMeals library, rather than
     // extracting the notices in the application, like we do here.
+    // Also, check out East Quad for Breakfast, Sep 1, 2014. There are no courses and no notices, so
+    // the update appears as "Unable to load menu", when that doesn't actually reflect the situation.
     _hasNotice = [[[newCourses firstObject] name] isEqualToString:@"notice"];
     if (_hasNotice)
     {
@@ -395,9 +400,14 @@
     self.footerView.frame = rect;
     float progress = (rect.origin.y) / (self.footerView.superview.frame.size.height - rect.size.height);
  
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return progress;
+    
     // Move the nutrition view.
     
     CGPoint point = [self.footerView convertPoint:CGPointZero toView:self.footerView.window];
+    
+    point = [self.mealNutrition.view.superview convertPoint:point fromView:self.footerView.window];
     
     rect = self.mealNutrition.view.frame;
     rect.origin = point;
@@ -609,6 +619,29 @@
     [self setNutritionVisible:YES];
 }
 
+-(IBAction)showMealNutritionInPopover:(id)sender
+{
+    self.mealNutrition.nutritionView.scrollEnabled = NO;
+    self.mealNutrition.navigationBar.alpha = 1.0;
+    self.mealNutrition.view.userInteractionEnabled = YES;
+    [self.mealNutrition.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    
+    if ([AppDelegate isIOS6])
+        [self.mealNutrition.navigationBar setShadowImage:[UIImage new]];
+    
+    UIView *view = self.mealNutrition.view;
+    [view removeFromSuperview];
+    
+    UIViewController *content = self.mealNutrition;
+    _pop = [[UIPopoverController alloc] initWithContentViewController:content];
+    
+    UIView *parent = self.centeredFooterContentsView;
+    CGRect rect = {0,0,1,1};
+    rect.origin.x = parent.bounds.size.width / 2.0;
+    
+    [_pop presentPopoverFromRect:rect inView:parent permittedArrowDirections:UIPopoverArrowDirectionDown animated:YES];
+}
+
 -(IBAction)showOptions:(id)sender
 {
     [self updateOptionsViewController];
@@ -790,7 +823,7 @@
     UIView *superview = [UIApplication sharedApplication].windows[0];
     superview = ((UIWindow *)superview).rootViewController.view;
     
-    CGRect rect = superview.frame;
+    CGRect rect = superview.bounds;
     rect.origin = CGPointMake(0, rect.size.height - menu.footerView.frame.size.height);
     
     nutrition.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -798,6 +831,11 @@
     nutrition.view.frame = rect;
     nutrition.view.userInteractionEnabled = NO;
     nutrition.navigationBar.alpha = 0.0;
+    
+    
+    // The iPad UI uses popovers instead, so we don't need to add the mealNutrition to any parent view.
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return;
     
     [superview addSubview:nutrition.view];
 }

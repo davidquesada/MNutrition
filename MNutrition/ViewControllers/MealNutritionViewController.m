@@ -22,7 +22,9 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.diningMenu addPanGestureToView:self.navigationBar];
+    
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+        [self.diningMenu addPanGestureToView:self.navigationBar];
     
     // Sharing is not included in pre-ios6 SDK.
     if (![AppDelegate isIOS6])

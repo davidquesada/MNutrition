@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="12F45" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="t4D-JV-i73">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="t4D-JV-i73">
     <dependencies>
         <deployment defaultVersion="1296" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -131,9 +131,6 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.94901960780000005" green="0.91372549020000005" blue="0.31372549020000001" alpha="0.97999999999999998" colorSpace="calibratedRGB"/>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="44" maxX="0.0" maxY="-44"/>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="1pm-XR-9ta" appends="YES" id="XfL-FG-dHz"/>
-                                </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -149,6 +146,7 @@
                     <connections>
                         <outlet property="caloriesLabel" destination="AbP-A1-8hw" id="qy8-Q5-GdV"/>
                         <outlet property="carbsLabel" destination="vr5-5S-Xh0" id="Mt8-Ko-wuj"/>
+                        <outlet property="centeredFooterContentsView" destination="FW2-rj-ztB" id="qoG-1J-msS"/>
                         <outlet property="fatLabel" destination="cga-Ac-pXi" id="BCe-6l-Hlg"/>
                         <outlet property="footerContentsView" destination="6EG-aA-L7S" id="Gaw-Vr-6rV"/>
                         <outlet property="footerView" destination="ixL-T6-D80" id="Z0e-XJ-K51"/>
@@ -178,14 +176,9 @@
                         <action selector="moveToNextMeal:" destination="52d-Rb-lgE" id="h2J-Wc-vBg"/>
                     </connections>
                 </swipeGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="1pm-XR-9ta">
-                    <connections>
-                        <action selector="pan:" destination="52d-Rb-lgE" id="TZg-7R-Vfl"/>
-                    </connections>
-                </panGestureRecognizer>
                 <tapGestureRecognizer id="hnx-pa-cUs">
                     <connections>
-                        <action selector="showMealNutrition:" destination="52d-Rb-lgE" id="rxF-5o-fNs"/>
+                        <action selector="showMealNutritionInPopover:" destination="52d-Rb-lgE" id="WmZ-oB-CKR"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -344,50 +337,48 @@
             <objects>
                 <viewController id="kXB-hJ-Mpg" customClass="MealNutritionViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FXb-dQ-ay6">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" id="wtR-xh-geV">
-                                <rect key="frame" x="0.0" y="20" width="768" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <color key="barTintColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <offsetWrapper key="textShadowOffset" horizontal="0.0" vertical="0.0"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem title="Meal Nutrition" id="NPb-A4-bbm">
-                                        <barButtonItem key="leftBarButtonItem" title="Done" style="done" id="h1B-3H-mEZ">
-                                            <connections>
-                                                <action selector="dismiss:" destination="kXB-hJ-Mpg" id="uDY-Uw-R8t"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="uqO-nX-jZD">
-                                            <connections>
-                                                <action selector="share:" destination="kXB-hJ-Mpg" id="gRs-qF-YQd"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                                <connections>
-                                    <outlet property="delegate" destination="kXB-hJ-Mpg" id="6yr-4I-8Rl"/>
-                                </connections>
-                            </navigationBar>
                             <view contentMode="scaleToFill" id="lfV-pF-6rG">
-                                <rect key="frame" x="0.0" y="64" width="320" height="960"/>
-                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="0K2-SG-hAJ" customClass="DQNutritionView">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="960"/>
+                                        <rect key="frame" x="0.0" y="5" width="320" height="495"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
+                                    <navigationBar contentMode="scaleToFill" id="wtR-xh-geV">
+                                        <rect key="frame" x="0.0" y="15" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="barTintColor" red="0.9439991713" green="0.90785187479999996" blue="0.20329044760000001" alpha="0.0" colorSpace="calibratedRGB"/>
+                                        <textAttributes key="titleTextAttributes">
+                                            <offsetWrapper key="textShadowOffset" horizontal="0.0" vertical="0.0"/>
+                                        </textAttributes>
+                                        <items>
+                                            <navigationItem id="NPb-A4-bbm">
+                                                <barButtonItem key="rightBarButtonItem" systemItem="action" id="uqO-nX-jZD">
+                                                    <connections>
+                                                        <action selector="share:" destination="kXB-hJ-Mpg" id="gRs-qF-YQd"/>
+                                                    </connections>
+                                                </barButtonItem>
+                                            </navigationItem>
+                                        </items>
+                                        <connections>
+                                            <outlet property="delegate" destination="kXB-hJ-Mpg" id="6yr-4I-8Rl"/>
+                                        </connections>
+                                    </navigationBar>
                                 </subviews>
                                 <color key="backgroundColor" white="0.92335559479999996" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                     </view>
+                    <value key="contentSizeForViewInPopover" type="size" width="380" height="500"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="500"/>
                     <connections>
                         <outlet property="contentsView" destination="lfV-pF-6rG" id="TUT-mT-5VA"/>
                         <outlet property="navigationBar" destination="wtR-xh-geV" id="AMO-IB-ebz"/>
