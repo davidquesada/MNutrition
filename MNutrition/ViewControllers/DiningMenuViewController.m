@@ -41,6 +41,8 @@
 @property(weak) IBOutlet UIView *footerContentsView;
 @property(weak) IBOutlet UIView *centeredFooterContentsView;
 
+
+@property(weak) IBOutlet UILabel *caloriesHeaderLabel;
 @property(weak) IBOutlet UILabel *caloriesLabel;
 @property(weak) IBOutlet UILabel *fatLabel;
 @property(weak) IBOutlet UILabel *proteinLabel;
@@ -127,6 +129,17 @@
         [self.tableView addSubview:self.refreshControl];
         self.refreshControl.backgroundColor = [UIColor whiteColor];
         [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    }
+    if (![AppDelegate isIOS7])
+    {
+        // Helvetica Neue Thin isn't available on iOS < 7, so let's grab the same font
+        // as the "Calories" text, crank up the size a little bit, and use that instead.
+        CGFloat dataFontSize = self.caloriesLabel.font.pointSize * 1.5;
+        UIFont *baseFont = self.caloriesHeaderLabel.font;
+        UIFont *newFont = [baseFont fontWithSize:dataFontSize];
+        
+        for (UILabel *lbl in @[ self.caloriesLabel, self.fatLabel, self.proteinLabel, self.carbsLabel ])
+            lbl.font = newFont;
     }
 }
 

@@ -29,4 +29,4 @@ Version numbers are the versions of the app on the App Store.
 - A new interface designed for iPad.
 - 64-bit optimized version.
 - Fix a bug where the menus are wrong after 7 or 8 PM.
-
+- Adjusted fonts for iOS 5/6 devices.

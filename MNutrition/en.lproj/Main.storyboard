@@ -146,6 +146,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="caloriesHeaderLabel" destination="k22-ab-FVz" id="ZKF-tp-2te"/>
                         <outlet property="caloriesLabel" destination="4Yw-vg-5HH" id="KBa-xT-0LF"/>
                         <outlet property="carbsLabel" destination="75q-W4-L1H" id="DnR-vh-shn"/>
                         <outlet property="fatLabel" destination="xUr-Sd-Fi2" id="ww8-vh-FaD"/>
