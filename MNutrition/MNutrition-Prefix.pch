@@ -13,4 +13,9 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+
+#ifdef UI_USER_INTERFACE_IDIOM
+#undef UI_USER_INTERFACE_IDIOM
+#define UI_USER_INTERFACE_IDIOM() UIUserInterfaceIdiomPhone
+#endif
 #endif

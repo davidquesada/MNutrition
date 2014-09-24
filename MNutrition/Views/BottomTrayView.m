@@ -40,6 +40,8 @@
 -(void)addThings
 {
     UIView *borderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, .5)];
+    borderView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    borderView.translatesAutoresizingMaskIntoConstraints = YES;
     borderView.backgroundColor = [UIColor colorWithWhite:.75 alpha:1.0];
     [self addSubview:borderView];
 //    self.clipsToBounds = NO;
