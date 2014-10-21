@@ -684,27 +684,24 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"menuItemCell"];
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    int count = [self.nutritionObject countOfItem:item];
+    
+    NSString *cellID = count ? @"menuItemCellSelected" : @"menuItemCell";
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellID];
     
     if (![AppDelegate isIOS7])
         cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
-    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
-    int count = [self.nutritionObject countOfItem:item];
     cell.textLabel.text = item.name;
     
     if (count == 0)
-    {
-        cell.textLabel.textColor = [UIColor blackColor];
-        cell.detailTextLabel.text = @"";
         return cell;
-    }
     
     if (count == 1)
         cell.detailTextLabel.text = @"1 Serving";
     else
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Servings", count];
-    cell.textLabel.textColor = [UIColor blueColor];
     return cell;
 }
 
