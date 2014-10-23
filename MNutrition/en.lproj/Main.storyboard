@@ -220,6 +220,7 @@
                         <outlet property="footerContentsView" destination="HSh-j6-sP0" id="Ek1-xK-ZiB"/>
                         <outlet property="footerView" destination="TcD-wm-O9n" id="ifm-yo-m5C"/>
                         <outlet property="footerViewPanGesture" destination="RkC-jl-VES" id="gvc-AN-JoM"/>
+                        <outlet property="footerViewTapGesture" destination="qgw-75-ohB" id="BGB-aP-PRe"/>
                         <outlet property="proteinLabel" destination="T9I-7f-nic" id="Oi5-EJ-AAQ"/>
                         <outlet property="searchDisplayController" destination="knB-H8-aCM" id="iwf-Y8-Zg4"/>
                         <outlet property="tableView" destination="JmL-0Z-1Sa" id="Plg-69-a0m"/>

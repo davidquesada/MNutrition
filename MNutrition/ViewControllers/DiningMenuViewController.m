@@ -71,6 +71,7 @@
 -(void)showOptionsViewController;
 
 @property(weak) IBOutlet UIPanGestureRecognizer *footerViewPanGesture;
+@property(weak) IBOutlet UITapGestureRecognizer *footerViewTapGesture;
 
 @end
 
@@ -341,41 +342,46 @@
 
 -(void)setFooterViewVisible:(BOOL)visible animated:(BOOL)animated
 {
+    void (^beforeAnimations)() = ^{
+        self.footerViewPanGesture.enabled = visible;
+        self.footerViewTapGesture.enabled = visible;
+        self.footerConstraint.constant = visible ? 0 : (-1 * self.footerView.frame.size.height);
+    };
+    
+    void (^animations)() = ^{
+        [self.footerView.superview layoutIfNeeded];
+        
+        if (visible)
+        {
+            UIEdgeInsets insets;
+            
+            insets = self.tableView.scrollIndicatorInsets;
+            insets.bottom = self.originalFooterFrame.size.height;
+            self.tableView.scrollIndicatorInsets = insets;
+            
+            insets = self.tableView.contentInset;
+            insets.bottom = self.originalFooterFrame.size.height;
+            self.tableView.contentInset = insets;
+        }
+        else
+        {
+            UIEdgeInsets insets;
+            
+            insets = self.tableView.scrollIndicatorInsets;
+            insets.bottom = 0;
+            self.tableView.scrollIndicatorInsets = insets;
+            
+            insets = self.tableView.contentInset;
+            insets.bottom = 0;
+            self.tableView.contentInset = insets;
+        }
+    };
+    
+    beforeAnimations();
     if (animated)
-    {
-        [UIView animateWithDuration:.13f animations:^{ [self setFooterViewVisible:visible animated:NO];}];
-        return;
-    }
-    
-    self.footerViewPanGesture.enabled = visible;
-    
-    self.footerConstraint.constant = visible ? 0 : (-1 * self.footerView.frame.size.height);
-    [self.footerView layoutIfNeeded];
-    
-    if (visible)
-    {
-        UIEdgeInsets insets;
-        
-        insets = self.tableView.scrollIndicatorInsets;
-        insets.bottom = self.originalFooterFrame.size.height;
-        self.tableView.scrollIndicatorInsets = insets;
-        
-        insets = self.tableView.contentInset;
-        insets.bottom = self.originalFooterFrame.size.height;
-        self.tableView.contentInset = insets;
-    }
+        [UIView animateWithDuration:.13f animations:animations];
     else
-    {
-        UIEdgeInsets insets;
-        
-        insets = self.tableView.scrollIndicatorInsets;
-        insets.bottom = 0;
-        self.tableView.scrollIndicatorInsets = insets;
-        
-        insets = self.tableView.contentInset;
-        insets.bottom = 0;
-        self.tableView.contentInset = insets;
-    }
+        animations();
 }
 
 
