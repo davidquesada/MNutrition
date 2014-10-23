@@ -564,6 +564,13 @@
     }
     
     _isLookingForLocation = YES;
+
+#ifdef __IPHONE_8_0
+    // New in iOS 8. You need to call this before using the locationManager, otherwise it fails silently.
+    if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
+        [_locationManager requestWhenInUseAuthorization];
+#endif
+    
     [self.locationManager startUpdatingLocation];
 }
 
