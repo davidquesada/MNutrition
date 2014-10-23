@@ -48,6 +48,9 @@
 @property(weak) IBOutlet UILabel *proteinLabel;
 @property(weak) IBOutlet UILabel *carbsLabel;
 
+
+@property(weak) IBOutlet NSLayoutConstraint *footerConstraint;
+
 @property CGRect startingFooterRect;
 @property MealNutritionViewController *mealNutrition;
 
@@ -342,7 +345,8 @@
         return;
     }
     
-    self.footerView.frame = [self footerViewFrame:visible];
+    self.footerConstraint.constant = visible ? 0 : (-1 * self.footerView.frame.size.height);
+    [self.footerView layoutIfNeeded];
     
     if (visible)
     {
