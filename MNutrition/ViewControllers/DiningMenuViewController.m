@@ -70,6 +70,8 @@
 
 -(void)showOptionsViewController;
 
+@property(weak) IBOutlet UIPanGestureRecognizer *footerViewPanGesture;
+
 @end
 
 @implementation DiningMenuViewController
@@ -344,6 +346,8 @@
         [UIView animateWithDuration:.13f animations:^{ [self setFooterViewVisible:visible animated:NO];}];
         return;
     }
+    
+    self.footerViewPanGesture.enabled = visible;
     
     self.footerConstraint.constant = visible ? 0 : (-1 * self.footerView.frame.size.height);
     [self.footerView layoutIfNeeded];
