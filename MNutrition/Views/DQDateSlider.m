@@ -90,18 +90,17 @@ static NSDate *dateFromIndex(NSInteger index)
 {
     CGFloat ab = fabs(progress);
     CGFloat pos = 1 - ab;
-    self.contentView.alpha = pos * 0.65 + 0.35;
+    self.contentView.alpha = pos * 0.55 + 0.45;
     
     CGFloat scale = pos * 1.35;
     if (scale > 1)
         scale = 1;
     scale = scale * .3 + .7;
-    CGAffineTransform trans = CGAffineTransformIdentity;
     
-    trans = CGAffineTransformScale(CGAffineTransformIdentity, scale, scale);
-    trans = CGAffineTransformTranslate(trans, 0, ab * (7));
-    
-    self.contentView.transform = trans;
+    CATransform3D trans = CATransform3DIdentity;
+    trans = CATransform3DScale(trans, scale, scale, 0);
+    trans = CATransform3DTranslate(trans, 0, ab*7, 0);
+    self.contentView.layer.transform = trans;
 }
 
 -(void)setDateValue:(NSInteger)value
