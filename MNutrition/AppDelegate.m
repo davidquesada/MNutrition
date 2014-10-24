@@ -12,12 +12,18 @@
 AppDelegate *mainInstance;
 BOOL ios7;
 BOOL ios6;
+BOOL ios8;
 
 @implementation AppDelegate
 
 +(instancetype)mainInstance
 {
     return mainInstance;
+}
+
++(BOOL)isIOS8
+{
+    return ios8;
 }
 
 +(BOOL)isIOS7
@@ -34,6 +40,7 @@ BOOL ios6;
 {
     mainInstance = self;
     
+    ios8 = ([[UIDevice currentDevice].systemVersion integerValue] >= 8);
     ios7 = ([[UIDevice currentDevice].systemVersion integerValue] >= 7);
     ios6 = ([[UIDevice currentDevice].systemVersion integerValue] >= 6);
     

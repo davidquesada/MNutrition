@@ -13,6 +13,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 +(instancetype)mainInstance;
++(BOOL)isIOS8;
 +(BOOL)isIOS7;
 +(BOOL)isIOS6;
 

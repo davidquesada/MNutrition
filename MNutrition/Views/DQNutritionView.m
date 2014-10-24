@@ -72,6 +72,7 @@ typedef NS_ENUM(NSInteger, CellTag)
 -(void)setup
 {
     self.backgroundColor = [UIColor colorWithWhite:.97 alpha:1.0];
+
     CGRect frame = CGRectInset(self.bounds, 5, 0);
     self.tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
     self.tableView.delegate = self;
@@ -86,14 +87,19 @@ typedef NS_ENUM(NSInteger, CellTag)
     self.separatorColor = [UIColor blueColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    self.tableView.backgroundColor = [UIColor clearColor];
-    
     self.clipsToBounds = NO;
     
     self.primaryLabelFont = [UIFont boldSystemFontOfSize:18];
     self.secondaryLabelFont = [UIFont systemFontOfSize:18];
     self.valueFont = [UIFont systemFontOfSize:18];
     useTextAttributesForDQNutritionView = [[[UIDevice currentDevice] systemVersion] intValue] >= 6;
+}
+
+-(void)willMoveToWindow:(UIWindow *)newWindow
+{
+    [super willMoveToWindow:newWindow];
+    // For some reason, on iPad in iOS 8, changing the background color in -[setup] has no effect.
+    self.tableView.backgroundColor = [UIColor clearColor];
 }
 
 -(void)setNutritionInfo:(id)nutritionInfo
