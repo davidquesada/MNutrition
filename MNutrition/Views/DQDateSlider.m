@@ -188,7 +188,11 @@ static NSDate *dateFromIndex(NSInteger index)
     [self.container addGestureRecognizer:self.doubleTap];
     
     self.frame = self.frame;
-    self.date = [NSDate date];
+   
+    // Make sure we are scrolled to the right date to start with.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.date = self.date;
+    });
 }
 
 -(void)setDate:(NSDate *)date animated:(BOOL)animated
@@ -203,24 +207,25 @@ static NSDate *dateFromIndex(NSInteger index)
     NSInteger index = indexFromDate(date);
     _dateIndex = index;
     NSIndexPath *path = [NSIndexPath indexPathForItem:index inSection:0];
-    [self.container scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self.container scrollToItemAtIndexPath:path atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:animated];
     _date = date;
 }
 
 -(void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    CGSize cellSize = frame.size;
-    cellSize.width /= 2.0;
     UICollectionViewFlowLayout *layout = (id)self.container.collectionViewLayout;
+    CGSize cellSize = frame.size;
+    cellSize.width = 160;
     layout.itemSize = cellSize;
-
+    
     self.container.frame = self.bounds;
 }
 
 -(void)didDoubleTaps:(UITapGestureRecognizer *)sender
 {
     [self setDate:[NSDate date] animated:YES];
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 -(void)refreshCellProgresses
@@ -269,6 +274,22 @@ static NSDate *dateFromIndex(NSInteger index)
 }
 
 -(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    CGFloat w = self.frame.size.width;
+    CGFloat c = 160; // How is this determined?
+    CGFloat offx = targetContentOffset->x;
+    
+    CGFloat n = (offx + (w - c)/2) / c;
+    
+    int dateIndex = (int)[self roundValue:n toNearestMultipleOf:1.0f];
+    
+    _date = dateFromIndex(dateIndex);
+    
+    CGFloat newOffX = dateIndex * c - (w - c) / 2;
+    targetContentOffset->x = newOffX;
+}
+
+-(void)OLDscrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
     CGFloat x = targetContentOffset->x;
     CGFloat diff = self.frame.size.width / 4;
@@ -341,7 +362,12 @@ static NSDate *dateFromIndex(NSInteger index)
     [self sendActionsForControlEvents:UIControlEventValueChanged];
 
     self.container.userInteractionEnabled = NO;
-    [self.container performSelector:@selector(setUserInteractionEnabled:) withObject:@(YES) afterDelay:.25];
+    [self performSelector:@selector(setCollectionViewInteractionEnabled) withObject:nil afterDelay:.25];
+}
+
+-(void)setCollectionViewInteractionEnabled
+{
+    self.container.userInteractionEnabled = YES;
 }
 
 @end
