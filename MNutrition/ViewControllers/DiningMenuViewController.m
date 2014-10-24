@@ -79,30 +79,13 @@
 
 @implementation DiningMenuViewController
 
--(void)forceFooterViewHidden
-{
-    void (^actions)() = ^{
-        self.footerView.frame = CGRectOffset(_footerView.bounds, 0, _footerView.superview.frame.size.height);
-    };
-    if ([UIView respondsToSelector:@selector(performWithoutAnimation:)])
-        [UIView performWithoutAnimation:actions];
-    else
-    {
-        BOOL areAnimationsEnabled = [UIView areAnimationsEnabled];
-        [UIView setAnimationsEnabled:NO];
-        actions();
-        [UIView setAnimationsEnabled:areAnimationsEnabled];
-    }
-}
-
 -(void)loadView
 {
     [super loadView];
     self.originalFooterFrame = self.footerView.frame;
-    [self forceFooterViewHidden];
 }
 
-- (void)viewDidLoad
+-(void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
@@ -117,7 +100,7 @@
     //[self restoreMenuSettingsFromUserDefaults];
     self.nutritionObject = [[CompositeNutritionObject alloc] init];
     
-    [self updateNutritionDisplays:YES];
+    self.footerConstraint.constant = -self.footerView.frame.size.height;
 
     // If we were able to restore a dining hall, date, and meal from the user defaults,
     // then let's try to fetch that from the server again.
