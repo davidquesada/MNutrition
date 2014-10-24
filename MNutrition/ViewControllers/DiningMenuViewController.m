@@ -51,6 +51,7 @@
 
 
 @property(weak) IBOutlet NSLayoutConstraint *footerConstraint;
+@property(weak) IBOutlet NSLayoutConstraint *tableSlideConstraint;
 
 @property CGRect startingFooterRect;
 @property MealNutritionViewController *mealNutrition;
@@ -529,10 +530,14 @@
     
     // Force the footer view to go away.
     self.footerConstraint.constant = -self.footerView.frame.size.height;
+    CGFloat ParallaxAmount = self.tableView.frame.size.width;
+    self.tableSlideConstraint.constant = ParallaxAmount * (toLeft ? 1 : -1);
     [self.footerView.superview layoutIfNeeded];
     
+    self.tableSlideConstraint.constant = 0;
+    
     [UIView animateWithDuration:0.3f animations:^{
-        
+        [self.view layoutIfNeeded];
         CGRect rect = temp.frame;
         rect.origin.x = (toLeft ? -1.0f : 1.0f) * rect.size.width;
         temp.frame = rect;

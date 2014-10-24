@@ -190,7 +190,7 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="TcD-wm-O9n" secondAttribute="trailing" id="1Re-B8-zLk"/>
                             <constraint firstItem="scr-QW-KP1" firstAttribute="top" secondItem="TcD-wm-O9n" secondAttribute="bottom" id="95i-oY-sCz"/>
-                            <constraint firstAttribute="trailing" secondItem="JmL-0Z-1Sa" secondAttribute="trailing" id="DJc-6S-rhh"/>
+                            <constraint firstAttribute="width" secondItem="JmL-0Z-1Sa" secondAttribute="width" id="Fmo-s6-4He"/>
                             <constraint firstItem="JmL-0Z-1Sa" firstAttribute="top" secondItem="q3X-QE-eyt" secondAttribute="top" id="H4F-rZ-8s9"/>
                             <constraint firstItem="TcD-wm-O9n" firstAttribute="leading" secondItem="q3X-QE-eyt" secondAttribute="leading" id="IJ4-uf-7Sj"/>
                             <constraint firstItem="TcD-wm-O9n" firstAttribute="leading" secondItem="q3X-QE-eyt" secondAttribute="leading" id="M1C-p6-DAa"/>
@@ -223,6 +223,7 @@
                         <outlet property="footerViewTapGesture" destination="qgw-75-ohB" id="BGB-aP-PRe"/>
                         <outlet property="proteinLabel" destination="T9I-7f-nic" id="Oi5-EJ-AAQ"/>
                         <outlet property="searchDisplayController" destination="knB-H8-aCM" id="iwf-Y8-Zg4"/>
+                        <outlet property="tableSlideConstraint" destination="o7k-u2-RZc" id="dIb-DJ-2vw"/>
                         <outlet property="tableView" destination="JmL-0Z-1Sa" id="Plg-69-a0m"/>
                         <segue destination="re4-wb-kNL" kind="custom" identifier="showMealNutrition" customClass="MealNutritionSegue" id="lZy-Na-shX"/>
                         <segue destination="tm3-uv-7sF" kind="push" identifier="showMenuItem" id="z0g-Fi-HaW"/>

@@ -160,8 +160,8 @@
                         <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="KBt-nr-gTR" secondAttribute="trailing" id="4CI-jy-cIN"/>
                             <constraint firstItem="KBt-nr-gTR" firstAttribute="leading" secondItem="pda-gx-dKu" secondAttribute="leading" id="LCg-Of-ORz"/>
+                            <constraint firstAttribute="width" secondItem="KBt-nr-gTR" secondAttribute="width" id="Txb-09-2IH"/>
                             <constraint firstItem="KBt-nr-gTR" firstAttribute="top" secondItem="pda-gx-dKu" secondAttribute="top" id="bk7-Rt-ZhH"/>
                             <constraint firstItem="qEK-8T-7hx" firstAttribute="top" secondItem="KBt-nr-gTR" secondAttribute="bottom" id="ryF-e1-87s"/>
                             <constraint firstAttribute="trailing" secondItem="ixL-T6-D80" secondAttribute="trailing" id="uGc-DI-iO9"/>
@@ -187,6 +187,7 @@
                         <outlet property="footerView" destination="ixL-T6-D80" id="Z0e-XJ-K51"/>
                         <outlet property="proteinLabel" destination="FNT-0F-ddd" id="u4c-6h-MhN"/>
                         <outlet property="searchDisplayController" destination="vzl-VQ-RLH" id="UqA-q2-Kw7"/>
+                        <outlet property="tableSlideConstraint" destination="LCg-Of-ORz" id="WII-4W-si6"/>
                         <outlet property="tableView" destination="KBt-nr-gTR" id="HsI-AG-1dl"/>
                         <segue destination="kXB-hJ-Mpg" kind="custom" identifier="showMealNutrition" customClass="MealNutritionSegue" id="23e-lS-oCa"/>
                         <segue destination="9xX-3g-npg" kind="push" identifier="showMenuItem" id="7Ja-hk-V9G"/>
@@ -267,7 +268,7 @@
                                             <barButtonItem style="plain" systemItem="flexibleSpace" id="ZPG-5d-k7j"/>
                                             <barButtonItem style="plain" id="lnO-gk-QpP">
                                                 <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="qF2-2e-ooK">
-                                                    <rect key="frame" x="10" y="7" width="300" height="31"/>
+                                                    <rect key="frame" x="9" y="7" width="292" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <segments>
                                                         <segment title="Breakfast"/>
