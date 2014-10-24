@@ -336,9 +336,6 @@
         self.footerViewPanGesture.enabled = visible;
         self.footerViewTapGesture.enabled = visible;
         self.footerConstraint.constant = visible ? 0 : (-1 * self.footerView.frame.size.height);
-        
-        if (!visible)
-            [self setNutritionVisible:NO];
     };
     
     void (^animations)() = ^{
@@ -357,6 +354,9 @@
         insets = self.tableView.contentInset;
         insets.bottom = bottomInset;
         self.tableView.contentInset = insets;
+        
+        if (!visible)
+            self.mealNutrition.view.frame = CGRectOffset(self.mealNutrition.view.bounds, 0, self.view.frame.size.height);
     };
     
     // We want to defer the actual animations to the next update cycle, otherwise
@@ -374,7 +374,10 @@
 -(IBAction)pan:(UIPanGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateBegan)
+    {
         self.startingFooterRect = self.footerView.frame;
+        self.tableView.userInteractionEnabled = NO;
+    }
     
     CGPoint trans = [sender translationInView:self.footerView];
 //    NSLog(@"trans.x: %d, trans.y: %d", (int)trans.x, (int)trans.y);
@@ -409,11 +412,20 @@
                 [self setNutritionVisible:NO];
         }
     }
+    
+    switch (sender.state) {
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            self.footerContentsView.alpha = 1.0f;
+            self.tableView.userInteractionEnabled = YES;
+            break;
+        default:break;
+    }
 }
 
 -(float)setFooterViewYFromTop:(CGFloat)y
 {
-    y = MAX(0, y);
     CGFloat bottomSpace = self.view.frame.size.height - self.footerView.frame.size.height - y;
     return [self setFooterViewYFromBottom:bottomSpace];
 }
@@ -421,7 +433,6 @@
 -(float)setFooterViewYFromBottom:(CGFloat)y
 {
     self.footerConstraint.constant = y;
-//    [self.footerView.superview layoutIfNeeded];
     
     CGFloat svh = self.footerView.superview.frame.size.height - self.footerView.frame.size.height;
     CGFloat inv_y = svh - y;
@@ -486,7 +497,6 @@
             self.mealNutrition.view.userInteractionEnabled = NO;
         }
         
-//#warning "Point 1"
         [self.view layoutIfNeeded];
     }];
 }
