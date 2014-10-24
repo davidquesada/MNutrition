@@ -30,6 +30,7 @@
     UIColor *_noticeBackgroundColor;
     
     BOOL _isLookingForLocation;
+    BOOL _isMealNutritionVisible;
     
     UIPopoverController *_pop;
 }
@@ -346,6 +347,9 @@
         self.footerViewPanGesture.enabled = visible;
         self.footerViewTapGesture.enabled = visible;
         self.footerConstraint.constant = visible ? 0 : (-1 * self.footerView.frame.size.height);
+        
+        if (!visible)
+            [self setNutritionVisible:NO];
     };
     
     void (^animations)() = ^{
@@ -398,7 +402,12 @@
     CGRect rect = self.startingFooterRect;
     rect = CGRectOffset(rect, 0, trans.y);
     
-    float progress = [self setFooterViewFrame:rect];
+//    float progress = [self setFooterViewFrame:rect];
+    float progress;
+    if (!_isMealNutritionVisible)
+        progress = [self setFooterViewYFromBottom:-trans.y];
+    else
+        progress = [self setFooterViewYFromTop:trans.y];
     
     if (sender.state == UIGestureRecognizerStateEnded)
     {
@@ -421,20 +430,33 @@
     }
 }
 
--(float)setFooterViewFrame:(CGRect)rect
+-(float)setFooterViewYFromTop:(CGFloat)y
 {
-    rect.origin.y = MAX(0, rect.origin.y);
-    self.footerView.frame = rect;
-    float progress = (rect.origin.y) / (self.footerView.superview.frame.size.height - rect.size.height);
- 
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return progress;
+    y = MAX(0, y);
+    CGFloat bottomSpace = self.view.frame.size.height - self.footerView.frame.size.height - y;
+    return [self setFooterViewYFromBottom:bottomSpace];
+}
+
+-(float)setFooterViewYFromBottom:(CGFloat)y
+{
+    self.footerConstraint.constant = y;
+//    [self.footerView.superview layoutIfNeeded];
+    
+    CGFloat svh = self.footerView.superview.frame.size.height - self.footerView.frame.size.height;
+    CGFloat inv_y = svh - y;
+    
+    CGFloat progress = inv_y / svh;
+    
+    
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//        return progress;
     
     // Move the nutrition view.
+    CGRect rect;
+    CGPoint point = CGPointMake(0, self.view.frame.size.height - y - self.footerView.frame.size.height);
     
-    CGPoint point = [self.footerView convertPoint:CGPointZero toView:self.footerView.window];
-    
-    point = [self.mealNutrition.view.superview convertPoint:point fromView:self.footerView.window];
+//    point = [self.mealNutrition.view.superview convertPoint:point fromView:self.footerView.window];
+    point = [self.mealNutrition.view.superview convertPoint:point fromView:self.view];
     
     rect = self.mealNutrition.view.frame;
     rect.origin = point;
@@ -457,8 +479,10 @@
     return progress;
 }
 
+// Sets whether the meal nutrition is going to be shown.
 -(void)setNutritionVisible:(BOOL)visible
 {
+    _isMealNutritionVisible = visible;
     float time = 0.25f;
     [UIView animateWithDuration:time animations:^{
         if (visible)
@@ -466,14 +490,22 @@
             CGRect rect = self.footerView.frame;
             rect.origin = CGPointZero;
            
-            [self setFooterViewFrame:rect];
+//            [self setFooterViewFrame:rect];
+            [self setFooterViewYFromBottom:(self.view.frame.size.height - self.footerView.frame.size.height)];
             self.mealNutrition.view.userInteractionEnabled = YES;
         }
         else
         {
-            [self setFooterViewFrame:[self footerViewFrame:YES]];
+//            [self setFooterViewFrame:[self footerViewFrame:YES]];
+            BOOL shouldShowFooterView = self.nutritionObject.itemCount > 0;
+            if (shouldShowFooterView)
+                [self setFooterViewYFromBottom:0];
+            else
+                [self setFooterViewYFromBottom:-self.footerView.frame.size.height];
             self.mealNutrition.view.userInteractionEnabled = NO;
         }
+        
+        [self.view layoutIfNeeded];
     }];
 }
 
@@ -650,7 +682,8 @@
 
 -(IBAction)showMealNutrition:(id)sender
 {
-    [self setNutritionVisible:YES];
+    NSLog(@"Tap Gesture disabled for testing.");
+//    [self setNutritionVisible:YES];
 }
 
 -(IBAction)showMealNutritionInPopover:(id)sender
