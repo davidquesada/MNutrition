@@ -116,7 +116,7 @@
     //[self restoreMenuSettingsFromUserDefaults];
     self.nutritionObject = [[CompositeNutritionObject alloc] init];
     
-    [self updateNutritionDisplays];
+    [self updateNutritionDisplays:YES];
 
     // If we were able to restore a dining hall, date, and meal from the user defaults,
     // then let's try to fetch that from the server again.
@@ -206,6 +206,11 @@
 
 -(void)reloadMenu
 {
+    [self reloadMenu:YES];
+}
+
+-(void)reloadMenu:(BOOL)animated
+{
     [self updateOptionsViewController];
     [self updateNavBarLabel];
     NSArray *newCourses = [[self.selectedDiningHall menuInformationForDate:self.selectedDate] coursesForMeal:self.mealType];
@@ -237,7 +242,7 @@
     if (self.courses != self.previousCourses)
     {
         [self.nutritionObject removeAllObjects];
-        [self updateNutritionDisplays];
+        [self updateNutritionDisplays:animated];
     }
     self.previousCourses = self.courses;
     [SVProgressHUD dismiss];
@@ -311,7 +316,7 @@
     }
 }
 
--(void)updateNutritionDisplays
+-(void)updateNutritionDisplays:(BOOL)animated
 {
     self.caloriesLabel.text = [NSString stringWithFormat:@"%d", self.nutritionObject.calories];
     self.fatLabel.text = [NSString stringWithFormat:@"%d g", self.nutritionObject.fat];
@@ -319,9 +324,9 @@
     self.carbsLabel.text = [NSString stringWithFormat:@"%d g", self.nutritionObject.carbohydrates];
     
     if ([self.nutritionObject itemCount] == 0)
-        [self setFooterViewVisible:NO animated:YES];
+        [self setFooterViewVisible:NO animated:animated];
     else
-        [self setFooterViewVisible:YES animated:YES];
+        [self setFooterViewVisible:YES animated:animated];
     
     self.mealNutrition.nutritionView.nutritionInfo = self.nutritionObject;
 }
@@ -522,9 +527,9 @@
         
     [self.view insertSubview:temp aboveSubview:viewToSnapshot];
     
-//    [UIView performWithoutAnimation:^{
-        [self setFooterViewVisible:NO animated:NO];
-//    }];
+    // Force the footer view to go away.
+    self.footerConstraint.constant = -self.footerView.frame.size.height;
+    [self.footerView.superview layoutIfNeeded];
     
     [UIView animateWithDuration:0.3f animations:^{
         
@@ -636,7 +641,7 @@
     
     [self fetchMenuInformation:^{
         [self cloneTransitionToLeft:YES];
-        [self reloadMenu];
+        [self reloadMenu:NO];
         [self writeMenuSettingsToUserDefaults];
     }];
 }
@@ -666,7 +671,7 @@
     
     [self fetchMenuInformation:^{
         [self cloneTransitionToLeft:NO];
-        [self reloadMenu];
+        [self reloadMenu:NO];
         [self writeMenuSettingsToUserDefaults];
     }];
 }
@@ -755,7 +760,7 @@
     MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
     [self.nutritionObject addItem:item];
     [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationMiddle];
-    [self updateNutritionDisplays];
+    [self updateNutritionDisplays:YES];
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -786,7 +791,7 @@
     MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
     [self.nutritionObject removeItem:item];
     [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self updateNutritionDisplays];
+    [self updateNutritionDisplays:YES];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
