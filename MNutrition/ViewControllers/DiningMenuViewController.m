@@ -428,9 +428,8 @@
     
     CGFloat progress = inv_y / svh;
     
-    
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-//        return progress;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return progress;
     
     // Move the nutrition view.
     CGRect rect;
@@ -450,6 +449,9 @@
     
     // Compensate for a potentially enlarged status bar.
     rect.origin.y -= self.mealNutrition.view.superview.frame.origin.y;
+    
+    // Keep the view from sliding above the top of the screen.
+    rect.origin.y = MAX(0, rect.origin.y);
     
     self.mealNutrition.view.frame = rect;
     
@@ -885,6 +887,7 @@
         return;
     
     [superview addSubview:nutrition.view];
+    [nutrition viewWillAppear:YES];
 }
 
 @end

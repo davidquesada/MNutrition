@@ -482,7 +482,7 @@
                             <constraint firstItem="iG8-C7-IfB" firstAttribute="top" secondItem="zWA-VG-MqN" secondAttribute="bottom" id="Mcm-oZ-Nrn"/>
                             <constraint firstAttribute="trailing" secondItem="iG8-C7-IfB" secondAttribute="trailing" id="NuV-ui-vlD"/>
                             <constraint firstItem="zWA-VG-MqN" firstAttribute="leading" secondItem="Ncq-Oi-19m" secondAttribute="leading" id="cfZ-az-dQb"/>
-                            <constraint firstItem="zWA-VG-MqN" firstAttribute="top" secondItem="2Cx-Ef-rJq" secondAttribute="bottom" constant="20" id="dYr-xj-VfL"/>
+                            <constraint firstItem="zWA-VG-MqN" firstAttribute="top" secondItem="2Cx-Ef-rJq" secondAttribute="top" constant="20" id="dYr-xj-VfL"/>
                             <constraint firstAttribute="trailing" secondItem="zWA-VG-MqN" secondAttribute="trailing" id="mwl-on-VPA"/>
                         </constraints>
                     </view>
