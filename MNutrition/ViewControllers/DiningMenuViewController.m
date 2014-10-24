@@ -355,40 +355,32 @@
     void (^animations)() = ^{
         [self.footerView.superview layoutIfNeeded];
         
-        if (visible)
-        {
-            UIEdgeInsets insets;
-            
-            insets = self.tableView.scrollIndicatorInsets;
-            insets.bottom = self.originalFooterFrame.size.height;
-            self.tableView.scrollIndicatorInsets = insets;
-            
-            insets = self.tableView.contentInset;
-            insets.bottom = self.originalFooterFrame.size.height;
-            self.tableView.contentInset = insets;
-        }
-        else
-        {
-            UIEdgeInsets insets;
-            
-            insets = self.tableView.scrollIndicatorInsets;
-            insets.bottom = 0;
-            self.tableView.scrollIndicatorInsets = insets;
-            
-            insets = self.tableView.contentInset;
-            insets.bottom = 0;
-            self.tableView.contentInset = insets;
-        }
+        CGFloat bottomInset = 0.0;
+        
+        bottomInset = (visible ? self.footerView.frame.size.height : 0);
+        
+        UIEdgeInsets insets;
+        
+        insets = self.tableView.scrollIndicatorInsets;
+        insets.bottom = bottomInset;
+        self.tableView.scrollIndicatorInsets = insets;
+        
+        insets = self.tableView.contentInset;
+        insets.bottom = bottomInset;
+        self.tableView.contentInset = insets;
     };
     
-    beforeAnimations();
-    if (animated)
-        [UIView animateWithDuration:.13f animations:animations];
-    else
-        animations();
+    // We want to defer the actual animations to the next update cycle, otherwise
+    // the call to [view layoutIfNeeded] can cause the table view to animate weird things,
+    // like having all the info buttons fly from the left side of the screen to the right.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        beforeAnimations();
+        if (animated)
+            [UIView animateWithDuration:.13f animations:animations];
+        else
+            animations();
+    });
 }
-
-
 
 -(IBAction)pan:(UIPanGestureRecognizer *)sender
 {
@@ -490,13 +482,11 @@
             CGRect rect = self.footerView.frame;
             rect.origin = CGPointZero;
            
-//            [self setFooterViewFrame:rect];
             [self setFooterViewYFromBottom:(self.view.frame.size.height - self.footerView.frame.size.height)];
             self.mealNutrition.view.userInteractionEnabled = YES;
         }
         else
         {
-//            [self setFooterViewFrame:[self footerViewFrame:YES]];
             BOOL shouldShowFooterView = self.nutritionObject.itemCount > 0;
             if (shouldShowFooterView)
                 [self setFooterViewYFromBottom:0];
@@ -505,6 +495,7 @@
             self.mealNutrition.view.userInteractionEnabled = NO;
         }
         
+//#warning "Point 1"
         [self.view layoutIfNeeded];
     }];
 }
@@ -682,8 +673,7 @@
 
 -(IBAction)showMealNutrition:(id)sender
 {
-    NSLog(@"Tap Gesture disabled for testing.");
-//    [self setNutritionVisible:YES];
+    [self setNutritionVisible:YES];
 }
 
 -(IBAction)showMealNutritionInPopover:(id)sender
