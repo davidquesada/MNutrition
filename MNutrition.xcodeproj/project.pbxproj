@@ -33,6 +33,7 @@
 		63AA1F49189C570400D1351B /* DQDateSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA1F48189C570400D1351B /* DQDateSlider.m */; };
 		63AA1F92189CC1F800D1351B /* BottomTrayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA1F91189CC1F800D1351B /* BottomTrayView.m */; };
 		63AEA1821895DC0200E5835D /* UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AEA1811895DC0200E5835D /* UserDefaults.m */; };
+		63B447F019FC6AFB00E174C3 /* locationArrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B447EF19FC6AFB00E174C3 /* locationArrow@3x.png */; };
 		63B6931F185432AC0022CAE0 /* locationArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B6931D185432AC0022CAE0 /* locationArrow.png */; };
 		63B69320185432AC0022CAE0 /* locationArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B6931E185432AC0022CAE0 /* locationArrow@2x.png */; };
 		63B9610718C1286200869AFE /* DQDateSlider5.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B9610618C1286200869AFE /* DQDateSlider5.m */; };
@@ -112,6 +113,7 @@
 		63AA1F91189CC1F800D1351B /* BottomTrayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomTrayView.m; path = Views/BottomTrayView.m; sourceTree = "<group>"; };
 		63AEA1801895DC0200E5835D /* UserDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDefaults.h; path = Classes/UserDefaults.h; sourceTree = "<group>"; };
 		63AEA1811895DC0200E5835D /* UserDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDefaults.m; path = Classes/UserDefaults.m; sourceTree = "<group>"; };
+		63B447EF19FC6AFB00E174C3 /* locationArrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "locationArrow@3x.png"; path = "Resources/locationArrow@3x.png"; sourceTree = "<group>"; };
 		63B6931D185432AC0022CAE0 /* locationArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locationArrow.png; path = Resources/locationArrow.png; sourceTree = "<group>"; };
 		63B6931E185432AC0022CAE0 /* locationArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "locationArrow@2x.png"; path = "Resources/locationArrow@2x.png"; sourceTree = "<group>"; };
 		63B9610518C1286200869AFE /* DQDateSlider5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DQDateSlider5.h; path = Views/DQDateSlider5.h; sourceTree = "<group>"; };
@@ -289,6 +291,7 @@
 		63B6931A1854329B0022CAE0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				63B447EF19FC6AFB00E174C3 /* locationArrow@3x.png */,
 				63B6931D185432AC0022CAE0 /* locationArrow.png */,
 				63B6931E185432AC0022CAE0 /* locationArrow@2x.png */,
 			);
@@ -438,6 +441,7 @@
 			files = (
 				639E152A1805E5E600835819 /* Images.xcassets in Resources */,
 				63B6931F185432AC0022CAE0 /* locationArrow.png in Resources */,
+				63B447F019FC6AFB00E174C3 /* locationArrow@3x.png in Resources */,
 				B29A95F218E7D33A00DF9875 /* Main~iPad.storyboard in Resources */,
 				639E151C1805E5E600835819 /* InfoPlist.strings in Resources */,
 				639E15251805E5E600835819 /* Main.storyboard in Resources */,
