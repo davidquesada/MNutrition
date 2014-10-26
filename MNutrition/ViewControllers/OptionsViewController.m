@@ -65,9 +65,14 @@
     {
         // Make some adjustments so that on a 4-inch screen, 8 items fit perfectly
         // and the cell dividers don't interfere with the hairline border of the bottom view.
-        if ([UIScreen mainScreen].scale > 1.9)
+        CGFloat f = 0;
+        if ((f = [UIScreen mainScreen].scale) > 2.1)
+            self.tableView.rowHeight = 50; // No half-point things on i6+. It looks weird.
+        else if ([UIScreen mainScreen].scale > 1.9)
+        {
             self.tableView.rowHeight = 49.5;
-        self.tableView.contentInset = UIEdgeInsetsMake(1, 0, -1, 0);
+            self.tableView.contentInset = UIEdgeInsetsMake(1, 0, -1, 0);
+        }
     }
     else //iPad
     {
