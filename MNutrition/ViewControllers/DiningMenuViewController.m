@@ -70,8 +70,6 @@
 -(void)setNotice:(NSString *)notice reloadTableView:(BOOL)reload;
 -(void)updateNavBarLabel;
 
--(void)showOptionsViewController;
-
 @property(weak) IBOutlet UIPanGestureRecognizer *footerViewPanGesture;
 @property(weak) IBOutlet UITapGestureRecognizer *footerViewTapGesture;
 
@@ -144,7 +142,9 @@
     // Gray out the tableview if there hasn't been a dining hall set yet.
     // (Happens on iPad when initially loading menu or on first app launch)
     if (!_selectedDiningHall)
-        [self setNotice:@" " reloadTableView:NO];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setNotice:@"Select a dining hall." reloadTableView:NO];
+        });
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -229,6 +229,7 @@
         _noticeLabel.textColor = [UIColor grayColor];
         _noticeLabel.textAlignment = NSTextAlignmentCenter;
         _noticeLabel.backgroundColor = [UIColor clearColor];
+        _noticeLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [_noticeView addSubview:_noticeLabel];
         _noticeBackgroundColor = [UIColor colorWithWhite:.9 alpha:1.0];
     }
@@ -529,7 +530,7 @@
 {
     id data = [self.selectedDiningHall menuInformationForDate:self.selectedDate];
     
-    if (data)
+    if (data || (self.selectedDiningHall == nil))
     {
         completion();
         return;
