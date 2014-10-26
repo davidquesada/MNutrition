@@ -124,7 +124,7 @@
     self.selectedDiningHall = manager.diningHall;
     self.mealType = manager.mealType;
     [self writeOptionsToUI];
-    [self showMenu];
+    [self showMenu:NO];
 }
 
 -(void)downloadMenu:(void (^)())completion
@@ -163,10 +163,22 @@
     }];
 }
 
--(void)showMenu
+-(void)showMenu:(BOOL)animated
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        [self performSegueWithIdentifier:@"showMenu" sender:nil];
+    {
+        if (animated)
+            [self performSegueWithIdentifier:@"showMenu" sender:nil];
+        else
+        {
+            UIViewController *dest = [self.storyboard instantiateViewControllerWithIdentifier:@"diningMenu"];
+            UIStoryboardSegue *seg = [UIStoryboardSegue segueWithIdentifier:@"showMenu" source:self destination:dest performHandler:^{
+                [self.navigationController pushViewController:dest animated:NO];
+            }];
+            [self prepareForSegue:seg sender:self];
+            [seg perform];
+        }
+    }
     else
     {
         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
@@ -260,7 +272,7 @@
 {
     self.selectedDate = self.datePicker.date;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        [self showMenu];
+        [self showMenu:YES];
 }
 
 #pragma mark - UITableViewDataSource / Delegate Methods
@@ -286,7 +298,7 @@
 {
     self.selectedDiningHall = [self.allDiningHalls objectAtIndex:indexPath.row];
     
-    [self showMenu];
+    [self showMenu:YES];
 }
 
 @end

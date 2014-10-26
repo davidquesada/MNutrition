@@ -8,7 +8,7 @@
         <!--Menu-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="DiningMenuViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="diningMenu" id="vXZ-lx-hvc" customClass="DiningMenuViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Yrx-Ii-uYp"/>
                         <viewControllerLayoutGuide type="bottom" id="scr-QW-KP1"/>

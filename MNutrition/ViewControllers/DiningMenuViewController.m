@@ -150,9 +150,6 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    if (self.selectedDiningHall == nil)
-        [self showOptionsViewController];
 }
 
 -(void)dealloc
@@ -160,23 +157,9 @@
     [self.mealNutrition.view removeFromSuperview];
 }
 
--(void)showOptionsViewController
-{
-    // We don't need to do anything if we're on iPad, because the options are always visible.
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        [self performSegueWithIdentifier:@"showOptions" sender:nil];
-}
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"showOptions"])
-    {
-        OptionsViewController *controller = [segue.destinationViewController viewControllers][0];
-        controller.delegate = self;
-        controller.selectedDate = self.selectedDate;
-        controller.selectedDiningHall = self.selectedDiningHall;
-        controller.mealType = self.mealType;
-    } else if ([segue.identifier isEqualToString:@"showMenuItem"])
+    if ([segue.identifier isEqualToString:@"showMenuItem"])
     {
         MenuItemDetailViewController *controller = segue.destinationViewController;
         controller.menuItem = self.selectedMenuItem;
