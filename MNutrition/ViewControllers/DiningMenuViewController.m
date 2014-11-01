@@ -509,7 +509,11 @@
     
     // Force the footer view to go away.
     self.footerConstraint.constant = -self.footerView.frame.size.height;
+    
+    // I can't ever decide if I want parallax or not.
     CGFloat ParallaxAmount = self.tableView.frame.size.width;
+    ParallaxAmount = 0.0f;
+    
     self.tableSlideConstraint.constant = ParallaxAmount * (toLeft ? 1 : -1);
     [self.footerView.superview layoutIfNeeded];
     
