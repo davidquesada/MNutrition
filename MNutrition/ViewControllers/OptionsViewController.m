@@ -181,6 +181,9 @@
     }
     else
     {
+        if (!self.selectedDiningHall)
+            return;
+        
         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
         [self downloadMenu:^{
             [SVProgressHUD dismiss];
@@ -220,6 +223,8 @@
 -(void)reportDidChooseOptionsToPotentialListener:(id)listener
 {
     [self writeUIToOptions];
+    if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) && !self.selectedDiningHall)
+        return;
     if (![listener respondsToSelector:@selector(optionsViewControllerDidChooseOptions:)])
         return;
     [listener optionsViewControllerDidChooseOptions:self];
