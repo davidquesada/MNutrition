@@ -519,7 +519,7 @@
     
     self.tableSlideConstraint.constant = 0;
     
-    [UIView animateWithDuration:0.3f animations:^{
+    [UIView animateWithDuration:0.25f animations:^{
         [self.view layoutIfNeeded];
         CGRect rect = temp.frame;
         rect.origin.x = (toLeft ? -1.0f : 1.0f) * rect.size.width;
