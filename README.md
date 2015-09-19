@@ -30,3 +30,8 @@ Version numbers are the versions of the app on the App Store.
 - 64-bit optimized version.
 - Fix a bug where the menus are wrong after 7 or 8 PM.
 - Adjusted fonts for iOS 5/6 devices.
+
+####v1.3
+- Small iOS 8 bug fixes
+- Support for iPhone 6 / 6+ screen sizes
+- Requires iOS 7.1
