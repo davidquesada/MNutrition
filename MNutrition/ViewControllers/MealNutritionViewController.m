@@ -32,6 +32,18 @@
         UINavigationItem *item = self.navigationBar.items.lastObject;
         item.rightBarButtonItem = nil;
     }
+    
+    // This is a hack to get the hairline "shadow" for the navigation bar.
+    // Since we're being hacky and using the navbar not in a nav controller, it doesn't
+    // behave the same and doesn't respond when you set the shadow image.
+    if ([AppDelegate isIOS7] && (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone))
+    {
+        UIView *v = [UIView new];
+        v.frame = CGRectMake(0, 43.5, 1024, 0.5);
+        v.backgroundColor = [UIColor colorWithRed:.67 green:.67 blue:.67 alpha:1.0];
+        
+        [self.navigationBar addSubview:v];
+    }
 }
 
 -(IBAction)dismiss:(id)sender

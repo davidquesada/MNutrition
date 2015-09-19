@@ -30,6 +30,7 @@
     UIColor *_noticeBackgroundColor;
     
     BOOL _isLookingForLocation;
+    BOOL _isMealNutritionVisible;
     
     UIPopoverController *_pop;
 }
@@ -48,6 +49,10 @@
 @property(weak) IBOutlet UILabel *proteinLabel;
 @property(weak) IBOutlet UILabel *carbsLabel;
 
+
+@property(weak) IBOutlet NSLayoutConstraint *footerConstraint;
+@property(weak) IBOutlet NSLayoutConstraint *tableSlideConstraint;
+
 @property CGRect startingFooterRect;
 @property MealNutritionViewController *mealNutrition;
 
@@ -65,36 +70,20 @@
 -(void)setNotice:(NSString *)notice reloadTableView:(BOOL)reload;
 -(void)updateNavBarLabel;
 
--(void)showOptionsViewController;
+@property(weak) IBOutlet UIPanGestureRecognizer *footerViewPanGesture;
+@property(weak) IBOutlet UITapGestureRecognizer *footerViewTapGesture;
 
 @end
 
 @implementation DiningMenuViewController
 
--(void)forceFooterViewHidden
-{
-    void (^actions)() = ^{
-        self.footerView.frame = CGRectOffset(_footerView.bounds, 0, _footerView.superview.frame.size.height);
-    };
-    if ([UIView respondsToSelector:@selector(performWithoutAnimation:)])
-        [UIView performWithoutAnimation:actions];
-    else
-    {
-        BOOL areAnimationsEnabled = [UIView areAnimationsEnabled];
-        [UIView setAnimationsEnabled:NO];
-        actions();
-        [UIView setAnimationsEnabled:areAnimationsEnabled];
-    }
-}
-
 -(void)loadView
 {
     [super loadView];
     self.originalFooterFrame = self.footerView.frame;
-    [self forceFooterViewHidden];
 }
 
-- (void)viewDidLoad
+-(void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
@@ -109,7 +98,7 @@
     //[self restoreMenuSettingsFromUserDefaults];
     self.nutritionObject = [[CompositeNutritionObject alloc] init];
     
-    [self updateNutritionDisplays];
+    self.footerConstraint.constant = -self.footerView.frame.size.height;
 
     // If we were able to restore a dining hall, date, and meal from the user defaults,
     // then let's try to fetch that from the server again.
@@ -153,15 +142,14 @@
     // Gray out the tableview if there hasn't been a dining hall set yet.
     // (Happens on iPad when initially loading menu or on first app launch)
     if (!_selectedDiningHall)
-        [self setNotice:@" " reloadTableView:NO];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setNotice:@"Select a dining hall." reloadTableView:NO];
+        });
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    if (self.selectedDiningHall == nil)
-        [self showOptionsViewController];
 }
 
 -(void)dealloc
@@ -169,23 +157,9 @@
     [self.mealNutrition.view removeFromSuperview];
 }
 
--(void)showOptionsViewController
-{
-    // We don't need to do anything if we're on iPad, because the options are always visible.
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        [self performSegueWithIdentifier:@"showOptions" sender:nil];
-}
-
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"showOptions"])
-    {
-        OptionsViewController *controller = [segue.destinationViewController viewControllers][0];
-        controller.delegate = self;
-        controller.selectedDate = self.selectedDate;
-        controller.selectedDiningHall = self.selectedDiningHall;
-        controller.mealType = self.mealType;
-    } else if ([segue.identifier isEqualToString:@"showMenuItem"])
+    if ([segue.identifier isEqualToString:@"showMenuItem"])
     {
         MenuItemDetailViewController *controller = segue.destinationViewController;
         controller.menuItem = self.selectedMenuItem;
@@ -198,6 +172,11 @@
 }
 
 -(void)reloadMenu
+{
+    [self reloadMenu:YES];
+}
+
+-(void)reloadMenu:(BOOL)animated
 {
     [self updateOptionsViewController];
     [self updateNavBarLabel];
@@ -230,7 +209,7 @@
     if (self.courses != self.previousCourses)
     {
         [self.nutritionObject removeAllObjects];
-        [self updateNutritionDisplays];
+        [self updateNutritionDisplays:animated];
     }
     self.previousCourses = self.courses;
     [SVProgressHUD dismiss];
@@ -250,6 +229,7 @@
         _noticeLabel.textColor = [UIColor grayColor];
         _noticeLabel.textAlignment = NSTextAlignmentCenter;
         _noticeLabel.backgroundColor = [UIColor clearColor];
+        _noticeLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [_noticeView addSubview:_noticeLabel];
         _noticeBackgroundColor = [UIColor colorWithWhite:.9 alpha:1.0];
     }
@@ -304,7 +284,7 @@
     }
 }
 
--(void)updateNutritionDisplays
+-(void)updateNutritionDisplays:(BOOL)animated
 {
     self.caloriesLabel.text = [NSString stringWithFormat:@"%d", self.nutritionObject.calories];
     self.fatLabel.text = [NSString stringWithFormat:@"%d g", self.nutritionObject.fat];
@@ -312,9 +292,9 @@
     self.carbsLabel.text = [NSString stringWithFormat:@"%d g", self.nutritionObject.carbohydrates];
     
     if ([self.nutritionObject itemCount] == 0)
-        [self setFooterViewVisible:NO animated:YES];
+        [self setFooterViewVisible:NO animated:animated];
     else
-        [self setFooterViewVisible:YES animated:YES];
+        [self setFooterViewVisible:YES animated:animated];
     
     self.mealNutrition.nutritionView.nutritionInfo = self.nutritionObject;
 }
@@ -336,46 +316,52 @@
 
 -(void)setFooterViewVisible:(BOOL)visible animated:(BOOL)animated
 {
-    if (animated)
-    {
-        [UIView animateWithDuration:.13f animations:^{ [self setFooterViewVisible:visible animated:NO];}];
-        return;
-    }
+    void (^beforeAnimations)() = ^{
+        self.footerViewPanGesture.enabled = visible;
+        self.footerViewTapGesture.enabled = visible;
+        self.footerConstraint.constant = visible ? 0 : (-1 * self.footerView.frame.size.height);
+    };
     
-    self.footerView.frame = [self footerViewFrame:visible];
-    
-    if (visible)
-    {
+    void (^animations)() = ^{
+        [self.footerView.superview layoutIfNeeded];
+        
+        CGFloat bottomInset = 0.0;
+        
+        bottomInset = (visible ? self.footerView.frame.size.height : 0);
+        
         UIEdgeInsets insets;
         
         insets = self.tableView.scrollIndicatorInsets;
-        insets.bottom = self.originalFooterFrame.size.height;
+        insets.bottom = bottomInset;
         self.tableView.scrollIndicatorInsets = insets;
         
         insets = self.tableView.contentInset;
-        insets.bottom = self.originalFooterFrame.size.height;
+        insets.bottom = bottomInset;
         self.tableView.contentInset = insets;
-    }
-    else
-    {
-        UIEdgeInsets insets;
         
-        insets = self.tableView.scrollIndicatorInsets;
-        insets.bottom = 0;
-        self.tableView.scrollIndicatorInsets = insets;
-        
-        insets = self.tableView.contentInset;
-        insets.bottom = 0;
-        self.tableView.contentInset = insets;
-    }
+        if (!visible)
+            self.mealNutrition.view.frame = CGRectOffset(self.mealNutrition.view.bounds, 0, self.view.frame.size.height);
+    };
+    
+    // We want to defer the actual animations to the next update cycle, otherwise
+    // the call to [view layoutIfNeeded] can cause the table view to animate weird things,
+    // like having all the info buttons fly from the left side of the screen to the right.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        beforeAnimations();
+        if (animated)
+            [UIView animateWithDuration:.13f animations:animations];
+        else
+            animations();
+    });
 }
-
-
 
 -(IBAction)pan:(UIPanGestureRecognizer *)sender
 {
     if (sender.state == UIGestureRecognizerStateBegan)
+    {
         self.startingFooterRect = self.footerView.frame;
+        self.tableView.userInteractionEnabled = NO;
+    }
     
     CGPoint trans = [sender translationInView:self.footerView];
 //    NSLog(@"trans.x: %d, trans.y: %d", (int)trans.x, (int)trans.y);
@@ -384,7 +370,12 @@
     CGRect rect = self.startingFooterRect;
     rect = CGRectOffset(rect, 0, trans.y);
     
-    float progress = [self setFooterViewFrame:rect];
+//    float progress = [self setFooterViewFrame:rect];
+    float progress;
+    if (!_isMealNutritionVisible)
+        progress = [self setFooterViewYFromBottom:-trans.y];
+    else
+        progress = [self setFooterViewYFromTop:trans.y];
     
     if (sender.state == UIGestureRecognizerStateEnded)
     {
@@ -405,22 +396,42 @@
                 [self setNutritionVisible:NO];
         }
     }
+    
+    switch (sender.state) {
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            self.footerContentsView.alpha = 1.0f;
+            self.tableView.userInteractionEnabled = YES;
+            break;
+        default:break;
+    }
 }
 
--(float)setFooterViewFrame:(CGRect)rect
+-(float)setFooterViewYFromTop:(CGFloat)y
 {
-    rect.origin.y = MAX(0, rect.origin.y);
-    self.footerView.frame = rect;
-    float progress = (rect.origin.y) / (self.footerView.superview.frame.size.height - rect.size.height);
- 
+    CGFloat bottomSpace = self.view.frame.size.height - self.footerView.frame.size.height - y;
+    return [self setFooterViewYFromBottom:bottomSpace];
+}
+
+-(float)setFooterViewYFromBottom:(CGFloat)y
+{
+    self.footerConstraint.constant = y;
+    
+    CGFloat svh = self.footerView.superview.frame.size.height - self.footerView.frame.size.height;
+    CGFloat inv_y = svh - y;
+    
+    CGFloat progress = inv_y / svh;
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         return progress;
     
     // Move the nutrition view.
+    CGRect rect;
+    CGPoint point = CGPointMake(0, self.view.frame.size.height - y - self.footerView.frame.size.height);
     
-    CGPoint point = [self.footerView convertPoint:CGPointZero toView:self.footerView.window];
-    
-    point = [self.mealNutrition.view.superview convertPoint:point fromView:self.footerView.window];
+//    point = [self.mealNutrition.view.superview convertPoint:point fromView:self.footerView.window];
+    point = [self.mealNutrition.view.superview convertPoint:point fromView:self.view];
     
     rect = self.mealNutrition.view.frame;
     rect.origin = point;
@@ -434,6 +445,9 @@
     // Compensate for a potentially enlarged status bar.
     rect.origin.y -= self.mealNutrition.view.superview.frame.origin.y;
     
+    // Keep the view from sliding above the top of the screen.
+    rect.origin.y = MAX(0, rect.origin.y);
+    
     self.mealNutrition.view.frame = rect;
     
     
@@ -443,8 +457,10 @@
     return progress;
 }
 
+// Sets whether the meal nutrition is going to be shown.
 -(void)setNutritionVisible:(BOOL)visible
 {
+    _isMealNutritionVisible = visible;
     float time = 0.25f;
     [UIView animateWithDuration:time animations:^{
         if (visible)
@@ -452,14 +468,20 @@
             CGRect rect = self.footerView.frame;
             rect.origin = CGPointZero;
            
-            [self setFooterViewFrame:rect];
+            [self setFooterViewYFromBottom:(self.view.frame.size.height - self.footerView.frame.size.height)];
             self.mealNutrition.view.userInteractionEnabled = YES;
         }
         else
         {
-            [self setFooterViewFrame:[self footerViewFrame:YES]];
+            BOOL shouldShowFooterView = self.nutritionObject.itemCount > 0;
+            if (shouldShowFooterView)
+                [self setFooterViewYFromBottom:0];
+            else
+                [self setFooterViewYFromBottom:-self.footerView.frame.size.height];
             self.mealNutrition.view.userInteractionEnabled = NO;
         }
+        
+        [self.view layoutIfNeeded];
     }];
 }
 
@@ -485,12 +507,20 @@
         
     [self.view insertSubview:temp aboveSubview:viewToSnapshot];
     
-//    [UIView performWithoutAnimation:^{
-        [self setFooterViewVisible:NO animated:NO];
-//    }];
+    // Force the footer view to go away.
+    self.footerConstraint.constant = -self.footerView.frame.size.height;
+    
+    // I can't ever decide if I want parallax or not.
+    CGFloat ParallaxAmount = self.tableView.frame.size.width;
+    ParallaxAmount = 0.0f;
+    
+    self.tableSlideConstraint.constant = ParallaxAmount * (toLeft ? 1 : -1);
+    [self.footerView.superview layoutIfNeeded];
+    
+    self.tableSlideConstraint.constant = 0;
     
     [UIView animateWithDuration:0.3f animations:^{
-        
+        [self.view layoutIfNeeded];
         CGRect rect = temp.frame;
         rect.origin.x = (toLeft ? -1.0f : 1.0f) * rect.size.width;
         temp.frame = rect;
@@ -504,7 +534,7 @@
 {
     id data = [self.selectedDiningHall menuInformationForDate:self.selectedDate];
     
-    if (data)
+    if (data || (self.selectedDiningHall == nil))
     {
         completion();
         return;
@@ -564,6 +594,13 @@
     }
     
     _isLookingForLocation = YES;
+
+#ifdef __IPHONE_8_0
+    // New in iOS 8. You need to call this before using the locationManager, otherwise it fails silently.
+    if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
+        [_locationManager requestWhenInUseAuthorization];
+#endif
+    
     [self.locationManager startUpdatingLocation];
 }
 
@@ -592,7 +629,7 @@
     
     [self fetchMenuInformation:^{
         [self cloneTransitionToLeft:YES];
-        [self reloadMenu];
+        [self reloadMenu:NO];
         [self writeMenuSettingsToUserDefaults];
     }];
 }
@@ -622,7 +659,7 @@
     
     [self fetchMenuInformation:^{
         [self cloneTransitionToLeft:NO];
-        [self reloadMenu];
+        [self reloadMenu:NO];
         [self writeMenuSettingsToUserDefaults];
     }];
 }
@@ -684,27 +721,24 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"menuItemCell"];
+    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
+    int count = [self.nutritionObject countOfItem:item];
+    
+    NSString *cellID = count ? @"menuItemCellSelected" : @"menuItemCell";
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:cellID];
     
     if (![AppDelegate isIOS7])
         cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     
-    MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
-    int count = [self.nutritionObject countOfItem:item];
     cell.textLabel.text = item.name;
     
     if (count == 0)
-    {
-        cell.textLabel.textColor = [UIColor blackColor];
-        cell.detailTextLabel.text = @"";
         return cell;
-    }
     
     if (count == 1)
         cell.detailTextLabel.text = @"1 Serving";
     else
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Servings", count];
-    cell.textLabel.textColor = [UIColor blueColor];
     return cell;
 }
 
@@ -714,7 +748,7 @@
     MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
     [self.nutritionObject addItem:item];
     [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationMiddle];
-    [self updateNutritionDisplays];
+    [self updateNutritionDisplays:YES];
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -745,7 +779,7 @@
     MMMenuItem *item = [self menuItemAtIndexPath:indexPath];
     [self.nutritionObject removeItem:item];
     [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self updateNutritionDisplays];
+    [self updateNutritionDisplays:YES];
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -851,6 +885,7 @@
         return;
     
     [superview addSubview:nutrition.view];
+    [nutrition viewWillAppear:YES];
 }
 
 @end

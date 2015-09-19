@@ -65,9 +65,14 @@
     {
         // Make some adjustments so that on a 4-inch screen, 8 items fit perfectly
         // and the cell dividers don't interfere with the hairline border of the bottom view.
-        if ([UIScreen mainScreen].scale > 1.9)
+        CGFloat f = 0;
+        if ((f = [UIScreen mainScreen].scale) > 2.1)
+            self.tableView.rowHeight = 50; // No half-point things on i6+. It looks weird.
+        else if ([UIScreen mainScreen].scale > 1.9)
+        {
             self.tableView.rowHeight = 49.5;
-        self.tableView.contentInset = UIEdgeInsetsMake(1, 0, -1, 0);
+            self.tableView.contentInset = UIEdgeInsetsMake(1, 0, -1, 0);
+        }
     }
     else //iPad
     {
@@ -119,7 +124,7 @@
     self.selectedDiningHall = manager.diningHall;
     self.mealType = manager.mealType;
     [self writeOptionsToUI];
-    [self showMenu];
+    [self showMenu:NO];
 }
 
 -(void)downloadMenu:(void (^)())completion
@@ -158,12 +163,27 @@
     }];
 }
 
--(void)showMenu
+-(void)showMenu:(BOOL)animated
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        [self performSegueWithIdentifier:@"showMenu" sender:nil];
+    {
+        if (animated)
+            [self performSegueWithIdentifier:@"showMenu" sender:nil];
+        else
+        {
+            UIViewController *dest = [self.storyboard instantiateViewControllerWithIdentifier:@"diningMenu"];
+            UIStoryboardSegue *seg = [UIStoryboardSegue segueWithIdentifier:@"showMenu" source:self destination:dest performHandler:^{
+                [self.navigationController pushViewController:dest animated:NO];
+            }];
+            [self prepareForSegue:seg sender:self];
+            [seg perform];
+        }
+    }
     else
     {
+        if (!self.selectedDiningHall)
+            return;
+        
         [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
         [self downloadMenu:^{
             [SVProgressHUD dismiss];
@@ -203,6 +223,8 @@
 -(void)reportDidChooseOptionsToPotentialListener:(id)listener
 {
     [self writeUIToOptions];
+    if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) && !self.selectedDiningHall)
+        return;
     if (![listener respondsToSelector:@selector(optionsViewControllerDidChooseOptions:)])
         return;
     [listener optionsViewControllerDidChooseOptions:self];
@@ -255,7 +277,7 @@
 {
     self.selectedDate = self.datePicker.date;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        [self showMenu];
+        [self showMenu:YES];
 }
 
 #pragma mark - UITableViewDataSource / Delegate Methods
@@ -281,7 +303,7 @@
 {
     self.selectedDiningHall = [self.allDiningHalls objectAtIndex:indexPath.row];
     
-    [self showMenu];
+    [self showMenu:YES];
 }
 
 @end

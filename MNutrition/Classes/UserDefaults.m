@@ -46,8 +46,11 @@
         return NO;
     
 //    self.date = payload[@"date"];
+//    self.mealType = (MMMealType)[payload[@"mealType"] intValue];
+    
     self.date = [NSDate date];
-    self.mealType = (MMMealType)[payload[@"mealType"] intValue];
+    self.mealType = MMMealTypeFromTime(self.date);
+    
     self.diningHall = [MMDiningHall diningHallOfType:(MMDiningHallType)[diningHallType intValue]];
     
     if (!self.date || !self.diningHall)
