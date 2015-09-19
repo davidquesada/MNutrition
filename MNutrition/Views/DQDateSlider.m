@@ -37,6 +37,10 @@ static NSDate *dateFromIndex(NSInteger index)
 }
 
 @interface DQDateSliderCell : UICollectionViewCell
+{
+    NSInteger _todayDateIndex;
+}
+
 @property UILabel *label;
 @property UILabel *dayLabel;
 @property NSDate *date;
@@ -82,6 +86,8 @@ static NSDate *dateFromIndex(NSInteger index)
         self.dayLabel.textAlignment = NSTextAlignmentCenter;
         self.dayLabel.textColor = [UIColor grayColor];
         [self.contentView addSubview:self.dayLabel];
+        
+        _todayDateIndex = indexFromDate([NSDate date]);
     }
     return self;
 }
@@ -117,6 +123,9 @@ static NSDate *dateFromIndex(NSInteger index)
     self.date = dateFromIndex(value);
     self.label.text = [formatter stringFromDate:self.date];
     self.dayLabel.text = [dayFormatter stringFromDate:self.date];
+    
+    self.dayLabel.textColor = (value == _todayDateIndex) ? [UIColor darkGrayColor] : [UIColor grayColor];
+    self.label.textColor = (value == _todayDateIndex) ? [UIColor blueColor] : [UIColor blackColor];
 }
 
 @end
