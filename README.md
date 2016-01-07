@@ -35,3 +35,7 @@ Version numbers are the versions of the app on the App Store.
 - Small iOS 8 bug fixes
 - Support for iPhone 6 / 6+ screen sizes
 - Requires iOS 7.1
+
+####v1.3.1
+- Super tiny UI tweaks
+- Fixed "Unable to load menu." for Mosher-Jordan
