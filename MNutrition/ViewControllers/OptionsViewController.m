@@ -13,6 +13,7 @@
 #import "DiningMenuViewController.h"
 #import "UserDefaults.h"
 #import "DQDateSlider.h"
+#import "DiningHallLocator.h"
 
 @interface OptionsViewController ()<UITableViewDataSource, UITableViewDelegate>
 {
@@ -20,6 +21,8 @@
 }
 
 @property NSArray *allDiningHalls;
+
+@property DiningHallLocator *locator;
 
 @property IBOutlet UISegmentedControl *mealTypeSegmentedControl;
 @property IBOutlet DQDateSlider *datePicker;
@@ -37,6 +40,8 @@
 {
     [super viewDidLoad];
     self.allDiningHalls = [MMDiningHall allDiningHalls];
+    
+    self.locator = [[DiningHallLocator alloc] init];
     
     if (!self.selectedDiningHall)
         self.navigationItem.leftBarButtonItem.enabled = NO;
@@ -278,6 +283,33 @@
     self.selectedDate = self.datePicker.date;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         [self showMenu:YES];
+}
+
+-(IBAction)useLocation:(id)sender
+{
+    [self.locator locate:^(MMDiningHall *hall) {
+        NSLog(@"Found dining hall.");
+        
+        if (hall == nil)
+            return;
+        
+        self.selectedDate = [NSDate date];
+        self.mealType = MMMealTypeFromTime(self.selectedDate);
+        self.selectedDiningHall = hall;
+        [self _writeMenuSettingsToUserDefaults];
+        
+        [self writeOptionsToUI];
+
+        [self showMenu:YES];
+    }];
+}
+
+-(void)_writeMenuSettingsToUserDefaults {
+    UserDefaults *manager = [UserDefaults defaultManager];
+    manager.date = self.selectedDate;
+    manager.diningHall = self.selectedDiningHall;
+    manager.mealType = self.mealType;
+    [manager writeToUserDefaults];
 }
 
 #pragma mark - UITableViewDataSource / Delegate Methods
