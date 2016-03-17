@@ -45,6 +45,7 @@
 		63E842FE1807C4AF00EE8F32 /* DQNutritionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E842FD1807C4AF00EE8F32 /* DQNutritionView.m */; };
 		63E84301180860CA00EE8F32 /* MealNutritionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63E84300180860CA00EE8F32 /* MealNutritionViewController.m */; };
 		B29A95F218E7D33A00DF9875 /* Main~iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B29A95F118E7D33A00DF9875 /* Main~iPad.storyboard */; };
+		B2F03E561C9B028500F24ABB /* DiningHallLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = B2F03E551C9B028500F24ABB /* DiningHallLocator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +132,8 @@
 		63E842FF180860CA00EE8F32 /* MealNutritionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MealNutritionViewController.h; path = ViewControllers/MealNutritionViewController.h; sourceTree = "<group>"; };
 		63E84300180860CA00EE8F32 /* MealNutritionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MealNutritionViewController.m; path = ViewControllers/MealNutritionViewController.m; sourceTree = "<group>"; };
 		B29A95F118E7D33A00DF9875 /* Main~iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Main~iPad.storyboard"; sourceTree = "<group>"; };
+		B2F03E541C9B028500F24ABB /* DiningHallLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DiningHallLocator.h; path = Classes/DiningHallLocator.h; sourceTree = "<group>"; };
+		B2F03E551C9B028500F24ABB /* DiningHallLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DiningHallLocator.m; path = Classes/DiningHallLocator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,6 +310,8 @@
 				638955BE180A7CEA00C91C28 /* TableViewCellBaseCell.m */,
 				63AEA1801895DC0200E5835D /* UserDefaults.h */,
 				63AEA1811895DC0200E5835D /* UserDefaults.m */,
+				B2F03E541C9B028500F24ABB /* DiningHallLocator.h */,
+				B2F03E551C9B028500F24ABB /* DiningHallLocator.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -482,6 +487,7 @@
 				632AD4881807172F005D01A3 /* OptionsViewController.m in Sources */,
 				63C6D738180A447E0012ABFF /* CompositeNutritionObject.m in Sources */,
 				639E15491805E95D00835819 /* DiningMenuViewController.m in Sources */,
+				B2F03E561C9B028500F24ABB /* DiningHallLocator.m in Sources */,
 				639E151E1805E5E600835819 /* main.m in Sources */,
 				63AA1F49189C570400D1351B /* DQDateSlider.m in Sources */,
 				63AA1F92189CC1F800D1351B /* BottomTrayView.m in Sources */,

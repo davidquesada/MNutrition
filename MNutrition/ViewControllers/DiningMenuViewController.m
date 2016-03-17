@@ -16,12 +16,12 @@
 #import "DQNutritionView.h"
 #import "NSDate+Increment.h"
 #import "CompositeNutritionObject.h"
-#import <CoreLocation/CoreLocation.h>
 #import "UIView+SafeScreenshot.h"
 #import "SVProgressHUD.h"
 #import "UserDefaults.h"
+#import "DiningHallLocator.h"
 
-@interface DiningMenuViewController ()<OptionsViewControllerDelegate, CLLocationManagerDelegate>
+@interface DiningMenuViewController ()<OptionsViewControllerDelegate>
 {
     BOOL _hasNotice;
     
@@ -29,7 +29,6 @@
     UILabel *_noticeLabel;
     UIColor *_noticeBackgroundColor;
     
-    BOOL _isLookingForLocation;
     BOOL _isMealNutritionVisible;
     
     UIPopoverController *_pop;
@@ -61,7 +60,7 @@
 
 @property DQNavigationBarLabel *navBarLabel;
 
-@property CLLocationManager *locationManager;
+@property DiningHallLocator *locator;
 @property CompositeNutritionObject *nutritionObject;
 
 @property(weak) MMMenuItem *selectedMenuItem;
@@ -93,7 +92,7 @@
     self.navigationItem.titleView = self.navBarLabel;
     [self updateNavBarLabel];
     
-    self.locationManager = [[CLLocationManager alloc] init];
+    self.locator = [[DiningHallLocator alloc] init];
     
     //[self restoreMenuSettingsFromUserDefaults];
     self.nutritionObject = [[CompositeNutritionObject alloc] init];
@@ -575,10 +574,7 @@
 
 -(IBAction)goToCurrentMeal:(id)sender
 {
-    self.locationManager.delegate = self;
-    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    
-    if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusRestricted)
+    if (!self.locator.canLocate)
     {
         self.selectedDate = [NSDate date];
         self.mealType = MMMealTypeFromTime(self.selectedDate);
@@ -590,15 +586,21 @@
         return;
     }
     
-    _isLookingForLocation = YES;
+    [self.locator locate:^(MMDiningHall *hall) {
+        NSLog(@"Found dining hall.");
+        
+        if (hall == nil)
+            return;
 
-#ifdef __IPHONE_8_0
-    // New in iOS 8. You need to call this before using the locationManager, otherwise it fails silently.
-    if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
-        [_locationManager requestWhenInUseAuthorization];
-#endif
-    
-    [self.locationManager startUpdatingLocation];
+        self.selectedDate = [NSDate date];
+        self.mealType = MMMealTypeFromTime(self.selectedDate);
+        self.selectedDiningHall = hall;
+        [self writeMenuSettingsToUserDefaults];
+
+        [self fetchMenuInformation:^{
+            [self reloadMenu];
+        }];
+    }];
 }
 
 -(IBAction)moveToNextMeal:(id)sender
@@ -793,27 +795,6 @@
     if ([self.nutritionObject countOfItem:item] > 0 || (tableView == self.searchDisplayController.searchResultsTableView))
         return 0;
     return -1;
-}
-
-#pragma mark - CLLocationManagerDelegate Methods
-
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-    [manager stopUpdatingLocation];
-    
-    if (!_isLookingForLocation)
-        return;
-    
-    _isLookingForLocation = NO;
-    
-    self.selectedDate = [NSDate date];
-    self.mealType = MMMealTypeFromTime(self.selectedDate);
-    self.selectedDiningHall = [MMDiningHall diningHallClosestToLocation:newLocation];
-    [self writeMenuSettingsToUserDefaults];
-    
-    [self fetchMenuInformation:^{
-        [self reloadMenu];
-    }];
 }
 
 #pragma mark - User Defaults functionality
