@@ -190,10 +190,7 @@
     if (_hasNotice)
     {
         // UUUUUUGLY!
-        // New challenge to self. Beat 4 square brackets. I won't be
-        // satisfied until I see '[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[['
-        // used legitimately in a project.
-        NSString *notice = [[[[newCourses firstObject] items] firstObject] name];
+        NSString *notice = [(MMMenuItem *)[[[newCourses firstObject] items] firstObject] name];
         [self setNotice:notice reloadTableView:NO];
     } else
     {
