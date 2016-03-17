@@ -117,6 +117,32 @@ static NSDate *dateFromIndex(NSInteger index)
     self.date = dateFromIndex(value);
     self.label.text = [formatter stringFromDate:self.date];
     self.dayLabel.text = [dayFormatter stringFromDate:self.date];
+    
+//    self.dayLabel.textColor = (value == _todayDateIndex) ? [UIColor darkGrayColor] : [UIColor grayColor];
+//    self.label.textColor = (value == _todayDateIndex) ? [UIColor blueColor] : [UIColor blackColor];
+}
+
+@end
+
+@interface DQDateSliderTodayCell : DQDateSliderCell
+@end
+
+@implementation DQDateSliderTodayCell
+
++(NSString *)reuseIdentifier
+{
+    return @"DQDateSlideTodayCell";
+}
+
+-(instancetype)initWithFrame:(CGRect)frame
+{
+    if ((self = [super initWithFrame:frame]))
+    {
+        self.label.font = [UIFont fontWithName:@"HelveticaNeue" size:24.0];
+        self.dayLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:14.0];
+    }
+    
+    return self;
 }
 
 @end
@@ -125,6 +151,7 @@ static NSDate *dateFromIndex(NSInteger index)
 {
     NSDate *_date;
     NSInteger _dateIndex;
+    NSInteger _todayDateIndex;
 }
 @property UILabel *dateLabel;
 @property UICollectionView *container;
@@ -170,6 +197,8 @@ static NSDate *dateFromIndex(NSInteger index)
 
 -(void)setupView
 {
+    _todayDateIndex = indexFromDate([NSDate date]);
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     layout.minimumInteritemSpacing = 0;
@@ -181,6 +210,7 @@ static NSDate *dateFromIndex(NSInteger index)
     self.container.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.container.showsHorizontalScrollIndicator = self.container.showsVerticalScrollIndicator = NO;
     [self.container registerClass:[DQDateSliderCell class] forCellWithReuseIdentifier:[DQDateSliderCell reuseIdentifier]];
+    [self.container registerClass:[DQDateSliderTodayCell class] forCellWithReuseIdentifier:[DQDateSliderTodayCell reuseIdentifier]];
     [self addSubview:self.container];
     
     self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didDoubleTaps:)];
@@ -239,6 +269,15 @@ static NSDate *dateFromIndex(NSInteger index)
         CGFloat progress = (center - myCenter) / width;
         [cell setProgress:progress];
     }
+}
+
+-(void)willMoveToWindow:(UIWindow *)newWindow
+{
+    [super willMoveToWindow:newWindow];
+    
+    // Refresh this every time we're going to be shown again, just in case the app
+    // lives across multiple days.
+    _todayDateIndex = indexFromDate([NSDate date]);
 }
 
 #pragma mark - Properties
@@ -322,7 +361,8 @@ static NSDate *dateFromIndex(NSInteger index)
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DQDateSliderCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[DQDateSliderCell reuseIdentifier] forIndexPath:indexPath];
+    NSString *ident = (indexPath.row == _todayDateIndex) ? [DQDateSliderTodayCell reuseIdentifier] : [DQDateSliderCell reuseIdentifier];
+    DQDateSliderCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ident forIndexPath:indexPath];
     [cell setDateValue:indexPath.row];
     
     // This is a fix for a bug that I'm not exactly sure how to address.

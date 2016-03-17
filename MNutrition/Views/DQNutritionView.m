@@ -36,6 +36,9 @@ typedef NS_ENUM(NSInteger, CellTag)
 };
 
 @interface DQNutritionView ()<UITableViewDataSource, UITableViewDelegate>
+{
+    BOOL _resetsSeparatorStyleAfterReloadingData;
+}
 
 @property UITableView *tableView;
 @property NSMutableArray *cells;
@@ -93,6 +96,9 @@ typedef NS_ENUM(NSInteger, CellTag)
     self.secondaryLabelFont = [UIFont systemFontOfSize:18];
     self.valueFont = [UIFont systemFontOfSize:18];
     useTextAttributesForDQNutritionView = [[[UIDevice currentDevice] systemVersion] intValue] >= 6;
+    
+    if ([[[UIDevice currentDevice] systemVersion] intValue] >= 9)
+        _resetsSeparatorStyleAfterReloadingData = YES;
 }
 
 -(void)willMoveToWindow:(UIWindow *)newWindow
@@ -118,6 +124,11 @@ typedef NS_ENUM(NSInteger, CellTag)
         [cell showPropertyForNutritionObject:nutritionInfo];
     }
     [self.tableView reloadData];
+    
+    // Ugh. See https://forums.developer.apple.com/thread/12387.
+    // This fixes an issue where separators are wrongly visible when reloadData'ing a programmatically created TableView.
+    if (_resetsSeparatorStyleAfterReloadingData)
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 -(UITableViewCell *)createCellWithPropertyName:(NSString *)propertyName label:(NSString *)label suffix:(NSString *)suffix indented:(BOOL)indented
